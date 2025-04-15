@@ -1,0 +1,11 @@
+[executables]
+# Path to the DoGSite3 executable
+dogsite = "/home/stud2022/mrueve/local/bin/dogsite3"
+# Path to the SIENA executable
+siena = "/home/stud2022/mrueve/local/bin/siena"
+
+[options]
+# Default options for DoGSite3. Ensure --writeSiteResiduesEDF is included if needed.
+dogsite = "--writeSiteResiduesEDF"
+# Default options for SIENA.
+siena = ""
