@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 
 # Import necessary components from other modules within the package
-from .utils import run_command
+from .utils import run_command, get_ligands_from_siena_pdb
 from .fetchers import AlphafoldFetcher
 
 # Get a logger specific to this steps module
@@ -23,7 +23,7 @@ def fetch_alphafold_step(uniprot_id: str, output_dir: Path) -> Path:
     Raises:
         Exception: If fetching fails (propagated from AlphafoldFetcher).
     """
-    logger.info("--- Step 1: Fetch AlphaFold Structure ---")
+    logger.info("--- Fetch AlphaFold Structure ---")
     try:
         # Initialize the fetcher with the base output directory
         fetcher = AlphafoldFetcher(uniprot_id, output_dir)
@@ -56,7 +56,7 @@ def run_dogsite_step(
         FileNotFoundError: If the expected EDF file is not found after execution.
         Exception: If DoGSite3 command fails (propagated from run_command).
     """
-    logger.info("--- Step 2: Run DoGSite3 ---")
+    logger.info("--- Run DoGSite3 ---")
     # Create a dedicated subdirectory for DoGSite outputs
     dogsite_output_dir = output_dir / "dogsite"
     dogsite_output_dir.mkdir(parents=True, exist_ok=True)
@@ -139,7 +139,7 @@ def modify_edf_step(edf_path: Path, pdb_path: Path) -> Path:
         Path: The path to the (potentially modified) EDF file.
               Returns the original path even if modification fails or is skipped.
     """
-    logger.info("--- Step 2.5: Modify DoGSite EDF File ---")
+    logger.info("--- Modify DoGSite EDF File ---")
     # Check if the input EDF file exists before attempting modification
     if not edf_path.is_file():
         logger.error(f"Cannot modify EDF file: File not found at {edf_path}")
@@ -221,7 +221,7 @@ def run_siena_step(
         are missing.
         Exception: If SIENA command fails (propagated from run_command).
     """
-    logger.info("--- Step 3: Run SIENA ---")
+    logger.info("--- Run SIENA ---")
     # Define the base directory for SIENA outputs
     siena_output_base_dir = output_dir / "siena"
     siena_output_base_dir.mkdir(parents=True, exist_ok=True)
@@ -283,3 +283,64 @@ def run_siena_step(
             + "path is correct."
         )
         raise
+
+
+def run_ligand_extractor_step(
+    ligand_extractor_executable: Path, siena_pdb_path: Path, output_dir: Path
+) -> Path:
+    """
+    Runs the ligand extractor tool for each ligand found in a SIENA PDB file.
+
+    Args:
+        ligand_extractor_executable (Path): Path to the ligand extractor executable.
+        siena_pdb_path (Path): Path to the SIENA PDB file containing ligands.
+        output_dir (Path): The specific directory where ligand files for this PDB
+                           should be saved (e.g., .../ligand_extractor/pdb_name/).
+
+    Returns:
+        Path: The output directory containing the extracted ligand files.
+    """
+    logger.info("--- Run Ligand Extractor ---")
+    logger.info(
+        f"Ligand extractor output directory: {output_dir}"
+    )  # Use the provided output_dir directly
+
+    # Ensure the final output directory exists (it should have been created in main.py)
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Get the list of ligands from the SIENA PDB file
+    ligand_list = get_ligands_from_siena_pdb(siena_pdb_path)
+    logger.info(
+        f"Found {len(ligand_list)} ligands in {siena_pdb_path.name}: {ligand_list}"
+    )
+
+    if not ligand_list:
+        logger.warning(
+            f"No ligands found in {siena_pdb_path.name}, skipping extraction."
+        )
+        return output_dir  # Return the directory even if empty
+
+    for ligand in ligand_list:
+        # Construct the command to run the ligand extractor
+        le_cmd = [
+            str(ligand_extractor_executable),
+            "-c",
+            str(siena_pdb_path),  # Ensure path is string
+            "-l",
+            ligand,
+            "-o",
+            str(output_dir),  # Use the provided output_dir directly for output files
+        ]
+        logger.debug(f"Running Ligand Extractor command: {' '.join(le_cmd)}")
+        try:
+            run_command(le_cmd, f"Ligand Extractor ({ligand})")
+            logger.info(f"Successfully extracted ligand {ligand} to {output_dir}")
+        except Exception as e:
+            logger.error(
+                f"Failed to extract ligand {ligand} from {siena_pdb_path.name}: {e}"
+            )
+            # Decide if you want to continue with other ligands or raise the exception
+            # continue
+
+    # Return the output directory containing the ligand extraction results
+    return output_dir
