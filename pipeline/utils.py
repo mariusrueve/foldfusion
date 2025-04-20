@@ -75,3 +75,52 @@ def run_command(command, step_name, cwd=None):
         # Catch-all for other unexpected errors during subprocess execution
         logger.error(f"An unexpected error occurred during {step_name}: {e}")
         raise  # Re-raise
+
+
+def get_ligands_from_siena_pdb(siena_pdb_path) -> list:
+    """
+    Extracts ligand information from a SIENA PDB file.
+
+    Args:
+        siena_pdb_path (Path): Path to the SIENA PDB file.
+
+    Returns:
+        list: A list of tuples containing ligand information.
+              Each tuple contains (ligand_name, chain_id, residue_number).
+    """
+    ligands = []
+    with open(siena_pdb_path, "r") as f:
+        for line in f:
+            if line.startswith("HET "):
+                parts = line.split()
+                ligand_name = parts[1]
+                chain_id = parts[2]
+                residue_number = parts[3]
+                # Check if the chain ID contains any numbers
+                has_number_in_chain = any(char.isdigit() for char in chain_id)
+                if has_number_in_chain:
+                    logger.warning(
+                        f"Found number in chain ID '{chain_id}' for ligand "
+                        + f"{ligand_name} at position {residue_number}"
+                    )
+                    # Split the chain ID after the first character
+                    first_char = chain_id[0]
+                    remaining_nums = chain_id[1:]
+                    # Update residue number to include the numbers from chain ID
+                    residue_number = remaining_nums + residue_number
+                    # Update chain ID to just the first character
+                    chain_id = first_char
+                    logger.info(
+                        f"Split chain ID into '{chain_id}' and updated residue "
+                        + f"number to {residue_number}"
+                    )
+                ligands.append(f"{ligand_name}_{chain_id}_{residue_number}")
+    return ligands
+
+
+# if __name__ == "__main__":
+#     siena_pdb = Path("pipeline_output/siena/Q9Y233_siena_results/ensemble/3QPN_19.pdb")
+#     ligands = get_ligands_from_siena_pdb(siena_pdb)
+#     print("Ligands found in SIENA PDB:")
+#     for ligand in ligands:
+#         print(ligand)
