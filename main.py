@@ -50,13 +50,19 @@ def load_config(config_path: Path) -> dict:
         if (
             "dogsite" not in config["executables"]
             or "siena" not in config["executables"]
+            or "ligand_extractor" not in config["executables"]
         ):
             raise ValueError(
                 "Config 'executables' section must contain 'dogsite' and 'siena' keys."
             )
-        if "dogsite" not in config["options"] or "siena" not in config["options"]:
+        if (
+            "dogsite" not in config["options"]
+            or "siena" not in config["options"]
+            or "ligand_extractor" not in config["options"]
+        ):
             raise ValueError(
-                "Config 'options' section must contain 'dogsite' and 'siena' keys."
+                "Config 'options' section must contain 'dogsite', 'siena', and "
+                + "'ligand_extractor' keys."
             )
         return config
     except tomllib.TOMLDecodeError as e:
@@ -106,8 +112,11 @@ def setup_pipeline():
     # Add config values to args namespace for convenience, converting paths
     args.dogsite_executable = Path(config["executables"]["dogsite"])
     args.siena_executable = Path(config["executables"]["siena"])
+    args.ligand_extractor_executable = Path(config["executables"]["ligand_extractor"])
+
     args.dogsite_options = config["options"]["dogsite"]
     args.siena_options = config["options"]["siena"]
+    args.ligand_extractor_options = config["options"]["ligand_extractor"]
 
     log_level = logging.DEBUG if args.verbose else logging.INFO
     logging.getLogger().setLevel(log_level)  # Set root logger level
@@ -189,8 +198,50 @@ def main():
             output_dir=args.output_dir,
             uniprot_id=args.uniprot_id,
         )
-
         logger.info(f"SIENA results saved in: {siena_results_dir.resolve()}")
+
+        # Get all PDB files from the SIENA ensemble directory
+        ensemble_dir = siena_results_dir / "ensemble"
+        if ensemble_dir.exists():
+            ensemble_pdbs = list(ensemble_dir.glob("*.pdb"))
+            logger.info(
+                f"Found {len(ensemble_pdbs)} PDB files in SIENA ensemble directory"
+            )
+        else:
+            logger.warning(f"SIENA ensemble directory not found: {ensemble_dir}")
+            ensemble_pdbs = []
+
+        # Create a base directory for ligand extractor results
+        ligand_extractor_base_dir = args.output_dir / "ligand_extractor"
+        ligand_extractor_base_dir.mkdir(parents=True, exist_ok=True)
+        logger.info(
+            f"Created ligand extractor base directory: {ligand_extractor_base_dir}"
+        )
+
+        # Process each PDB file from the ensemble
+        for pdb_file in ensemble_pdbs:
+            # Get the PDB file name without extension to use as directory name
+            pdb_name = pdb_file.stem
+
+            # Create a directory for this specific PDB file
+            pdb_output_dir = ligand_extractor_base_dir / pdb_name
+            pdb_output_dir.mkdir(parents=True, exist_ok=True)
+            logger.info(
+                f"Processing ensemble PDB: {pdb_name}, output directory: {pdb_output_dir}"
+            )
+
+            # Run ligand extractor for this PDB file
+            try:
+                _ = steps.run_ligand_extractor_step(
+                    ligand_extractor_executable=args.ligand_extractor_executable,
+                    siena_pdb_path=pdb_file,
+                    output_dir=pdb_output_dir,
+                )
+                logger.info(f"Ligand extraction completed for {pdb_name}")
+            except Exception as e:
+                logger.error(f"Failed to extract ligands from {pdb_name}: {e}")
+
+        # ligand_extractor = steps.run_ligand_extractor_step()
 
         logger.info(
             f"Pipeline finished successfully! Results in: {args.output_dir.resolve()}"
