@@ -107,7 +107,9 @@ def get_ligands_from_siena_pdb(siena_pdb_path) -> list:
                     first_char = chain_id[0]
                     remaining_nums = chain_id[1:]
                     # Update residue number to include the numbers from chain ID
-                    residue_number = remaining_nums + residue_number
+                    # Original line: residue_number = remaining_nums + residue_number
+                    # Corrected line: Assign remaining_nums as the residue number
+                    residue_number = remaining_nums
                     # Update chain ID to just the first character
                     chain_id = first_char
                     logger.info(
