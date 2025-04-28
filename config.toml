@@ -2,8 +2,10 @@
 dogsite = "/home/stud2022/mrueve/local/bin/dogsite3"
 siena = "/home/stud2022/mrueve/local/bin/siena"
 ligand_extractor = "/home/stud2022/mrueve/local/bin/ligand_extractor"
+jamda_scorer = "/home/stud2022/mrueve/local/bin/JamdaScorer"
 
 [options]
 dogsite = "--writeSiteResiduesEDF"
 siena = ""
 ligand_extractor = ""
+jamda_scorer = "--optimize --rmsd --header"
