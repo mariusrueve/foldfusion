@@ -5,16 +5,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-try:
-    import tomllib
-except ImportError:
-    # Fallback for Python < 3.11
-    try:
-        import toml as tomllib
-    except ImportError:
-        print("Error: 'tomllib' (Python 3.11+) or 'toml' package required.")
-        print("Install 'toml' with: pip install toml")
-        sys.exit(1)
+import tomllib
 
 
 import requests
