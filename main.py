@@ -51,18 +51,21 @@ def load_config(config_path: Path) -> dict:
             "dogsite" not in config["executables"]
             or "siena" not in config["executables"]
             or "ligand_extractor" not in config["executables"]
+            or "jamda_scorer" not in config["executables"]  # Add JamdaScorer check
         ):
             raise ValueError(
-                "Config 'executables' section must contain 'dogsite' and 'siena' keys."
+                "Config 'executables' section must contain 'dogsite', 'siena', "
+                "'ligand_extractor', and 'jamda_scorer' keys."
             )
         if (
             "dogsite" not in config["options"]
             or "siena" not in config["options"]
             or "ligand_extractor" not in config["options"]
+            or "jamda_scorer" not in config["options"]  # Add JamdaScorer check
         ):
             raise ValueError(
-                "Config 'options' section must contain 'dogsite', 'siena', and "
-                + "'ligand_extractor' keys."
+                "Config 'options' section must contain 'dogsite', 'siena', "
+                "'ligand_extractor', and 'jamda_scorer' keys."
             )
         return config
     except tomllib.TOMLDecodeError as e:
@@ -113,10 +116,16 @@ def setup_pipeline():
     args.dogsite_executable = Path(config["executables"]["dogsite"])
     args.siena_executable = Path(config["executables"]["siena"])
     args.ligand_extractor_executable = Path(config["executables"]["ligand_extractor"])
+    args.jamda_scorer_executable = Path(
+        config["executables"]["jamda_scorer"]
+    )  # Load JamdaScorer executable
 
     args.dogsite_options = config["options"]["dogsite"]
     args.siena_options = config["options"]["siena"]
     args.ligand_extractor_options = config["options"]["ligand_extractor"]
+    args.jamda_scorer_options = config["options"][
+        "jamda_scorer"
+    ]  # Load JamdaScorer options
 
     log_level = logging.DEBUG if args.verbose else logging.INFO
     logging.getLogger().setLevel(log_level)  # Set root logger level
@@ -145,6 +154,16 @@ def setup_pipeline():
     if not args.siena_executable.is_file():
         logger.error(
             f"SIENA executable not found or not a file (from config): {args.siena_executable}"
+        )
+        sys.exit(1)
+    if not args.ligand_extractor_executable.is_file():
+        logger.error(
+            f"Ligand Extractor executable not found or not a file (from config): {args.ligand_extractor_executable}"
+        )
+        sys.exit(1)
+    if not args.jamda_scorer_executable.is_file():  # Validate JamdaScorer executable
+        logger.error(
+            f"JamdaScorer executable not found or not a file (from config): {args.jamda_scorer_executable}"
         )
         sys.exit(1)
     if not args.siena_db.is_file():
@@ -231,17 +250,58 @@ def main():
             )
 
             # Run ligand extractor for this PDB file
+            # This step now just creates the files in pdb_output_dir
             try:
-                _ = steps.run_ligand_extractor_step(
+                ligand_extraction_dir = steps.run_ligand_extractor_step(
                     ligand_extractor_executable=args.ligand_extractor_executable,
                     siena_pdb_path=pdb_file,
-                    output_dir=pdb_output_dir,
+                    output_dir=pdb_output_dir,  # Pass the specific dir for this PDB
                 )
-                logger.info(f"Ligand extraction completed for {pdb_name}")
-            except Exception as e:
-                logger.error(f"Failed to extract ligands from {pdb_name}: {e}")
+                logger.info(
+                    f"Ligand extraction completed for {pdb_name} into {ligand_extraction_dir}"
+                )
 
-        # ligand_extractor = steps.run_ligand_extractor_step()
+                # Now, find the extracted SDF files and run JamdaScorer on each
+                extracted_sdf_files = list(ligand_extraction_dir.glob("*.sdf"))
+                if not extracted_sdf_files:
+                    logger.warning(
+                        f"No SDF files found in {ligand_extraction_dir} after extraction for {pdb_name}."
+                    )
+                else:
+                    logger.info(
+                        f"Found {len(extracted_sdf_files)} SDF files to process with JamdaScorer."
+                    )
+
+                for ligand_sdf_path in extracted_sdf_files:
+                    # Define the output path for the optimized SDF
+                    # Place it in the same directory with an 'opt_' prefix
+                    output_sdf_path = (
+                        ligand_extraction_dir / f"opt_{ligand_sdf_path.name}"
+                    )
+
+                    # Run JamdaScorer step
+                    try:
+                        _ = steps.run_jamda_scorer_step(
+                            protein_pdb_path=alphafold_pdb_path,  # Use original AlphaFold PDB
+                            ligand_sdf_path=ligand_sdf_path,
+                            output_sdf_path=output_sdf_path,
+                            jamda_scorer_executable=args.jamda_scorer_executable,
+                            jamda_scorer_options=args.jamda_scorer_options,
+                        )
+                        logger.info(
+                            f"JamdaScorer completed for {ligand_sdf_path.name}, output: {output_sdf_path}"
+                        )
+                    except Exception as jamda_e:
+                        logger.error(
+                            f"JamdaScorer failed for {ligand_sdf_path.name}: {jamda_e}"
+                        )
+                        # Decide whether to continue with other ligands or stop
+
+            except Exception as le_e:
+                logger.error(f"Failed to extract ligands from {pdb_name}: {le_e}")
+                # Decide whether to continue with other PDBs or stop
+
+        # ligand_extractor = steps.run_ligand_extractor_step() # Remove this old line
 
         logger.info(
             f"Pipeline finished successfully! Results in: {args.output_dir.resolve()}"

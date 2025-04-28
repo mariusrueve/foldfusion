@@ -309,38 +309,136 @@ def run_ligand_extractor_step(
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Get the list of ligands from the SIENA PDB file
-    ligand_list = get_ligands_from_siena_pdb(siena_pdb_path)
+    # The format returned is like 'LIG_A_123'
+    ligand_identifiers = get_ligands_from_siena_pdb(siena_pdb_path)
     logger.info(
-        f"Found {len(ligand_list)} ligands in {siena_pdb_path.name}: {ligand_list}"
+        f"Found {len(ligand_identifiers)} ligands in {siena_pdb_path.name}: {ligand_identifiers}"
     )
 
-    if not ligand_list:
+    if not ligand_identifiers:
         logger.warning(
             f"No ligands found in {siena_pdb_path.name}, skipping extraction."
         )
         return output_dir  # Return the directory even if empty
 
-    for ligand in ligand_list:
+    extracted_ligand_files = []  # Keep track of successfully extracted files
+
+    for ligand_id_str in ligand_identifiers:
         # Construct the command to run the ligand extractor
+        # The ligand_id_str (e.g., 'LIG_A_123') is passed directly to the tool
         le_cmd = [
             str(ligand_extractor_executable),
             "-c",
             str(siena_pdb_path),  # Ensure path is string
             "-l",
-            ligand,
+            ligand_id_str,  # Use the identifier string directly
             "-o",
             str(output_dir),  # Use the provided output_dir directly for output files
         ]
         logger.debug(f"Running Ligand Extractor command: {' '.join(le_cmd)}")
         try:
-            run_command(le_cmd, f"Ligand Extractor ({ligand})")
-            logger.info(f"Successfully extracted ligand {ligand} to {output_dir}")
+            run_command(le_cmd, f"Ligand Extractor ({ligand_id_str})")
+            # Construct expected output filename based on ligand_id_str
+            expected_sdf_filename = f"{ligand_id_str}.sdf"
+            expected_sdf_path = output_dir / expected_sdf_filename
+            if expected_sdf_path.is_file():
+                logger.info(
+                    f"Successfully extracted ligand {ligand_id_str} to {expected_sdf_path}"
+                )
+                extracted_ligand_files.append(expected_sdf_path)
+            else:
+                logger.warning(
+                    f"Ligand Extractor ran for {ligand_id_str}, but output file {expected_sdf_path} not found."
+                )
+
         except Exception as e:
             logger.error(
-                f"Failed to extract ligand {ligand} from {siena_pdb_path.name}: {e}"
+                f"Failed to extract ligand {ligand_id_str} from {siena_pdb_path.name}: {e}"
             )
             # Decide if you want to continue with other ligands or raise the exception
             # continue
 
     # Return the output directory containing the ligand extraction results
+    # The caller (main.py) will need to find the .sdf files within this directory
     return output_dir
+
+
+def run_jamda_scorer_step(
+    protein_pdb_path: Path,
+    ligand_sdf_path: Path,
+    output_sdf_path: Path,
+    jamda_scorer_executable: Path,
+    jamda_scorer_options: str,
+) -> Path:
+    """
+    Pipeline step to run JamdaScorer.
+
+    Args:
+        protein_pdb_path (Path): Path to the input protein PDB file (e.g., AlphaFold).
+        ligand_sdf_path (Path): Path to the input ligand SDF file (from ligand extractor).
+        output_sdf_path (Path): Path where the optimized ligand SDF file will be saved.
+        jamda_scorer_executable (Path): Path to the JamdaScorer executable.
+        jamda_scorer_options (str): Space-separated string of additional JamdaScorer options.
+
+    Returns:
+        Path: The path to the generated optimized SDF file.
+
+    Raises:
+        FileNotFoundError: If input files are not found or output is not created.
+        Exception: If JamdaScorer command fails (propagated from run_command).
+    """
+    logger.info("--- Run JamdaScorer ---")
+    logger.info(f"Input Protein: {protein_pdb_path.name}")
+    logger.info(f"Input Ligand: {ligand_sdf_path.name}")
+    logger.info(f"Output SDF: {output_sdf_path}")
+
+    # Ensure input files exist
+    if not protein_pdb_path.is_file():
+        logger.error(f"JamdaScorer input PDB file not found: {protein_pdb_path}")
+        raise FileNotFoundError(
+            f"JamdaScorer input PDB file not found: {protein_pdb_path}"
+        )
+    if not ligand_sdf_path.is_file():
+        logger.error(f"JamdaScorer input SDF file not found: {ligand_sdf_path}")
+        raise FileNotFoundError(
+            f"JamdaScorer input SDF file not found: {ligand_sdf_path}"
+        )
+
+    # Ensure output directory exists
+    output_sdf_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Construct JamdaScorer command list
+    jamda_cmd = [
+        str(jamda_scorer_executable),
+        "-i",
+        str(protein_pdb_path),
+        "-l",
+        str(ligand_sdf_path),
+        "-o",
+        str(output_sdf_path),
+    ]
+
+    # Add any user-specified options
+    if jamda_scorer_options:
+        jamda_cmd.extend(jamda_scorer_options.split())
+
+    try:
+        # Execute the JamdaScorer command
+        run_command(jamda_cmd, f"JamdaScorer ({ligand_sdf_path.stem})")
+
+        # Verify that the expected output file was created
+        if not output_sdf_path.is_file():
+            logger.error(
+                f"JamdaScorer ran, but expected output SDF file not found at: {output_sdf_path}"
+            )
+            raise FileNotFoundError(
+                f"Expected JamdaScorer output SDF file not found: {output_sdf_path}"
+            )
+
+        logger.info(f"JamdaScorer generated optimized SDF file: {output_sdf_path}")
+        return output_sdf_path
+
+    except Exception as e:
+        # Log error specific to this step and re-raise
+        logger.error(f"JamdaScorer step failed for ligand {ligand_sdf_path.name}: {e}")
+        raise
