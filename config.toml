@@ -1,11 +1,25 @@
-[executables]
-dogsite = "/home/stud2022/mrueve/local/bin/dogsite3"
-siena = "/home/stud2022/mrueve/local/bin/siena"
-ligand_extractor = "/home/stud2022/mrueve/local/bin/ligand_extractor"
-jamda_scorer = "/home/stud2022/mrueve/local/bin/JamdaScorer"
+[run_settings]
+uniprot_id = "Q9Y233"
+output_dir = "output"
 
-[options]
-dogsite = "--writeSiteResiduesEDF"
-siena = ""
-ligand_extractor = ""
-jamda_scorer = "--optimize --rmsd --header"
+[dogsite3]
+executable = "/home/stud2022/mrueve/local/bin/dogsite3"
+optional_arguments = "--writeSiteResiduesEDF"
+
+[siena]
+executable = "/home/stud2022/mrueve/local/bin/siena"
+optional_arguments = ""
+
+[siena_db]
+executable = "/local/mrueve/opt/siena_1.3.0/generate_siena_database"
+optional_arguments = ""
+pdb_files = "/local/mrueve/data/PDBFiles/"
+compressed = true
+
+[ligand_extractor]
+executable = "/home/stud2022/mrueve/local/bin/ligand_extractor"
+optional_arguments = ""
+
+[jamda_scorer]
+executable = "/home/stud2022/mrueve/local/bin/JamdaScorer"
+optional_arguments = ""
