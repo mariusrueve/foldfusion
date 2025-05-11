@@ -173,5 +173,6 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 siena_db.db
+siena_db
 pipeline_output/*
 output/*
