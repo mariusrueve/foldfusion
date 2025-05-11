@@ -13,8 +13,9 @@ optional_arguments = ""
 [siena_db]
 executable = "/local/mrueve/opt/siena_1.3.0/generate_siena_database"
 optional_arguments = ""
-pdb_files = "/local/mrueve/data/PDBFiles/"
-compressed = true
+siena_db = "/home/stud2022/mrueve/local/projects/foldfusion-poc/siena_db" # Either path to a siena database or path to pdb_files has to be valid
+pdb_directory = "/local/mrueve/data/PDBFiles/"
+format = 0 # file format (0=.ent.gz, 1=pdb)
 
 [ligand_extractor]
 executable = "/home/stud2022/mrueve/local/bin/ligand_extractor"
