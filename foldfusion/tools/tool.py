@@ -35,7 +35,6 @@ class Tool:
                 f"Executable for {self.tool_name} not found: {self.executable}"
             )
 
-        print(self.output_dir)
         # Create output directory if it doesn't exist
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -47,7 +46,7 @@ class Tool:
             _ = subprocess.run(
                 self.command, cwd=self.output_dir, stdout=subprocess.DEVNULL
             )
-            logger.info(f"Command completed successfully")
+            logger.info("Command completed successfully")
 
             # Return the output directory
             return self.output_dir
