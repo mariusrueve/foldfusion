@@ -1,5 +1,8 @@
 from foldfusion.tools.tool import Tool
 from pathlib import Path
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Dogsite3(Tool):
@@ -42,5 +45,5 @@ class Dogsite3(Tool):
             # Join lines with newline character and add a final newline
             content_to_write = "\n".join(new_lines) + "\n"
             edf_file_path.write_text(content_to_write)
-
+        logger.info(f"The best EDF file: {Path.cwd() / edf_file_path}")
         return Path.cwd() / edf_file_path
