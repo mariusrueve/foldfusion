@@ -45,9 +45,6 @@ class LigandExtractor(Tool):
                         # Split the chain ID after the first character
                         first_char = chain_id[0]
                         remaining_nums = chain_id[1:]
-                        # Update residue number to include the numbers from chain ID
-                        # Original line: residue_number = remaining_nums + residue_number
-                        # Corrected line: Assign remaining_nums as the residue number
                         residue_number = remaining_nums
                         # Update chain ID to just the first character
                         chain_id = first_char
