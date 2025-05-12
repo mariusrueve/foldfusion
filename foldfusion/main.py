@@ -3,6 +3,7 @@ from foldfusion.utils.config import Config
 from foldfusion.tools.dogsite3 import Dogsite3
 from foldfusion.tools.alphafoldfetcher import AlphaFoldFetcher
 from foldfusion.tools.siena import Siena
+from foldfusion.tools.ligand_extractor import LigandExtractor
 import logging
 
 # Setup basic logger
@@ -31,6 +32,11 @@ def main():
     logger.info("Starting Siena ...")
     siena = Siena(config, best_edf_path)
     siena.run()
+    best_alignments_pdb_codes = siena.get_best_alignments(n_alignments=4)
+
+    logger.info("Starting ligand_extractor ...")
+    le = LigandExtractor(config, siena.output_dir, best_alignments_pdb_codes)
+    le.run_all()
 
 
 if __name__ == "__main__":
