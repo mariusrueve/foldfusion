@@ -2,6 +2,7 @@ from foldfusion.tools.tool import Tool
 from pathlib import Path
 import subprocess
 import logging
+import pandas as pd
 
 logger = logging.getLogger(__name__)
 
@@ -66,3 +67,19 @@ class Siena(Tool):
             ".",
             optional_arguments,
         ]
+
+    def get_best_alignments(self, n_alignments: int) -> list[list[str]]:
+        csv_file = self.output_dir / "resultStatistic.csv"
+        if not csv_file.exists():
+            raise FileExistsError(f"{csv_file} does not exist!")
+        df = pd.read_csv(str(csv_file), delimiter=";")
+        # Corrected the 'by' parameter for sort_values
+        df = df.sort_values(by=["Backbone RMSD", "All atom RMSD"], ascending=True)
+        # Corrected column selection and conversion to list
+        results = df.head(n_alignments)[["PDB code", "PDB chains"]].values.tolist()
+        # Strip whitespace from both values in each result entry
+        results = [
+            [pdb_code.strip(), pdb_chains.strip()] for pdb_code, pdb_chains in results
+        ]
+        logger.info(f"Best alignments are:\n{results}")
+        return results
