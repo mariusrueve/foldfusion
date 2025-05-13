@@ -13,6 +13,7 @@ from foldfusion.tools.dogsite3 import Dogsite3
 from foldfusion.tools.alphafoldfetcher import AlphaFoldFetcher
 from foldfusion.tools.siena import Siena
 from foldfusion.tools.ligand_extractor import LigandExtractor
+from foldfusion.tools.jamda_scorer import JamdaScorer
 import logging
 
 # Setup basic logger
@@ -55,6 +56,10 @@ def main():
     le.run_all()
     logger.info("Ligand extraction completed.")
     logger.info("FoldFusion pipeline finished successfully.")
+
+    logger.info("Starting JamdaScorer to optimize ligands ...")
+    js = JamdaScorer(config_dict, af_output_path, le.output_dir)
+    js.run_all()
 
 
 if __name__ == "__main__":
