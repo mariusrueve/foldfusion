@@ -51,14 +51,17 @@ class AlphaFoldFetcher(Tool):
         A residue is considered unreliable if any of its atoms have a pLDDT < 70.
         If the percentage of unreliable residues is <= 15%, ATOM lines for these
         residues are removed, and a new file with '_processed' suffix is saved.
-        Otherwise, the original file path is returned.
+        If more than 15% of residues are unreliable, the model is discarded by
+        raising a ValueError.
 
         Args:
             pdb_file_path (Path): The path to the input PDB file.
 
         Returns:
-            Path: The path to the processed PDB file, or the original path if
-                  processing was skipped or failed.
+            Path: The path to the processed PDB file.
+
+        Raises:
+            ValueError: If more than 15% of residues have pLDDT < 70.
         """
         logger.info(f"Starting PDB processing for: {pdb_file_path}")
 
@@ -120,6 +123,7 @@ class AlphaFoldFetcher(Tool):
         )
 
         if percentage_unreliable <= 15.00:
+            # Keep the model and process it by removing unreliable residues
             processed_file_name = (
                 f"{pdb_file_path.stem}_processed{pdb_file_path.suffix}"
             )
@@ -127,7 +131,7 @@ class AlphaFoldFetcher(Tool):
 
             logger.info(
                 f"Percentage of unreliable residues ({percentage_unreliable:.2f}%) is <= 15%. "
-                f"Writing processed file to: {processed_pdb_path}"
+                f"Model is reliable. Writing processed file to: {processed_pdb_path}"
             )
 
             try:
@@ -161,24 +165,31 @@ class AlphaFoldFetcher(Tool):
                 )
                 return pdb_file_path  # Return original if writing fails
         else:
-            logger.info(
+            # If more than 15% of residues are unreliable, discard the model
+            logger.warning(
                 f"Percentage of unreliable residues ({percentage_unreliable:.2f}%) > 15%. "
-                f"No residues removed. Using original file: {pdb_file_path}"
+                f"Model is considered unreliable and should be discarded."
             )
-            return pdb_file_path
+            # Raise an exception to indicate the model should be discarded
+            raise ValueError(
+                f"Model {pdb_file_path.name} has {percentage_unreliable:.2f}% unreliable residues (>15% threshold) and should be discarded."
+            )
 
     def get_alphafold_model(self) -> Path:
         """Downloads the AlphaFold PDB model and processes it.
 
         Tries fetching model versions v4 and then v3.
-        The downloaded model is then processed to remove unreliable residues
-        if they constitute 15% or less of the total residues.
+        Models are processed to ensure they meet quality standards. Models with more than
+        15% unreliable residues (residues with pLDDT < 70) are discarded. For models with
+        15% or fewer unreliable residues, those residues are removed and a processed file
+        is returned.
 
         Returns:
-            Path: The path to the downloaded (and potentially processed) PDB file.
+            Path: The path to the downloaded and processed PDB file.
 
         Raises:
-            FileNotFoundError: If the PDB file cannot be fetched from AlphaFold DB.
+            FileNotFoundError: If no PDB file can be fetched from AlphaFold DB.
+            ValueError: If all fetched models have more than 15% unreliable residues.
             requests.exceptions.RequestException: For network or HTTP errors during download.
         """
         self.alphafold_output_dir.mkdir(parents=True, exist_ok=True)
@@ -187,8 +198,8 @@ class AlphaFoldFetcher(Tool):
         )
 
         versions = ["v4", "v3"]  # Prioritize v4
-        downloaded_pdb_path = None
         last_error = None
+        model_quality_errors = []
 
         for version in versions:
             model_version_suffix = f"model_{version}"
@@ -203,17 +214,15 @@ class AlphaFoldFetcher(Tool):
             logger.info(
                 f"Attempting to download AlphaFold model version {version} from {url}"
             )
+
+            # First try to download the model
             try:
                 response = requests.get(url, timeout=60)
                 response.raise_for_status()  # Raises HTTPError for bad responses
-
                 output_file_path.write_text(response.text, encoding="utf-8")
                 logger.info(
                     f"Successfully downloaded and saved model version {version} to {output_file_path}"
                 )
-                downloaded_pdb_path = output_file_path
-                last_error = None
-                break
             except requests.exceptions.HTTPError as e:
                 last_error = e
                 if e.response.status_code == 404:
@@ -221,36 +230,55 @@ class AlphaFoldFetcher(Tool):
                         f"Model version {version} not found for UniProt ID "
                         f"{self.uniprot_id} (404 Error). Trying next version."
                     )
+                    continue
                 else:
                     logger.error(
                         f"HTTP error occurred while fetching model version {version} "
                         f"for {self.uniprot_id}. Status code: {e.response.status_code}. Error: {e}"
                     )
+                    continue
             except requests.exceptions.RequestException as e:
                 last_error = e
                 logger.error(
                     f"Failed to fetch structure version {version} for "
                     f"{self.uniprot_id} due to a network or request issue. Error: {e}"
                 )
-                # For critical network errors, might be best to stop trying other versions
-                # break
+                continue
 
-        if downloaded_pdb_path:
+            # If download successful, process the file
             try:
-                # Process the downloaded PDB file
-                final_pdb_path = self._process_pdb_file(downloaded_pdb_path)
-                resolved_path = final_pdb_path.resolve()
+                # Process the downloaded PDB file - this will raise an exception if
+                # the model has more than 15% unreliable residues
+                processed_pdb_path = self._process_pdb_file(output_file_path)
+                resolved_path = processed_pdb_path.resolve()
                 logger.info(
-                    f"Returning resolved path for model (potentially processed): {resolved_path}"
+                    f"Model {version} is reliable. Returning path for processed model: {resolved_path}"
                 )
                 return resolved_path
+            except ValueError as e:
+                # This indicates the model has too many unreliable residues
+                if "unreliable residues" in str(e):
+                    logger.warning(f"{e}")
+                    model_quality_errors.append((version, str(e)))
+                    # Continue to next version
+                    continue
+                else:
+                    # Re-raise unexpected ValueError
+                    raise
             except Exception as e:
-                # If processing fails, log the error and return the original downloaded path
+                # For other processing errors, log and try next version
                 logger.error(
-                    f"Error processing PDB file {downloaded_pdb_path}: {e}. "
-                    f"Returning original downloaded file."
+                    f"Error processing model {version} PDB file {output_file_path}: {e}"
                 )
-                return downloaded_pdb_path.resolve()
+                model_quality_errors.append((version, f"Processing error: {str(e)}"))
+                continue
+
+        # If we're here, none of the models worked
+        if model_quality_errors:
+            error_details = ", ".join([f"{v}: {e}" for v, e in model_quality_errors])
+            error_message = f"All AlphaFold models for {self.uniprot_id} failed quality checks: {error_details}"
+            logger.error(error_message)
+            raise ValueError(error_message)
         else:
             error_message = (
                 f"Failed to fetch any AlphaFold structure version for {self.uniprot_id} "
