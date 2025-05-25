@@ -47,7 +47,7 @@ class Tool:
         self.output_dir.mkdir(parents=True, exist_ok=True)
         logger.debug(f"Base output directory for tools ensured at: {self.output_dir}")
 
-        self.command: Optional[List[str]] = None
+        self.command: Optional[List] = None
         logger.debug(f"Tool base class initialized. Main output dir: {self.output_dir}")
 
     def load_executable_config(self, tool_name: str):
