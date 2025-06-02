@@ -35,15 +35,23 @@ class Tool:
         self.config: dict = config
         self.tool_name: Optional[str] = None
         self.executable: Optional[Path] = None
-        # self.required_arguments: Optional[str] = None # This was unused, consider removing if not planned
         self.optional_arguments: List[str] = []
 
-        run_settings = self.config.get("run_settings", {})
-        output_dir_str = run_settings.get("output_dir", "output")  # Default to "output"
-        self.output_dir = Path(output_dir_str).resolve()
-        # Base output directory for the entire pipeline is created here if it doesn't exist.
-        # Specific tool output directories (e.g., self.output_dir / self.tool_name)
-        # should be created by the derived classes or within their run methods.
+        # Use general_settings.output_dir if available
+        general_s = self.config.get("general_settings", {})
+        output_dir_str = general_s.get("output_dir")
+        if output_dir_str:
+            self.output_dir = Path(output_dir_str).resolve()
+        else:
+            # Fallback or error if output_dir is critical
+            logger.warning(
+                "general_settings.output_dir not found in config for Tool. "
+                "Attempting to use 'run_settings' or defaulting to 'output'."
+            )
+            run_settings = self.config.get("run_settings", {})
+            output_dir_str_fallback = run_settings.get("output_dir", "output")
+            self.output_dir = Path(output_dir_str_fallback).resolve()
+
         self.output_dir.mkdir(parents=True, exist_ok=True)
         logger.debug(f"Base output directory for tools ensured at: {self.output_dir}")
 

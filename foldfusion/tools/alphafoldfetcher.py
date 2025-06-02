@@ -1,6 +1,6 @@
 """Module for fetching protein structures from the AlphaFold Database."""
 
-from foldfusion.tools.tool import Tool  # Assuming Tool is defined elsewhere
+from .tool import Tool  # Assuming Tool is defined elsewhere
 from pathlib import Path
 import requests
 import logging
@@ -8,41 +8,11 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class AlphaFoldFetcher(Tool):
-    """Fetches protein structures from the AlphaFold Database and processes them.
-
-    Attributes:
-        uniprot_id (str): The UniProt ID of the protein to fetch.
-        output_dir (Path): The directory where the fetched PDB file will be saved.
-                           The base output_dir is typically set by the Tool base class
-                           or its configuration. This class will use a subdirectory
-                           named 'alphafold' within that output_dir.
-    """
-
-    def __init__(self, config: dict):
-        """Initializes the AlphaFoldFetcher.
-
-        Args:
-            config (dict): The configuration dictionary.
-                           Expected to contain 'run_settings': {'uniprot_id': '...'}
-                           and potentially 'output_dir' for the base Tool.
-        """
-        super().__init__(config)
-        self.tool_name = "alphafoldfetcher"
-        run_settings = self.config.get("run_settings", {})
-        if not run_settings or "uniprot_id" not in run_settings:
-            logger.error(
-                "UniProt ID not found in run_settings within the configuration."
-            )
-            raise ValueError("UniProt ID must be specified in run_settings.")
-        self.uniprot_id = run_settings["uniprot_id"]
-
-        # self.output_dir is inherited from Tool. We create a subdirectory for AlphaFold files.
-        self.alphafold_output_dir = self.output_dir / "alphafold"
-        logger.debug(f"AlphaFoldFetcher initialized for UniProt ID: {self.uniprot_id}")
-        logger.debug(
-            f"Output directory for AlphaFold files: {self.alphafold_output_dir}"
-        )
+class AlphaFoldFetcher:
+    def __init__(self, uniprot_id: str, output_dir: Path):
+        self.uniprot_id = uniprot_id
+        self.output_dir = output_dir
+        self.af_fetcher_out_dir = self.output_dir / "alphafold"
 
     def _process_pdb_file(self, pdb_file_path: Path) -> Path:
         """
@@ -167,22 +137,23 @@ class AlphaFoldFetcher(Tool):
         else:
             # If more than 15% of residues are unreliable, discard the model
             logger.warning(
-                f"Percentage of unreliable residues ({percentage_unreliable:.2f}%) > 15%. "
-                f"Model is considered unreliable and should be discarded."
+                f"Percentage of unreliable residues ({percentage_unreliable:.2f}%) > "
+                f"15%. Model is considered unreliable and should be discarded."
             )
             # Raise an exception to indicate the model should be discarded
             raise ValueError(
-                f"Model {pdb_file_path.name} has {percentage_unreliable:.2f}% unreliable residues (>15% threshold) and should be discarded."
+                f"Model {pdb_file_path.name} has {percentage_unreliable:.2f}% "
+                "unreliable residues (>15% threshold) and should be discarded."
             )
 
     def get_alphafold_model(self) -> Path:
         """Downloads the AlphaFold PDB model and processes it.
 
         Tries fetching model versions v4 and then v3.
-        Models are processed to ensure they meet quality standards. Models with more than
-        15% unreliable residues (residues with pLDDT < 70) are discarded. For models with
-        15% or fewer unreliable residues, those residues are removed and a processed file
-        is returned.
+        Models are processed to ensure they meet quality standards. Models with more
+        than 15% unreliable residues (residues with pLDDT < 70) are discarded. For
+        models with 15% or fewer unreliable residues, those residues are removed and a
+        processed file is returned.
 
         Returns:
             Path: The path to the downloaded and processed PDB file.
@@ -190,11 +161,12 @@ class AlphaFoldFetcher(Tool):
         Raises:
             FileNotFoundError: If no PDB file can be fetched from AlphaFold DB.
             ValueError: If all fetched models have more than 15% unreliable residues.
-            requests.exceptions.RequestException: For network or HTTP errors during download.
+            requests.exceptions.RequestException: For network or HTTP errors during
+            download.
         """
-        self.alphafold_output_dir.mkdir(parents=True, exist_ok=True)
+        self.af_fetcher_out_dir.mkdir(parents=True, exist_ok=True)
         logger.info(
-            f"Ensured AlphaFold output directory exists: {self.alphafold_output_dir}"
+            f"Ensured AlphaFold output directory exists: {self.af_fetcher_out_dir}"
         )
 
         versions = ["v4", "v3"]  # Prioritize v4
@@ -209,7 +181,7 @@ class AlphaFoldFetcher(Tool):
             )
             output_file_name = f"AF-{self.uniprot_id}-F1-{model_version_suffix}.pdb"
             # Save to the specific alphafold subdirectory
-            output_file_path = self.alphafold_output_dir / output_file_name
+            output_file_path = self.af_fetcher_out_dir / output_file_name
 
             logger.info(
                 f"Attempting to download AlphaFold model version {version} from {url}"
@@ -221,7 +193,8 @@ class AlphaFoldFetcher(Tool):
                 response.raise_for_status()  # Raises HTTPError for bad responses
                 output_file_path.write_text(response.text, encoding="utf-8")
                 logger.info(
-                    f"Successfully downloaded and saved model version {version} to {output_file_path}"
+                    f"Successfully downloaded and saved model version {version} to "
+                    f"{output_file_path}"
                 )
             except requests.exceptions.HTTPError as e:
                 last_error = e
@@ -234,7 +207,8 @@ class AlphaFoldFetcher(Tool):
                 else:
                     logger.error(
                         f"HTTP error occurred while fetching model version {version} "
-                        f"for {self.uniprot_id}. Status code: {e.response.status_code}. Error: {e}"
+                        f"for {self.uniprot_id}. Status code: "
+                        f"{e.response.status_code}. Error: {e}"
                     )
                     continue
             except requests.exceptions.RequestException as e:
@@ -252,7 +226,8 @@ class AlphaFoldFetcher(Tool):
                 processed_pdb_path = self._process_pdb_file(output_file_path)
                 resolved_path = processed_pdb_path.resolve()
                 logger.info(
-                    f"Model {version} is reliable. Returning path for processed model: {resolved_path}"
+                    f"Model {version} is reliable. Returning path for processed model:"
+                    + f" {resolved_path}"
                 )
                 return resolved_path
             except ValueError as e:
@@ -276,19 +251,23 @@ class AlphaFoldFetcher(Tool):
         # If we're here, none of the models worked
         if model_quality_errors:
             error_details = ", ".join([f"{v}: {e}" for v, e in model_quality_errors])
-            error_message = f"All AlphaFold models for {self.uniprot_id} failed quality checks: {error_details}"
+            error_message = (
+                f"All AlphaFold models for {self.uniprot_id} failed quality"
+                + f" checks: {error_details}"
+            )
             logger.error(error_message)
             raise ValueError(error_message)
         else:
             error_message = (
-                f"Failed to fetch any AlphaFold structure version for {self.uniprot_id} "
-                f"after trying versions: {', '.join(versions)}."
+                f"Failed to fetch any AlphaFold structure version for {self.uniprot_id}"
+                f" after trying versions: {', '.join(versions)}."
             )
             logger.error(error_message)
             if last_error:
                 logger.error(f"Last error encountered: {last_error}")
                 raise FileNotFoundError(
-                    f"{error_message} Last error: {last_error.__class__.__name__} - {str(last_error)}"
+                    f"{error_message} Last error: {last_error.__class__.__name__} - "
+                    + f"{str(last_error)}"
                 ) from last_error
             else:
                 raise FileNotFoundError(error_message)

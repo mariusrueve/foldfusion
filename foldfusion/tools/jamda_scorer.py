@@ -1,4 +1,4 @@
-from foldfusion.tools.tool import Tool
+from .tool import Tool
 from pathlib import Path
 import logging
 

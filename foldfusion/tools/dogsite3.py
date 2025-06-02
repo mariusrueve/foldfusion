@@ -1,13 +1,13 @@
 """Module for running the DoGSiteScorer tool for binding site prediction."""
 
-from foldfusion.tools.tool import Tool
+from .tool import Tool
 from pathlib import Path
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class Dogsite3(Tool):
+class Dogsite3:
     """Runs the DoGSiteScorer (DoGSite3) tool to predict binding pockets in protein structures.
 
     Attributes:
@@ -15,7 +15,7 @@ class Dogsite3(Tool):
         output_dir (Path): Directory to save DoGSite3 output files.
     """
 
-    def __init__(self, config: dict, pdb_file: Path):
+    def __init__(self, executable: Path, pdb_file: Path, output_dir: Path):
         """Initializes the Dogsite3 tool.
 
         Args:
@@ -25,12 +25,11 @@ class Dogsite3(Tool):
         Raises:
             FileNotFoundError: If the provided PDB file does not exist.
         """
-        super().__init__(config)
         if not pdb_file.exists():
             logger.error(f"Input PDB file not found: {pdb_file}")
             raise FileNotFoundError(f"Input PDB file not found: {pdb_file}")
 
-        self.load_executable_config("dogsite3")
+        self.executable = executable
         self.pdb_file = pdb_file
         self.output_dir = self.output_dir / "dogsite3"
         self.assemble_command_arguments()
