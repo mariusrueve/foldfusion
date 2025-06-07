@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class Dogsite3:
+class Dogsite3(Tool):
     """Runs the DoGSiteScorer (DoGSite3) tool to predict binding pockets in protein structures.
 
     Attributes:
@@ -31,11 +31,11 @@ class Dogsite3:
 
         self.executable = executable
         self.pdb_file = pdb_file
-        self.output_dir = self.output_dir / "dogsite3"
-        self.assemble_command_arguments()
+        self.output_dir = output_dir / "Dogsite3"
         logger.debug(f"Dogsite3 initialized with PDB file: {self.pdb_file}")
+        super().__init__(self.get_command(), self.output_dir)
 
-    def assemble_command_arguments(self):
+    def get_command(self) -> list[str]:
         """Assembles the command and arguments for running DoGSite3."""
         if not self.pdb_file:
             logger.error("PDB file path is not set. Cannot assemble DoGSite3 command.")
@@ -44,8 +44,9 @@ class Dogsite3:
             )
 
         command = ["--proteinFile", str(self.pdb_file.resolve())]  # Use resolved path
-        self.command = [str(self.executable)] + command + self.optional_arguments
-        logger.debug(f"DoGSite3 command assembled: {' '.join(self.command)}")
+        command = [str(self.executable)] + command + ["--writeSiteResiduesEDF"]
+        logger.debug(f"DoGSite3 command assembled: {' '.join(command)}")
+        return command
 
     def get_best_edf(self) -> Path:
         """Retrieves the path to the best pocket's EDF file and updates its reference PDB path.

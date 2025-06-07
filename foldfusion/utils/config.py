@@ -21,19 +21,12 @@ class Config:
     def __init__(self, config_path: Path):
         self.config_path = config_path
         self.dict = self.read_config()
-        self.general_settings = self._fetch_tool_config("general_settings")
+
         setup_logging(
-            self.log_level,  # Use property
-            self.log_file,   # Use property
-            self.output_dir, # Use property (returns Path)
+            self.log_level,
+            self.log_file,
         )
         logger.info(f"Loading configuration from {config_path}")
-
-        self.dogsite3 = self._fetch_tool_config("dogsite3") # Corrected: was "siena"
-        self.siena = self._fetch_tool_config("siena")
-        self.siena_db = self._fetch_tool_config("siena_db")
-        self.ligand_extractor = self._fetch_tool_config("ligand_extractor")
-        self.jamda_scorer = self._fetch_tool_config("jamda_scorer")
         logger.debug("Configuration loaded successfully")
 
     def read_config(self) -> dict:
@@ -53,154 +46,204 @@ class Config:
             logger.exception(f"Failed to parse config file: {e}")
             raise ValueError(f"Failed to parse config file: {e}")
 
-    def _validate_config(self, tool_name: str) -> bool:
-        match tool_name:
-            case "general_settings":
-                required_keys = ["uniprot_id", "output_dir", "log_level", "log_file"]
-                tool_config = self.dict.get(tool_name, {})
-
-                # Check if all required keys exist
-                for key in required_keys:
-                    if key not in tool_config:
-                        logger.error(
-                            f"Missing required setting '{key}' in {tool_name} configuration"
-                        )
-                        return False
-
-                # Check if values are not empty
-                for key, value in tool_config.items():
-                    if key in required_keys and (value is None or value == ""):
-                        logger.error(
-                            f"Empty value for required setting '{key}' in {tool_name} configuration"
-                        )
-                        return False
-
-                # Validate output_dir exists or can be created
-                output_dir = Path(tool_config["output_dir"])
-                if not output_dir.exists() and not output_dir.parent.exists():
-                    logger.error(f"Invalid output_dir path: {output_dir}")
-                    return False
-
-                # Validate log_level is a valid level
-                valid_log_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-                if tool_config["log_level"] not in valid_log_levels:
-                    logger.error(f"Invalid log_level: {tool_config['log_level']}")
-                    return False
-
-                return True
-            case "dogsite3" | "siena" | "ligand_extractor" | "jamda_scorer":
-                required_keys = ["executable"]
-                tool_config = self.dict.get(tool_name, {})
-
-                for key in required_keys:
-                    if key not in tool_config:
-                        logger.error(
-                            f"Missing required setting '{key}' in {tool_name} configuration"
-                        )
-                        return False
-                    if tool_config[key] is None or tool_config[key] == "":
-                        logger.error(
-                            f"Empty value for required setting '{key}' in {tool_name} configuration"
-                        )
-                        return False
-                # Validate executable path exists
-                executable_path = Path(tool_config["executable"])
-                if not executable_path.exists() or not executable_path.is_file():
-                    logger.error(
-                        f"Executable not found or is not a file for {tool_name} at {executable_path}"
-                    )
-                    return False
-                return True
-            case "siena_db":
-                required_keys = ["executable", "siena_db", "pdb_directory", "format"]
-                tool_config = self.dict.get(tool_name, {})
-
-                for key in required_keys:
-                    if key not in tool_config:
-                        logger.error(
-                            f"Missing required setting '{key}' in {tool_name} configuration"
-                        )
-                        return False
-                    if key != "optional_arguments" and (
-                        tool_config[key] is None or tool_config[key] == ""
-                    ):
-                        logger.error(
-                            f"Empty value for required setting '{key}' in {tool_name} configuration"
-                        )
-                        return False
-
-                # Validate executable path exists
-                executable_path = Path(tool_config["executable"])
-                if not executable_path.exists() or not executable_path.is_file():
-                    logger.error(
-                        f"Executable not found or is not a file for {tool_name} at {executable_path}"
-                    )
-                    return False
-
-                # Validate siena_db path exists or can be created
-                siena_db_path = Path(tool_config["siena_db"])
-                if not siena_db_path.exists() and not siena_db_path.parent.exists():
-                    logger.error(f"Invalid siena_db path: {siena_db_path}")
-                    return False
-
-                # Validate pdb_directory path exists
-                pdb_directory_path = Path(tool_config["pdb_directory"])
-                if not pdb_directory_path.exists() or not pdb_directory_path.is_dir():
-                    logger.error(
-                        f"PDB directory not found or is not a directory for {tool_name} at {pdb_directory_path}"
-                    )
-                    return False
-
-                # Validate format is an integer (0 or 1, assuming based on typical usage)
-                if not isinstance(
-                    tool_config["format"], int
-                ):  # or tool_config["format"] not in [0, 1]:
-                    logger.error(
-                        f"Invalid format value for {tool_name}: {tool_config['format']}. Must be an integer."
-                    )
-                    return False
-                return True
-            case _:
-                logger.error(f"No validation rules defined for tool: {tool_name}")
-                return False
-
-    def _fetch_tool_config(self, tool_name: str) -> dict:
-        tool_config_dict = self.dict.get(tool_name, None)
-
-        if tool_config_dict is not None:
-            logger.debug(f"Found configuration for {tool_name}")
-            if self._validate_config(tool_name):
-                return tool_config_dict
-            else:
-                logger.error(f"Invalid configuration for tool '{tool_name}'")
-                raise ValueError(f"Invalid configuration for tool '{tool_name}'")
-        else:
-            logger.error(
-                f"Configuration for tool '{tool_name}' not found in config file"
-            )
-            raise ValueError(
-                f"Configuration for tool '{tool_name}' not found in config file"
-            )
-
     @property
     def uniprot_id(self) -> str:
         """The UniProt ID from general settings."""
-        return self.general_settings["uniprot_id"]
+        value = self.dict["uniprot_id"]
+        if value is None:
+            logger.error("uniprot_id is not configured")
+            raise ValueError("uniprot_id is not configured")
+        return value
 
     @property
     def output_dir(self) -> Path:
         """The base output directory as a Path object from general settings."""
-        return Path(self.general_settings["output_dir"])
+        value = self.dict["output_dir"]
+        if value is None:
+            raise ValueError("output_dir is not configured")
+        path_obj = Path(value)
+        if not path_obj.exists():
+            logger.warning(f"Output directory does not exist: {path_obj}")
+            logger.info(f"Creating output directory: {path_obj}")
+            path_obj.mkdir(parents=True, exist_ok=True)
+        else:
+            logger.debug(f"Using existing output directory: {path_obj}")
+        return path_obj
 
     @property
     def log_level(self) -> str:
         """The log level from general settings."""
-        return self.general_settings["log_level"]
+        value = self.dict["log_level"]
+        if value is None:
+            raise ValueError("log_level is not configured")
+
+        valid_levels = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+        if value.upper() not in valid_levels:
+            logger.warning(f"Invalid log level: {value}, defaulting to INFO")
+            return "INFO"
+
+        return value.upper()
 
     @property
-    def log_file(self) -> str:
+    def log_file(self) -> Path:
         """The log file name from general settings."""
-        return self.general_settings["log_file"]
+        value = self.dict["log_file"]
+        if value is None:
+            raise ValueError("log_file is not configured")
+        # Check if log_file is an absolute path
+        if Path(value).is_absolute():
+            log_path = Path(value)
+        else:
+            # If relative path, join with output directory
+            log_path = self.output_dir / value
+
+        # Ensure the parent directory exists
+        log_path.parent.mkdir(parents=True, exist_ok=True)
+
+        logger.debug(f"Log file will be written to: {log_path}")
+        return log_path
+
+    # Tool executable properties
+    @property
+    def dogsite3_executable(self) -> Path:
+        """The dogsite3 executable path."""
+        value = self.dict["dogsite3_executable"]
+        if value is None:
+            raise ValueError("dogsite3_executable is not configured")
+        path_obj = Path(value)
+        if not path_obj.exists():
+            logger.error(f"dogsite3_executable not found at {path_obj}")
+            raise FileNotFoundError(f"dogsite3_executable not found at {path_obj}")
+        if not path_obj.is_file():
+            logger.error(f"dogsite3_executable is not a file: {path_obj}")
+            raise ValueError(f"dogsite3_executable is not a file: {path_obj}")
+        logger.debug(f"Using dogsite3 executable: {path_obj}")
+        return value
+
+    @property
+    def siena_executable(self) -> Path:
+        """The siena executable path."""
+        value = self.dict["siena_executable"]
+        if value is None:
+            raise ValueError("siena_executable is not configured")
+        path_obj = Path(value)
+        if not path_obj.exists():
+            logger.error(f"siena_executable not found at {path_obj}")
+            raise FileNotFoundError(f"siena_executable not found at {path_obj}")
+        if not path_obj.is_file():
+            logger.error(f"siena_executable is not a file: {path_obj}")
+            raise ValueError(f"siena_executable is not a file: {path_obj}")
+        logger.debug(f"Using siena executable: {path_obj}")
+        return path_obj
+
+    @property
+    def siena_db_executable(self) -> Path:
+        """The siena database executable path."""
+        value = self.dict["siena_db_executable"]
+        if value is None:
+            raise ValueError("siena_db_executable is not configured")
+        path_obj = Path(value)
+        if not path_obj.exists():
+            logger.error(f"siena_db_executable not found at {path_obj}")
+            raise FileNotFoundError(f"siena_db_executable not found at {path_obj}")
+        if not path_obj.is_file():
+            logger.error(f"siena_db_executable is not a file: {path_obj}")
+            raise ValueError(f"siena_db_executable is not a file: {path_obj}")
+        logger.debug(f"Using siena database executable: {path_obj}")
+        return path_obj
+
+    @property
+    def siena_db_database_path(self) -> Path:
+        """The existing siena database path."""
+        value = self.dict["siena_db_database_path"]
+        if value is None:
+            raise ValueError("siena_db_database_path is not configured")
+        path_obj = Path(value)
+        if not path_obj.exists() and not self.pdb_directory.exists():
+            error = (
+                f"siena_db_database_path ({path_obj}) and "
+                f"pdb_directory ({self.pdb_directory}) do not exist!"
+                "At least pdb_directory has to be valid"
+            )
+            logger.error(error)
+            raise ValueError(error)
+        if path_obj.exists():
+            logger.debug(f"Using existing siena database: {path_obj}")
+        else:
+            logger.warning(
+                f"Siena database not found at {path_obj}, "
+                "will try to create from PDB directory"
+            )
+        return path_obj
+
+    @property
+    def pdb_directory(self) -> Path:
+        """The PDB directory path."""
+        value = self.dict["pdb_directory"]
+        if value is None:
+            raise ValueError("pdb_directory is not configured")
+        path_obj = Path(value)
+        if not path_obj.exists():
+            logger.error(f"pdb_directory not found at {path_obj}")
+            raise FileNotFoundError(f"pdb_directory not found at {path_obj}")
+        if not path_obj.is_dir():
+            logger.error(f"pdb_directory is not a directory: {path_obj}")
+            raise ValueError(f"pdb_directory is not a directory: {path_obj}")
+        logger.debug(f"Using PDB directory: {path_obj}")
+        return path_obj
+
+    @property
+    def pdb_format(self) -> int:
+        """The PDB file format (0=.ent.gz, 1=pdb)."""
+        value = self.dict["pdb_format"]
+        if value is None:
+            raise ValueError("pdb_format is not configured")
+        if not isinstance(value, int):
+            logger.error(
+                f"pdb_format must be an integer, got {type(value).__name__}: {value}"
+            )
+            raise ValueError(
+                f"pdb_format must be an integer, got {type(value).__name__}: {value}"
+            )
+        if value not in [0, 1]:
+            logger.error(f"pdb_format must be 0 (.ent.gz) or 1 (pdb), got: {value}")
+            raise ValueError(f"pdb_format must be 0 (.ent.gz) or 1 (pdb), got: {value}")
+        logger.debug(f"Using PDB format: {value}")
+        return value
+
+    @property
+    def ligand_extractor_executable(self) -> Path:
+        """The ligand extractor executable path."""
+        value = self.dict["ligand_extractor_executable"]
+        if value is None:
+            raise ValueError("ligand_extractor_executable is not configured")
+        path_obj = Path(value)
+        if not path_obj.exists():
+            logger.error(f"ligand_extractor_executable not found at {path_obj}")
+            raise FileNotFoundError(
+                f"ligand_extractor_executable not found at {path_obj}"
+            )
+        if not path_obj.is_file():
+            logger.error(f"ligand_extractor_executable is not a file: {path_obj}")
+            raise ValueError(f"ligand_extractor_executable is not a file: {path_obj}")
+        logger.debug(f"Using ligand extractor executable: {path_obj}")
+        return path_obj
+
+    @property
+    def jamda_scorer_executable(self) -> Path:
+        """The jamda scorer executable path."""
+        value = self.dict["jamda_scorer_executable"]
+        if value is None:
+            raise ValueError("jamda_scorer_executable is not configured")
+        path_obj = Path(value)
+        if not path_obj.exists():
+            logger.error(f"jamda_scorer_executable not found at {path_obj}")
+            raise FileNotFoundError(f"jamda_scorer_executable not found at {path_obj}")
+        if not path_obj.is_file():
+            logger.error(f"jamda_scorer_executable is not a file: {path_obj}")
+            raise ValueError(f"jamda_scorer_executable is not a file: {path_obj}")
+        logger.debug(f"Using jamda scorer executable: {path_obj}")
+        return path_obj
 
     def __repr__(self):
         """Return a string representation of the Config object."""
@@ -213,4 +256,4 @@ class Config:
 
 if __name__ == "__main__":
     c = Config(Path("config.toml"))
-    print(c.ligand_extractor)
+    print(c.ligand_extractor_executable)

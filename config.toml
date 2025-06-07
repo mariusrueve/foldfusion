@@ -1,28 +1,25 @@
-[general_settings]
-uniprot_id = "Q9Y233"
-output_dir = "/home/stud2022/mrueve/Downloads/output"
-log_level = "INFO"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+# logging
+log_level = "DEBUG"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
 log_file = "foldfusion_pipeline.log" # Name of the log file
 
-[dogsite3]
-executable = "/home/stud2022/mrueve/local/bin/dogsite3"
-optional_arguments = "--writeSiteResiduesEDF"
+# IO
+uniprot_id = "Q9Y233"
+output_dir = "/home/stud2022/mrueve/Downloads/output"
 
-[siena]
-executable = "/home/stud2022/mrueve/local/bin/siena"
-optional_arguments = ""
+# dogsite3
+dogsite3_executable = "/home/stud2022/mrueve/local/bin/dogsite3"
 
-[siena_db]
-executable = "/local/mrueve/opt/siena_1.3.0/generate_siena_database"
-optional_arguments = ""
-siena_db = "/home/stud2022/mrueve/local/projects/foldfusion-poc/siena_db" # Either path to a siena database or path to pdb_files has to be valid
+# siena db
+siena_db_executable = "/local/mrueve/opt/siena_1.3.0/generate_siena_database"
+siena_db_database_path = "/home/stud2022/mrueve/local/projects/foldfusion-poc/siena_db" # Either path to a siena database or path to pdb_files has to be valid
 pdb_directory = "/local/mrueve/data/PDBFiles_small/"
-format = 0 # file format (0=.ent.gz, 1=pdb)
+pdb_format = 0 # file format (0=.ent.gz, 1=pdb)
 
-[ligand_extractor]
-executable = "/home/stud2022/mrueve/local/bin/ligand_extractor"
-optional_arguments = ""
+# siena
+siena_executable = "/home/stud2022/mrueve/local/bin/siena"
 
-[jamda_scorer]
-executable = "/home/stud2022/mrueve/local/bin/JamdaScorer"
-optional_arguments = ""
+# ligand extractor
+ligand_extractor_executable = "/home/stud2022/mrueve/local/bin/ligand_extractor"
+
+# jamda scorer
+jamda_scorer_executable = "/home/stud2022/mrueve/local/bin/JamdaScorer"

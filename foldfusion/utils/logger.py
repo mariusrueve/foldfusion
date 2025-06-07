@@ -3,14 +3,8 @@ from logging.handlers import RotatingFileHandler  # For rotating log files
 from pathlib import Path
 
 
-def setup_logging(log_level: str, log_file_name: str, output_dir: Path):
+def setup_logging(log_level: str, log_file: Path):
     """Configures logging based on the provided configuration."""
-
-    # Ensure output directory for logs exists
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
-    log_file_path = output_dir / log_file_name
-
     numeric_level = getattr(logging, log_level, logging.INFO)
 
     log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -30,11 +24,11 @@ def setup_logging(log_level: str, log_file_name: str, output_dir: Path):
 
     # File Handler (Rotating)
     file_handler = RotatingFileHandler(
-        log_file_path, maxBytes=10 * 1024 * 1024, backupCount=5, encoding="utf-8"
+        log_file, maxBytes=10 * 1024 * 1024, backupCount=5, encoding="utf-8"
     )
     file_handler.setFormatter(logging.Formatter(log_format))
     root_logger.addHandler(file_handler)
 
     # Get a logger for the main module itself
     logger = logging.getLogger(__name__)
-    logger.info(f"Logging configured: Level={log_level}, File={log_file_path}")
+    logger.info(f"Logging configured: Level={log_level}, File={log_file}")

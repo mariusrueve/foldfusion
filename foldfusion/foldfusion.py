@@ -5,9 +5,8 @@ from foldfusion.utils import Config
 from foldfusion.tools import (
     AlphaFoldFetcher,
     Dogsite3,
+    SienaDB,
     Siena,
-    LigandExtractor,
-    JamdaScorer,
 )
 
 logger = logging.getLogger(__name__)
@@ -37,13 +36,24 @@ class FoldFusion:
         logger.debug(f"Initialized FoldFusion with config: {self.config}")
 
     def run(self):
-        uniprot_id = self.config.uniprot_id
-        output_dir = self.config.output_dir  # This is now a Path object
-        af_fetcher = AlphaFoldFetcher(uniprot_id, output_dir)
+        output_dir = self.config.output_dir
+        af_fetcher = AlphaFoldFetcher(self.config.uniprot_id, output_dir)
         af_model_path = af_fetcher.get_alphafold_model()
         logger.info(f"AlphaFold model was saved to {af_model_path}")
 
-        # dg3 = Dogsite3()
+        dg3 = Dogsite3(self.config.dogsite3_executable, af_model_path, output_dir)
+        dg3.run()
+        best_edf = dg3.get_best_edf()
+
+        # Check if existing SienaDB is valid before creating a new one
+        siena_db = SienaDB(
+            self.config.siena_db_executable,
+            self.config.siena_db_database_path,
+            self.config.pdb_directory,
+            self.config.pdb_format,
+            output_dir,
+        )
+        siena_db_database_path = siena_db.run()
 
 
 if __name__ == "__main__":
