@@ -68,10 +68,10 @@ class SienaDB(Tool):
         # Determine the actual database path based on the logic:
         # 1. If database_path is given and valid, use it
         # 2. If database_path is given but invalid/empty, create new at that path
-        # 3. If database_path is None/empty, create "sienaDB" at default output dir
+        # 3. If database_path is None/empty, create "siena_db" at default output dir
         if database_path is None or str(database_path).strip() == "":
             # No path given, use default
-            self.database_path = self.output_dir / "sienaDB"
+            self.database_path = self.output_dir / "siena_db"
             logger.info(
                 f"No database path provided, using default: {self.database_path}"
             )
@@ -81,6 +81,7 @@ class SienaDB(Tool):
             if self._is_siena_db_valid(self.database_path):
                 logger.info(f"Using existing valid database at: {self.database_path}")
             else:
+                self.database_path = self.output_dir / "siena_db"
                 logger.info(
                     f"Database path provided but invalid/empty, will create new database at: {self.database_path}"
                 )
@@ -101,18 +102,8 @@ class SienaDB(Tool):
         Returns:
             Path: The path to the output directory containing the database.
         """
-        # Check if we should use existing database or create new one
-        if self._is_siena_db_valid(self.database_path):
-            logger.info(f"Using existing valid SienaDB at: {self.database_path}")
-            # Ensure output directory exists even when using existing DB
-            self.output_dir.mkdir(parents=True, exist_ok=True)
-            return self.output_dir.resolve()
-        else:
-            logger.info(f"Creating new SienaDB at: {self.database_path}")
-            # Ensure the directory for the database file exists
-            self.database_path.parent.mkdir(parents=True, exist_ok=True)
-            # Call parent run method to execute the command
-            return super().run()
+        _ = super().run()
+        return self.database_path.resolve()
 
     def _is_siena_db_valid(self, siena_db_path: Path) -> bool:
         """

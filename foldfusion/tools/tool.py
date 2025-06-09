@@ -15,12 +15,14 @@ class Tool:
 
     def run(self) -> Path:
         self.output_dir.mkdir(parents=True, exist_ok=True)
-        logger.info(f"Ensured tool-specific output directory exists: {self.output_dir}")
+        logger.debug(
+            f"Ensured tool-specific output directory exists: {self.output_dir}"
+        )
 
         # Log the command, ensuring all parts are strings for join
         command_str = " ".join(map(str, self.command))
-        logger.info(f"Running in directory {self.output_dir}:")
-        logger.info(f"COMMAND: {command_str}")
+        logger.debug(f"Running in directory {self.output_dir}:")
+        logger.debug(f"COMMAND: {command_str}")
 
         try:
             process = subprocess.run(
@@ -31,7 +33,7 @@ class Tool:
                 text=True,  # Decode stdout and stderr as text
                 encoding="utf-8",  # Specify encoding
             )
-            logger.info("Process completed successfully.")
+            logger.debug("Process completed successfully.")
             if process.stdout:
                 logger.debug(f"STDOUT:\n{process.stdout.strip()}")
             if (

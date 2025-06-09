@@ -6,12 +6,17 @@ logger = logging.getLogger(__name__)
 
 
 class LigandExtractor(Tool):
-    def __init__(self, config, siena_dir: Path, pdb_code_list: list[str]):
-        super().__init__(config)
-        self.load_executable_config("ligand_extractor")
-        self.output_dir = self.output_dir / "ligand_extractor"
+    def __init__(
+        self,
+        executable: Path,
+        siena_dir: Path,
+        pdb_code_list: list[list[str]],
+        output_dir: Path,
+    ):
+        self.executable = executable
         self.siena_dir = siena_dir
         self.pdb_code_list = pdb_code_list
+        self.output_dir = output_dir / "LigandExtractor"
 
     def _get_siena_pdb_path(self, pdb_code: str):
         ensemble_dir = Path.cwd() / self.siena_dir / "ensemble"
@@ -40,7 +45,8 @@ class LigandExtractor(Tool):
                     if has_number_in_chain:
                         logger.warning(
                             f"Found number in chain ID '{chain_id}' for ligand "
-                            + f"{ligand_name} at position {residue_number}"
+                            f"{ligand_name} at position {residue_number}. "
+                            "Applying fixes. Please check for correctnes."
                         )
                         # Split the chain ID after the first character
                         first_char = chain_id[0]
@@ -48,7 +54,7 @@ class LigandExtractor(Tool):
                         residue_number = remaining_nums
                         # Update chain ID to just the first character
                         chain_id = first_char
-                        logger.info(
+                        logger.debug(
                             f"Split chain ID into '{chain_id}' and updated residue "
                             + f"number to {residue_number}"
                         )
@@ -77,8 +83,9 @@ class LigandExtractor(Tool):
                 )
         return commands_list
 
-    def run_all(self):
+    def run(self) -> Path:
         commands = self._get_commands_list()
         for command in commands:
             self.command = command
-            self.run()
+            super().run()
+        return self.output_dir

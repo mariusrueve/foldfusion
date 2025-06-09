@@ -1,3 +1,5 @@
+"""Module for running the Siena tool for protein structure alignment."""
+
 from .tool import Tool
 from pathlib import Path
 import subprocess
@@ -8,78 +10,121 @@ logger = logging.getLogger(__name__)
 
 
 class Siena(Tool):
-    def __init__(self, config: dict, dogsite3_output_edf: Path):
-        super().__init__(config)
-        self.load_executable_config("siena")
-        self.dogsite3_output = dogsite3_output_edf
-        self.output_dir = self.output_dir / "siena"
-        self.siena_db_path = self.initialize_siena_database()
-        self.assemble_command()
+    """Runs the Siena tool to align protein structures and find similar binding sites.
 
-    def initialize_siena_database(self):
-        siena_db_config = self.config.get("siena_db", {})
-        siena_db_path = Path(siena_db_config.get("siena_db", ""))
-        pdb_files_path = Path(siena_db_config.get("pdb_files", ""))
+    Attributes:
+        edf (Path): Path to the input EDF file from DoGSite3.
+        siena_db (Path): Path to the Siena database.
+        pdb_directory (Path): Directory containing PDB files for reference.
+        output_dir (Path): Directory to save Siena output files.
+    """
 
-        if (not siena_db_path or not siena_db_path.exists()) and (
-            not pdb_files_path or not pdb_files_path.exists()
-        ):
-            raise ValueError(
-                "Both siena_db and pdb_files paths are invalid or empty. "
-                + "At least one has to be valid/defined"
-            )
-        if siena_db_path == "" or not siena_db_path.exists():
-            logger.info("siena_db was not found, creating new one")
-            executable_path = siena_db_config.get("executable")
-            pdb_dir = siena_db_config.get("pdb_directory", "")
-            pdb_format = siena_db_config.get("format", 1)
-            command = [
-                executable_path,
-                "--database",
-                "siena_db",
-                "--directory",
-                pdb_dir,
-                "--format",
-                str(pdb_format),
-            ]
+    def __init__(
+        self,
+        executable: Path,
+        edf: Path,
+        siena_db: Path,
+        pdb_directory: Path,
+        output_dir: Path,
+    ):
+        """Initializes the Siena tool.
 
-            # Execute the command
-            try:
-                _ = subprocess.run(command)
-                siena_db_path = Path.cwd() / "siena_db"
-                logger.info(f"New siena database was created at {siena_db_path}")
+        Args:
+            edf (Path): Path to the EDF file from DoGSite3.
+            siena_db (Path): Path to the Siena database.
+            pdb_directory (Path): Directory containing PDB files for reference.
 
-            except subprocess.CalledProcessError as e:
-                raise RuntimeError(f"Failed to run {self.tool_name}: {e}")
-        return siena_db_path
+        Raises:
+            FileNotFoundError: If the EDF file or Siena database does not exist.
+            ValueError: If any of the required paths are invalid.
+        """
+        if not edf.exists():
+            logger.error(f"EDF file not found: {edf}")
+            raise FileNotFoundError(f"EDF file not found: {edf}")
+        if not siena_db.exists():
+            logger.error(f"Siena database not found: {siena_db}")
+            raise FileNotFoundError(f"Siena database not found: {siena_db}")
+        if not pdb_directory.exists() or not pdb_directory.is_dir():
+            logger.error(f"Invalid PDB directory: {pdb_directory}")
+            raise ValueError(f"Invalid PDB directory: {pdb_directory}")
+        self.executable = executable
+        self.edf = edf
+        self.siena_db = siena_db
+        self.pdb_directory = pdb_directory
+        self.output_dir = output_dir / "Siena"
 
-    def assemble_command(self):
-        siena_config = self.config.get("siena", {})
-        executable_path = siena_config.get("executable", "")
-        optional_arguments = siena_config.get("optional_arguments", "")
-        self.command = [
-            executable_path,
-            "-e",
-            self.dogsite3_output,
-            "-b",
-            self.siena_db_path,
-            "-o",
+        # Initialize the base Tool class with command and output directory
+        super().__init__(self.get_command(), self.output_dir)
+        logger.debug(f"Siena initialized with EDF: {edf}, DB: {siena_db}")
+
+    def get_command(self) -> list[str]:
+        """Assembles the command and arguments for running Siena.
+
+        Returns:
+            list[str]: The command and arguments as a list of strings.
+
+        Raises:
+            ValueError: If required paths are not set.
+        """
+        if not self.edf or not self.siena_db:
+            logger.error("EDF file or Siena database path is not set")
+            raise ValueError("EDF file and Siena database paths must be set")
+
+        # Required arguments with default values based on the help output
+        command = [
+            str(self.executable.resolve()),
+            "--edf",
+            str(self.edf.resolve()),
+            "--database",
+            str(self.siena_db.resolve()),
+            "--output",
             ".",
-            optional_arguments,
         ]
+        logger.debug(f"Siena command assembled: {' '.join(command)}")
+        return command
 
     def get_best_alignments(self, n_alignments: int) -> list[list[str]]:
+        """Retrieves the best n alignments from Siena's output.
+
+        Args:
+            n_alignments (int): Number of best alignments to return.
+
+        Returns:
+            list[list[str]]: List of [PDB code, PDB chains] pairs for the best alignments.
+
+        Raises:
+            FileNotFoundError: If the results CSV file does not exist.
+            ValueError: If the CSV file is malformed or empty.
+        """
         csv_file = self.output_dir / "resultStatistic.csv"
         if not csv_file.exists():
-            raise FileExistsError(f"{csv_file} does not exist!")
-        df = pd.read_csv(str(csv_file), delimiter=";")
-        # Corrected the 'by' parameter for sort_values
-        df = df.sort_values(by=["Backbone RMSD", "All atom RMSD"], ascending=True)
-        # Corrected column selection and conversion to list
-        results = df.head(n_alignments)[["PDB code", "PDB chains"]].values.tolist()
-        # Strip whitespace from both values in each result entry
-        results = [
-            [pdb_code.strip(), pdb_chains.strip()] for pdb_code, pdb_chains in results
-        ]
-        logger.info(f"Best alignments are:\n{results}")
-        return results
+            logger.error(f"Results file not found: {csv_file}")
+            raise FileNotFoundError(f"Results file not found: {csv_file}")
+
+        try:
+            df = pd.read_csv(str(csv_file), delimiter=";")
+            if df.empty:
+                logger.error("Results file is empty")
+                raise ValueError("Results file is empty")
+
+            # Sort by RMSD values (lower is better)
+            df = df.sort_values(by=["Backbone RMSD", "All atom RMSD"], ascending=True)
+
+            # Get top n results and convert to list of lists
+            results = df.head(n_alignments)[["PDB code", "PDB chains"]].values.tolist()
+
+            # Clean up whitespace
+            results = [
+                [pdb_code.strip(), pdb_chains.strip()]
+                for pdb_code, pdb_chains in results
+            ]
+
+            logger.info(f"Found {len(results)} best alignments")
+            return results
+
+        except pd.errors.EmptyDataError:
+            logger.error("Results file is empty or malformed")
+            raise ValueError("Results file is empty or malformed")
+        except Exception as e:
+            logger.error(f"Error processing results file: {e}")
+            raise

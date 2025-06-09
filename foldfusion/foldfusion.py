@@ -7,6 +7,8 @@ from foldfusion.tools import (
     Dogsite3,
     SienaDB,
     Siena,
+    LigandExtractor,
+    JamdaScorer,
 )
 
 logger = logging.getLogger(__name__)
@@ -54,6 +56,39 @@ class FoldFusion:
             output_dir,
         )
         siena_db_database_path = siena_db.run()
+
+        # Run Siena with the determined database path
+        siena = Siena(
+            self.config.siena_executable,
+            best_edf,
+            siena_db_database_path,
+            self.config.pdb_directory,
+            output_dir,
+        )
+        siena.run()
+        best_alignments = siena.get_best_alignments(10)
+        logger.info(
+            f"Pipeline completed successfully. Best alignments: {best_alignments}"
+        )
+        ligand_ex = LigandExtractor(
+            self.config.ligand_extractor_executable,
+            siena.output_dir,
+            best_alignments,
+            output_dir,
+        )
+        ligand_ex_output_path = ligand_ex.run()
+        logger.info(f"Ligand extraction completed. Results saved to {output_dir}")
+
+        jamda_scorer = JamdaScorer(
+            self.config.jamda_scorer_executable,
+            af_model_path,
+            ligand_ex_output_path,
+            output_dir,
+        )
+        jamda_scorer_output_path = jamda_scorer.run()
+        logger.info(
+            f"JAMDA scoring completed. Results saved to {jamda_scorer_output_path}"
+        )
 
 
 if __name__ == "__main__":

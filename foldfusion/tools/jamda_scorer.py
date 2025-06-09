@@ -7,15 +7,18 @@ logger = logging.getLogger(__name__)
 
 class JamdaScorer(Tool):
     def __init__(
-        self, config: dict, alphafold_pdb_path: Path, ligand_extractor_output_path: Path
+        self,
+        executable: Path,
+        alphafold_pdb_path: Path,
+        ligand_extractor_output_path: Path,
+        output_dir: Path,
     ):
-        super().__init__(config)
-        self.load_executable_config("jamda_scorer")
+        self.executable = executable
         self.alphafold_pdb_path = alphafold_pdb_path
         self.ligand_extractor_outout_path = ligand_extractor_output_path
-        self.output_dir = self.output_dir / "jamda_scorer"
+        self.output_dir = output_dir / "JamdaScorer"
 
-    def run_all(self):
+    def run(self):
         # Get all subfolders in ligand_extractor_output_path
         subfolders = [
             f for f in self.ligand_extractor_outout_path.iterdir() if f.is_dir()
@@ -57,31 +60,6 @@ class JamdaScorer(Tool):
                     ligand_output_dir / Path(str(sdf_file.name)),
                     "--optimize",
                 ]
-                self.run()
+                super().run()
 
-
-if __name__ == "__main__":
-    from foldfusion.utils.config import Config
-    import logging
-
-    # Setup basic logger
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        handlers=[logging.StreamHandler()],
-    )
-    logger = logging.getLogger(__name__)
-
-    config_path = Path("config.toml")
-    logger.info(f"Loading configuration from {config_path.resolve()}")
-    config = Config(config_path)
-    config_dict = config.dict
-
-    alphafold_pdb_path = Path(
-        "/home/stud2022/mrueve/Downloads/output/alphafold/AF-Q9Y233-F1-model_v4.pdb"
-    )
-    ligand_extractor_outout_path = Path(
-        "/home/stud2022/mrueve/Downloads/output/ligand_extractor"
-    )
-    js = JamdaScorer(config_dict, alphafold_pdb_path, ligand_extractor_outout_path)
-    js.run_all()
+        return self.output_dir
