@@ -10,6 +10,7 @@ from foldfusion.tools import (
     LigandExtractor,
     JamdaScorer,
 )
+from foldfusion.evaluation import Evaluator
 
 logger = logging.getLogger(__name__)
 
@@ -36,6 +37,7 @@ class FoldFusion:
                 f"Failed to initialize FoldFusion due to configuration error: {str(e)}"
             )
         logger.debug(f"Initialized FoldFusion with config: {self.config}")
+        self.evaluator = Evaluator(self.config.output_dir)
 
     def run(self):
         output_dir = self.config.output_dir
