@@ -7,6 +7,6 @@ setup(
     description="FoldFusion: Ligand Transplantation and Optimization in Protein Models",
     author="Marius Rueve",
     author_email="",
-    install_requires=["setuptools", "numpy", "pandas", "requests"],
+    install_requires=["setuptools", "numpy", "pandas", "requests", "scipy", "plotly"],
     python_requires=">=3.12",
 )
