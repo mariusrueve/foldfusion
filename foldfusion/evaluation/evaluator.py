@@ -1,8 +1,13 @@
 from foldfusion.evaluation.utils import parse_pdb, parse_sdf, get_coordinates
+from foldfusion.evaluation.visualizer import (
+    visualize_protein_with_radius,
+    visualize_local_rmsd_region,
+)
 from pathlib import Path
 import numpy as np
 from scipy.spatial import distance_matrix
 from typing import Optional
+import json
 
 import plotly.graph_objects as go
 
@@ -20,6 +25,7 @@ class Evaluator:
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.local_rmsd_thresholds = {"medium": 0.92, "low": 3.10}
         self.tcs_thresholds = {"medium": 0.64, "low": 1.27}
+        self.output_file_json = self.output_dir / "evaluation.json"
 
     def _compute_rmsd(self, coords_ref: np.ndarray, coords_target: np.ndarray) -> float:
         ref_centroid = coords_ref.mean(axis=0)
@@ -33,8 +39,10 @@ class Evaluator:
         rmsd = np.sqrt(np.mean(np.sum((np.dot(ref, R) - tgt) ** 2, axis=1)))
         return rmsd
 
-    def _calculate_local_rmsd(
+    def calculate_local_rmsd(
         self,
+        uniprot_id,
+        optimization_stage: str,
         alphafold_protein: Path,
         experimental_protein: Path,
         ligand: Path,
@@ -77,6 +85,29 @@ class Evaluator:
 
         # Calculate RMSD between matched coordinates
         rmsd = self._compute_rmsd(af_final, ex_final)
+
+        # Save the local RMSD result to JSON file
+        # Load existing data or create new structure
+        try:
+            with open(self.output_file_json, "r") as f:
+                data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            data = {}
+
+        # Ensure the uniprot_id key exists
+        if uniprot_id not in data:
+            data[uniprot_id] = {}
+
+        # Ensure the local_rmsd key exists
+        if optimization_stage not in data[uniprot_id]:
+            data[uniprot_id][optimization_stage] = {}
+
+        # Save the score
+        data[uniprot_id][optimization_stage]["local_rmsd"] = rmsd
+
+        # Write back to file
+        with open(self.output_file_json, "w") as f:
+            json.dump(data, f, indent=2)
         return rmsd
 
     def compute_tcs(self):
@@ -88,3 +119,42 @@ if __name__ == "__main__":
     ex_model = Path("tests/data/Siena/ensemble/5AXP_13.pdb")
     ligand = Path("tests/data/LigandExtractor/5AXP/4LK_A_1003.sdf")
     e = Evaluator(Path("/home/stud2022/mrueve/Downloads/output"))
+
+    # Calculate local RMSD
+    uniprot_id = "Q9Y233"
+    optimization_stage = "test"
+    radius = 6.0
+
+    rmsd_value = e.calculate_local_rmsd(
+        uniprot_id=uniprot_id,
+        optimization_stage=optimization_stage,
+        alphafold_protein=af_model,
+        experimental_protein=ex_model,
+        ligand=ligand,
+        radius=radius,
+    )
+
+    print(f"Local RMSD calculated: {rmsd_value:.3f} Å")
+
+    # Create visualizations
+    print("Creating protein structure visualization...")
+    fig1, html1 = visualize_protein_with_radius(
+        alphafold_protein=af_model,
+        experimental_protein=ex_model,
+        ligand=ligand,
+        radius=radius,
+        output_file=e.output_dir / "protein_comparison.html",
+    )
+
+    print("Creating local RMSD region visualization...")
+    fig2 = visualize_local_rmsd_region(
+        alphafold_protein=af_model,
+        experimental_protein=ex_model,
+        ligand=ligand,
+        radius=radius,
+        rmsd_value=rmsd_value,
+        output_file=e.output_dir / "local_rmsd_analysis.html",
+    )
+
+    print(f"Visualizations saved to: {e.output_dir}")
+    print("Done!")
