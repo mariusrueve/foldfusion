@@ -47,13 +47,13 @@ class Config:
             raise ValueError(f"Failed to parse config file: {e}")
 
     @property
-    def uniprot_id(self) -> str:
+    def uniprot_ids(self) -> list[str]:
         """The UniProt ID from general settings."""
-        value = self.dict["uniprot_id"]
-        if value is None:
+        uniprot_ids = self.dict["uniprot_ids"]
+        if uniprot_ids is None:
             logger.error("uniprot_id is not configured")
             raise ValueError("uniprot_id is not configured")
-        return value
+        return uniprot_ids
 
     @property
     def output_dir(self) -> Path:
