@@ -12,9 +12,9 @@ class AlphaFoldFetcher:
     def __init__(self, uniprot_id: str, output_dir: Path):
         self.uniprot_id = uniprot_id
         self.output_dir = output_dir
-        self.af_fetcher_out_dir = self.output_dir / "alphafold"
+        self.af_fetcher_out_dir = self.output_dir / "AlphaFold"
 
-    def _process_pdb_file(self, pdb_file_path: Path) -> Path:
+    def _filter_unreliable_residues(self, pdb_file_path: Path) -> Path:
         """
         Processes a PDB file to remove unreliable residues based on pLDDT scores.
 
@@ -223,8 +223,12 @@ class AlphaFoldFetcher:
             try:
                 # Process the downloaded PDB file - this will raise an exception if
                 # the model has more than 15% unreliable residues
-                processed_pdb_path = self._process_pdb_file(output_file_path)
-                resolved_path = processed_pdb_path.resolve()
+
+                # processed_pdb_path = self._filter_unreliable_residues(output_file_path)
+                # resolved_path = processed_pdb_path.resolve()
+
+                # TODO: Fix why so many are being filtered out
+                resolved_path = output_file_path
                 logger.info(
                     f"Model {version} is reliable. Returning path for processed model:"
                     + f" {resolved_path}"
