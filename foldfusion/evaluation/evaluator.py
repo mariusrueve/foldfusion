@@ -1,12 +1,23 @@
-from utils import parse_pdb, parse_sdf, get_coordinates
+from foldfusion.evaluation.utils import parse_pdb, parse_sdf, get_coordinates
 from pathlib import Path
 import numpy as np
 from scipy.spatial import distance_matrix
+from typing import Optional
+
+import plotly.graph_objects as go
 
 
 class Evaluator:
     def __init__(self, output_dir: Path) -> None:
-        self.output_dir = output_dir
+        """
+        Initialize the Evaluator.
+
+        Args:
+            output_dir: Legacy parameter for backward compatibility. If provided, takes precedence over config.
+            config: Configuration object containing output directory and other settings.
+        """
+        self.output_dir = output_dir / "Evaluation"
+        self.output_dir.mkdir(parents=True, exist_ok=True)
         self.local_rmsd_thresholds = {"medium": 0.92, "low": 3.10}
         self.tcs_thresholds = {"medium": 0.64, "low": 1.27}
 
@@ -22,7 +33,7 @@ class Evaluator:
         rmsd = np.sqrt(np.mean(np.sum((np.dot(ref, R) - tgt) ** 2, axis=1)))
         return rmsd
 
-    def local_rmsd(
+    def _calculate_local_rmsd(
         self,
         alphafold_protein: Path,
         experimental_protein: Path,
@@ -71,62 +82,9 @@ class Evaluator:
     def compute_tcs(self):
         pass
 
-    def create_visualizer(self):
-        """Create a ProteinVisualizer instance for visualization tasks."""
-        try:
-            from visualizer import ProteinVisualizer
-
-            return ProteinVisualizer()
-        except ImportError:
-            try:
-                from .visualizer import ProteinVisualizer
-
-                return ProteinVisualizer()
-            except ImportError as e:
-                print(f"Warning: Could not import visualizer: {e}")
-                return None
-
 
 if __name__ == "__main__":
     af_model = Path("tests/data/alphafold/AF-Q9Y233-F1-model_v4_processed.pdb")
     ex_model = Path("tests/data/Siena/ensemble/5AXP_13.pdb")
     ligand = Path("tests/data/LigandExtractor/5AXP/4LK_A_1003.sdf")
-    e = Evaluator(Path("~/Downloads"))
-
-    result = e.local_rmsd(af_model, ex_model, ligand)
-    print(f"Local RMSD result: {result}")
-
-    # Create visualizations using the separate visualizer
-    visualizer = e.create_visualizer()
-    if visualizer:
-        try:
-            # Basic protein visualization with radius sphere
-            print("Creating protein visualization with radius sphere...")
-            fig, plot_html = visualizer.visualize_protein_with_radius(
-                af_model,
-                ex_model,
-                ligand,
-                radius=6.0,
-                output_file=Path("protein_visualization.html"),
-            )
-
-            # Local RMSD analysis visualization
-            print("Creating local RMSD analysis visualization...")
-            rmsd_fig = visualizer.visualize_local_rmsd_region(
-                af_model,
-                ex_model,
-                ligand,
-                radius=6.0,
-                rmsd_value=result,
-                output_file=Path("local_rmsd_analysis.html"),
-            )
-
-            print("Visualizations completed successfully!")
-            print(
-                "Open the HTML files in a web browser to interact with the 3D models."
-            )
-
-        except Exception as ex:
-            print(f"Visualization error: {ex}")
-    else:
-        print("Visualizer not available. Install plotly with: pip install plotly")
+    e = Evaluator(Path("/home/stud2022/mrueve/Downloads/output"))
