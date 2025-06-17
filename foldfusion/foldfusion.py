@@ -38,10 +38,36 @@ class FoldFusion:
             )
         logger.debug(f"Initialized FoldFusion with config: {self.config}")
         self.evaluator = Evaluator(self.config.output_dir)
+        logger.debug(f"Evaluator initialized with path: {self.config.output_dir}")
 
     def run(self):
-        output_dir = self.config.output_dir
-        af_fetcher = AlphaFoldFetcher(self.config.uniprot_id, output_dir)
+        main_output_dir = self.config.output_dir
+        # Check if existing SienaDB is valid before creating a new one
+        siena_db = SienaDB(
+            self.config.siena_db_executable,
+            self.config.siena_db_database_path,
+            self.config.pdb_directory,
+            self.config.pdb_format,
+            main_output_dir,
+        )
+        self.siena_db_database_path = siena_db.run()
+        skipped_uniprot_ids = []
+        for uniprot_id in self.config.uniprot_ids:
+            logger.info(f"Starting pipeline for UniProt ID: {uniprot_id}")
+            output_dir = main_output_dir / uniprot_id
+            try:
+                self._pipeline(uniprot_id, output_dir)
+            except Exception as e:
+                logger.error(f"Error processing UniProt ID {uniprot_id}: {e}")
+                skipped_uniprot_ids.append(uniprot_id)
+                continue
+        if skipped_uniprot_ids:
+            logger.warning(f"Skipped UniProt IDs due to errors: {skipped_uniprot_ids}")
+        else:
+            logger.info("All UniProt IDs processed successfully")
+
+    def _pipeline(self, uniprot_id: str, output_dir: Path):
+        af_fetcher = AlphaFoldFetcher(uniprot_id, output_dir)
         af_model_path = af_fetcher.get_alphafold_model()
         logger.info(f"AlphaFold model was saved to {af_model_path}")
 
@@ -49,21 +75,11 @@ class FoldFusion:
         dg3.run()
         best_edf = dg3.get_best_edf()
 
-        # Check if existing SienaDB is valid before creating a new one
-        siena_db = SienaDB(
-            self.config.siena_db_executable,
-            self.config.siena_db_database_path,
-            self.config.pdb_directory,
-            self.config.pdb_format,
-            output_dir,
-        )
-        siena_db_database_path = siena_db.run()
-
         # Run Siena with the determined database path
         siena = Siena(
             self.config.siena_executable,
             best_edf,
-            siena_db_database_path,
+            self.siena_db_database_path,
             self.config.pdb_directory,
             output_dir,
         )
