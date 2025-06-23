@@ -10,7 +10,7 @@ class LigandExtractor(Tool):
         self,
         executable: Path,
         siena_dir: Path,
-        pdb_code_list: list[list[str]],
+        pdb_code_list: list,
         output_dir: Path,
     ):
         self.executable = executable
@@ -65,16 +65,15 @@ class LigandExtractor(Tool):
 
     def _get_commands_list(self) -> list:
         commands_list = []
-        for code, chain in self.pdb_code_list:
-            siena_pdb_path = self._get_siena_pdb_path(code)
-            ligand_ids = self._get_ligand_ids(siena_pdb_path, chain)
+        for code, chain, ensemble_path in self.pdb_code_list:
+            ligand_ids = self._get_ligand_ids(ensemble_path, chain)
 
             for id in ligand_ids:
                 commands_list.append(
                     [
                         str(self.executable),
                         "-c",
-                        self._get_siena_pdb_path(code),
+                        ensemble_path,
                         "-l",
                         id,
                         "-o",

@@ -1,11 +1,12 @@
 from pathlib import Path
-import numpy as np
-from scipy.spatial import distance_matrix
-from utils import parse_pdb, parse_sdf, get_coordinates
 from typing import Optional, Tuple
 
+import numpy as np
 import plotly.graph_objects as go
 import plotly.offline as plotly_offline
+from scipy.spatial import distance_matrix
+
+from .utils import get_coordinates, parse_pdb, parse_sdf
 
 
 def create_sphere_mesh(center: np.ndarray, radius: float, resolution: int = 20):

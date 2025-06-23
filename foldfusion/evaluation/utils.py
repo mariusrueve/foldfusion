@@ -3,10 +3,6 @@ from typing import Dict, List, Tuple, Optional
 import numpy as np
 
 
-def parse_sdf(sdf_file: Path):
-    pass
-
-
 def parse_pdb(pdb_file: Path) -> Dict:
     """
     Parse PDB file and extract protein structure information.

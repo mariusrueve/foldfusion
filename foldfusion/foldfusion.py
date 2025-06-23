@@ -1,8 +1,8 @@
 import logging
 from pathlib import Path
 
-from foldfusion.utils import Config
-from foldfusion.tools import (
+from .utils import Config
+from .tools import (
     AlphaFoldFetcher,
     Dogsite3,
     SienaDB,
@@ -10,7 +10,7 @@ from foldfusion.tools import (
     LigandExtractor,
     JamdaScorer,
 )
-from foldfusion.evaluation import Evaluator
+from .evaluation import Evaluator
 
 logger = logging.getLogger(__name__)
 

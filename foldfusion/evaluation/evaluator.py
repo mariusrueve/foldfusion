@@ -1,12 +1,11 @@
-from foldfusion.evaluation.utils import parse_pdb, parse_sdf, get_coordinates
-from foldfusion.evaluation.visualizer import (
+from .utils import parse_pdb, parse_sdf, get_coordinates
+from .visualizer import (
     visualize_protein_with_radius,
     visualize_local_rmsd_region,
 )
 from pathlib import Path
 import numpy as np
 from scipy.spatial import distance_matrix
-from typing import Optional
 import json
 
 import plotly.graph_objects as go

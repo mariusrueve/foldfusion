@@ -3,7 +3,7 @@ from pathlib import Path
 
 import tomllib
 
-from foldfusion.utils.logger import setup_logging
+from .logger import setup_logging
 import json
 
 logger = logging.getLogger(__name__)

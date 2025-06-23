@@ -2,7 +2,6 @@
 
 from .tool import Tool
 from pathlib import Path
-import subprocess
 import logging
 import pandas as pd
 
@@ -83,14 +82,14 @@ class Siena(Tool):
         logger.debug(f"Siena command assembled: {' '.join(command)}")
         return command
 
-    def get_best_alignments(self, n_alignments: int) -> list[list[str]]:
+    def get_best_alignments(self, n_alignments: int) -> list:
         """Retrieves the best n alignments from Siena's output.
 
         Args:
             n_alignments (int): Number of best alignments to return.
 
         Returns:
-            list[list[str]]: List of [PDB code, PDB chains] pairs for the best alignments.
+            list[list[str]]: List of [PDB code, PDB chains, ensemble_path] triplets for the best alignments.
 
         Raises:
             FileNotFoundError: If the results CSV file does not exist.
@@ -110,14 +109,30 @@ class Siena(Tool):
             # Sort by RMSD values (lower is better)
             df = df.sort_values(by=["Backbone RMSD", "All atom RMSD"], ascending=True)
 
-            # Get top n results and convert to list of lists
-            results = df.head(n_alignments)[["PDB code", "PDB chains"]].values.tolist()
+            # Get top n results
+            top_results = df.head(n_alignments)
 
-            # Clean up whitespace
-            results = [
-                [pdb_code.strip(), pdb_chains.strip()]
-                for pdb_code, pdb_chains in results
-            ]
+            results = []
+            ensemble_dir = self.output_dir / "ensemble"
+
+            for index, (_, row) in enumerate(top_results.iterrows()):
+                pdb_code = row["PDB code"].strip()
+                pdb_chains = row["PDB chains"].strip()
+
+                # Find corresponding ensemble file - pattern appears to be {PDB_code}_{index}.pdb
+                # We use the original dataframe index + some offset for the ensemble file naming
+                ensemble_files = list(ensemble_dir.glob(f"{pdb_code}_*.pdb"))
+
+                if ensemble_files:
+                    # Sort to get consistent ordering and take the first match
+                    ensemble_files.sort()
+                    ensemble_path = str(ensemble_files[0])
+                else:
+                    # If no ensemble file found, use empty string or None
+                    ensemble_path = ""
+                    logger.warning(f"No ensemble file found for {pdb_code}")
+
+                results.append([pdb_code, pdb_chains, ensemble_path])
 
             logger.info(f"Found {len(results)} best alignments")
             return results

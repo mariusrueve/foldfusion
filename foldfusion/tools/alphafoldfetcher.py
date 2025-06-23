@@ -1,6 +1,5 @@
 """Module for fetching protein structures from the AlphaFold Database."""
 
-from .tool import Tool  # Assuming Tool is defined elsewhere
 from pathlib import Path
 import requests
 import logging
