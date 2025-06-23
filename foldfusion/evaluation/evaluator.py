@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 
 import numpy as np
-import plotly.graph_objects as go
 from scipy.spatial import distance_matrix
 
 from .utils import get_coordinates, parse_pdb, parse_sdf
