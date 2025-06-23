@@ -1,8 +1,8 @@
 """Base class for all external tool wrappers in the FoldFusion pipeline."""
 
-from pathlib import Path
 import logging
 import subprocess
+from pathlib import Path
 from typing import List
 
 logger = logging.getLogger(__name__)

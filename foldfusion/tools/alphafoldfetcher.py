@@ -1,8 +1,9 @@
 """Module for fetching protein structures from the AlphaFold Database."""
 
-from pathlib import Path
-import requests
 import logging
+from pathlib import Path
+
+import requests
 
 logger = logging.getLogger(__name__)
 

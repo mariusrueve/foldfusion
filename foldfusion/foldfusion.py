@@ -1,16 +1,16 @@
 import logging
 from pathlib import Path
 
-from .utils import Config
+from .evaluation import Evaluator
 from .tools import (
     AlphaFoldFetcher,
     Dogsite3,
-    SienaDB,
-    Siena,
-    LigandExtractor,
     JamdaScorer,
+    LigandExtractor,
+    Siena,
+    SienaDB,
 )
-from .evaluation import Evaluator
+from .utils import Config
 
 logger = logging.getLogger(__name__)
 

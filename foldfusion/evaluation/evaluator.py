@@ -1,14 +1,15 @@
-from .utils import parse_pdb, parse_sdf, get_coordinates
-from .visualizer import (
-    visualize_protein_with_radius,
-    visualize_local_rmsd_region,
-)
-from pathlib import Path
-import numpy as np
-from scipy.spatial import distance_matrix
 import json
+from pathlib import Path
 
+import numpy as np
 import plotly.graph_objects as go
+from scipy.spatial import distance_matrix
+
+from .utils import get_coordinates, parse_pdb, parse_sdf
+from .visualizer import (
+    visualize_local_rmsd_region,
+    visualize_protein_with_radius,
+)
 
 
 class Evaluator:

@@ -1,8 +1,9 @@
 """Module for running the DoGSiteScorer tool for binding site prediction."""
 
-from .tool import Tool
-from pathlib import Path
 import logging
+from pathlib import Path
+
+from .tool import Tool
 
 logger = logging.getLogger(__name__)
 

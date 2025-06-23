@@ -1,9 +1,10 @@
 """Module for creating and managing the Siena database."""
 
-from typing import List
-from .tool import Tool
-from pathlib import Path
 import logging
+from pathlib import Path
+from typing import List
+
+from .tool import Tool
 
 logger = logging.getLogger(__name__)
 

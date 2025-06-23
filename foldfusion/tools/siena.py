@@ -1,9 +1,11 @@
 """Module for running the Siena tool for protein structure alignment."""
 
-from .tool import Tool
-from pathlib import Path
 import logging
+from pathlib import Path
+
 import pandas as pd
+
+from .tool import Tool
 
 logger = logging.getLogger(__name__)
 
