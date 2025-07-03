@@ -42,7 +42,6 @@ class FoldFusion:
 
     def run(self):
         main_output_dir = self.config.output_dir
-        # Check if existing SienaDB is valid before creating a new one
         siena_db = SienaDB(
             self.config.siena_db_executable,
             self.config.siena_db_database_path,
@@ -88,24 +87,41 @@ class FoldFusion:
         logger.info(
             f"Pipeline completed successfully. Best alignments: {best_alignments}"
         )
-        ligand_ex = LigandExtractor(
+        ligand_extractor = LigandExtractor(
             self.config.ligand_extractor_executable,
             siena.output_dir,
             best_alignments,
             output_dir,
         )
-        ligand_ex_output_path = ligand_ex.run()
+        ligand_extraction_output_path = ligand_extractor.run()
         logger.info(f"Ligand extraction completed. Results saved to {output_dir}")
-
+        logger.debug(
+            f"The following ligands were extracted:\n {ligand_extractor.ligand_structure}"
+        )
+        self.evaluator.evaluate(
+            uniprot_id,
+            "pre-jamda",
+            af_model_path,
+            best_alignments,
+            ligand_extractor.ligand_structure,
+        )
+        # TODO: Refacotr JamdaScorer to take the same data strucutre as input as the evaluator
         jamda_scorer = JamdaScorer(
             self.config.jamda_scorer_executable,
             af_model_path,
-            ligand_ex_output_path,
+            ligand_extractor.ligand_structure,
             output_dir,
         )
-        jamda_scorer_output_path = jamda_scorer.run()
+        optimized_ligand_structure = jamda_scorer.run()
         logger.info(
-            f"JAMDA scoring completed. Results saved to {jamda_scorer_output_path}"
+            f"JAMDA scoring completed. Optimized ligands: {optimized_ligand_structure}"
+        )
+        self.evaluator.evaluate(
+            uniprot_id,
+            "post-jamda",
+            af_model_path,
+            best_alignments,
+            optimized_ligand_structure,
         )
 
 

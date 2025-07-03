@@ -6,6 +6,7 @@ from pathlib import Path
 import pandas as pd
 
 from .tool import Tool
+import json
 
 logger = logging.getLogger(__name__)
 
@@ -84,14 +85,20 @@ class Siena(Tool):
         logger.debug(f"Siena command assembled: {' '.join(command)}")
         return command
 
-    def get_best_alignments(self, n_alignments: int) -> list:
+    def get_best_alignments(self, n_alignments: int) -> list[dict]:
         """Retrieves the best n alignments from Siena's output.
 
         Args:
             n_alignments (int): Number of best alignments to return.
 
         Returns:
-            list[list[str]]: List of [PDB code, PDB chains, ensemble_path] triplets for the best alignments.
+            list[dict]: List of dictionaries containing alignment data with keys:
+                - pdb_code: PDB structure code
+                - chain: PDB chain identifier
+                - ensemble_path: Path to the ensemble file
+                - ligand_pdb_code: Ligand PDB code
+                - backbone_rmsd: Backbone RMSD value
+                - all_atom_rmsd: All atom RMSD value
 
         Raises:
             FileNotFoundError: If the results CSV file does not exist.
@@ -108,6 +115,14 @@ class Siena(Tool):
                 logger.error("Results file is empty")
                 raise ValueError("Results file is empty")
 
+            # Clean up column names by stripping whitespace
+            df.columns = df.columns.str.strip()
+
+            # Create pdb_file_name based on PDB code and original index
+            df["ensemble_file_name"] = df.apply(
+                lambda row: f"{str(row['PDB code']).strip()}_{row.name + 1}.pdb", axis=1
+            )
+
             # Sort by RMSD values (lower is better)
             df = df.sort_values(by=["Backbone RMSD", "All atom RMSD"], ascending=True)
 
@@ -118,25 +133,36 @@ class Siena(Tool):
             ensemble_dir = self.output_dir / "ensemble"
 
             for index, (_, row) in enumerate(top_results.iterrows()):
-                pdb_code = row["PDB code"].strip()
-                pdb_chains = row["PDB chains"].strip()
+                pdb_code = str(row["PDB code"]).strip()
+                pdb_chains = str(row["PDB chains"]).strip()
+                ligand_pdb_code = str(row["Ligand PDB code"]).strip()
+                ensemble_file_name = str(row["ensemble_file_name"]).strip()
 
-                # Find corresponding ensemble file - pattern appears to be {PDB_code}_{index}.pdb
-                # We use the original dataframe index + some offset for the ensemble file naming
-                ensemble_files = list(ensemble_dir.glob(f"{pdb_code}_*.pdb"))
+                ensemble_path = (ensemble_dir / ensemble_file_name).resolve()
+                if not ensemble_path.exists():
+                    logger.warning(
+                        f"Ensemble file not found: {ensemble_path}, skipping."
+                    )
+                    continue
 
-                if ensemble_files:
-                    # Sort to get consistent ordering and take the first match
-                    ensemble_files.sort()
-                    ensemble_path = str(ensemble_files[0])
-                else:
-                    # If no ensemble file found, use empty string or None
-                    ensemble_path = ""
-                    logger.warning(f"No ensemble file found for {pdb_code}")
-
-                results.append([pdb_code, pdb_chains, ensemble_path])
+                alignment_data = {
+                    "pdb_code": pdb_code,
+                    "chain": pdb_chains,
+                    "ensemble_path": ensemble_path,
+                    "ligand_pdb_code": ligand_pdb_code,
+                    "backbone_rmsd": float(row["Backbone RMSD"]),
+                    "all_atom_rmsd": float(row["All atom RMSD"]),
+                }
+                results.append(alignment_data)
 
             logger.info(f"Found {len(results)} best alignments")
+            json_file = self.output_dir / "best_alignments.json"
+            # Create a serializable copy of the results for JSON export
+            serializable_results = [
+                {**res, "ensemble_path": str(res["ensemble_path"])} for res in results
+            ]
+            with open(json_file, "w") as f:
+                json.dump(serializable_results, f, indent=2)
             return results
 
         except pd.errors.EmptyDataError:

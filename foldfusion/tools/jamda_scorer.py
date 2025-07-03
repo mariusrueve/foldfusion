@@ -11,46 +11,24 @@ class JamdaScorer(Tool):
         self,
         executable: Path,
         alphafold_pdb_path: Path,
-        ligand_extractor_output_path: Path,
+        ligand_structure: dict,
         output_dir: Path,
     ):
         self.executable = executable
         self.alphafold_pdb_path = alphafold_pdb_path
-        self.ligand_extractor_outout_path = ligand_extractor_output_path
+        self.ligand_structure = ligand_structure
         self.output_dir = output_dir / "JamdaScorer"
 
     def run(self):
-        # Get all subfolders in ligand_extractor_output_path
-        subfolders = [
-            f for f in self.ligand_extractor_outout_path.iterdir() if f.is_dir()
-        ]
-        logger.info(
-            f"Found {len(subfolders)} subfolders in ligand extractor output directory:"
-            + f" {subfolders}"
-        )
-        # Process each subfolder
-        for subfolder in subfolders:
-            # Get the last part of the subfolder path (the directory name)
-            pdb_code = subfolder.name
-
-            logger.info(f"Processing PDB: {pdb_code}")
-
+        optimized_ligand_structure = {}
+        for pdb_code, ligands in self.ligand_structure.items():
             ligand_output_dir = self.output_dir / pdb_code
             ligand_output_dir.mkdir(parents=True, exist_ok=True)
-
-            # Get all .sdf files in the current subfolder
-            sdf_files = list(subfolder.glob("*.sdf"))
-            logger.info(
-                f"Found {len(sdf_files)} .sdf files in {pdb_code}: {[f.name for f in sdf_files]}"
-            )
-
-            if not sdf_files:
-                logger.warning(f"No .sdf files found in {pdb_code}, skipping")
-                continue
-
-            # Process each .sdf file
-            for sdf_file in sdf_files:
-                logger.info(f"Processing PDB: {pdb_code}, SDF file: {sdf_file.name}")
+            optimized_ligand_structure[pdb_code] = []
+            for ligand in ligands:
+                sdf_file = Path(ligand["path"])
+                ligand_id = ligand["ligand_id"]
+                output_sdf = ligand_output_dir / f"{ligand_id}.sdf"
                 self.command = [
                     self.executable,
                     "-i",
@@ -58,9 +36,14 @@ class JamdaScorer(Tool):
                     "-m",
                     sdf_file,
                     "-o",
-                    ligand_output_dir / Path(str(sdf_file.name)),
+                    output_sdf,
                     "--optimize",
                 ]
                 super().run()
-
-        return self.output_dir
+                optimized_ligand_structure[pdb_code].append({
+                    "ligand_id": ligand_id,
+                    "path": str(output_sdf.absolute()),
+                    "sdf_file": f"{ligand_id}.sdf",
+                })
+        self.optimized_ligand_structure = optimized_ligand_structure
+        return optimized_ligand_structure
