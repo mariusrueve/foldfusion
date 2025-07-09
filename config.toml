@@ -5,11 +5,11 @@ log_file = "foldfusion_pipeline.log" # Name of the log file
 # IO
 uniprot_ids = [
     "Q9Y233",
-#    "P22303",
-#    "Q8CA95",
-#    "Q9QYJ6",
-#    "A0A384DV92"
-    ]
+    "P22303",
+    "Q8CA95",
+    "Q9QYJ6",
+    "A0A384DV92"
+]
 output_dir = "/home/stud2022/mrueve/Downloads/foldfusion-poc_output" # Path to the output directory
 
 # dogsite3
