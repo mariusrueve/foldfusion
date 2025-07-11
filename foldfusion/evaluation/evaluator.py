@@ -68,6 +68,7 @@ class Evaluator:
 
         This method computes Local RMSD and TCS metrics for all ligand-protein
         combinations and stores the results in a hierarchical JSON structure.
+        It also stores the all-atom RMSD from SIENA alignments.
 
         Args:
             uniprot_id: UniProt identifier for the target protein
@@ -77,13 +78,16 @@ class Evaluator:
                 - pdb_code: PDB code of the template structure
                 - ensemble_path: Path to the aligned ensemble structure
                 - ligand_pdb_code: Ligand identifier from the template
+                - all_atom_rmsd: All-atom RMSD of the alignment
             ligand_structures: Dictionary mapping PDB codes to lists of ligand structures,
                 each containing:
                 - ligand_id: Ligand identifier
                 - path: Path to ligand structure file
 
         The method updates the internal data structure and saves results to JSON.
-        Results are organized as: uniprot_id -> pdb_code -> ligand_id -> stage -> metrics
+        Results are organized as:
+        - uniprot_id -> pdb_code -> 'all_atom_rmsd'
+        - uniprot_id -> pdb_code -> ligand_id -> stage -> metrics
         where metrics include 'local_rmsd' and 'tcs'.
         """
         try:
@@ -104,6 +108,13 @@ class Evaluator:
 
             if pdb_code not in self.data[uniprot_id]:
                 self.data[uniprot_id][pdb_code] = {}
+
+            # Extract all-atom RMSD if not already present
+            if "all_atom_rmsd" not in self.data[uniprot_id][pdb_code]:
+                if "all_atom_rmsd" in alignment:
+                    self.data[uniprot_id][pdb_code]["all_atom_rmsd"] = alignment[
+                        "all_atom_rmsd"
+                    ]
 
             if ligand_pdb_code not in self.data[uniprot_id][pdb_code]:
                 self.data[uniprot_id][pdb_code][ligand_pdb_code] = {}
