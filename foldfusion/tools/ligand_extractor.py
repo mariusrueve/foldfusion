@@ -166,7 +166,9 @@ class LigandExtractor(Tool):
             try:
                 parsed = parse_sdf(output_path)
                 if parsed["num_atoms"] == 0:
-                    logger.warning(f"Extracted ligand SDF is empty: {output_path}. Skipping.")
+                    logger.warning(
+                        f"Extracted ligand SDF is empty: {output_path}. Skipping."
+                    )
                     continue
             except Exception as e:
                 logger.warning(f"Failed to parse SDF {output_path}: {e}. Skipping.")

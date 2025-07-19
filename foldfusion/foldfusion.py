@@ -40,6 +40,85 @@ class FoldFusion:
         self.evaluator = Evaluator(self.config.output_dir)
         logger.debug(f"Evaluator initialized with path: {self.config.output_dir}")
 
+    def _fetch_alphafold_model(self, uniprot_id: str, output_dir: Path) -> Path:
+        """Fetches the AlphaFold model."""
+        af_fetcher = AlphaFoldFetcher(uniprot_id, output_dir)
+        af_model_path = af_fetcher.get_alphafold_model()
+        logger.info(f"AlphaFold model was saved to {af_model_path}")
+        return af_model_path
+
+    def _run_dogsite3(self, af_model_path: Path, output_dir: Path) -> Path:
+        """Runs Dogsite3 to find the best binding site."""
+        dg3 = Dogsite3(self.config.dogsite3_executable, af_model_path, output_dir)
+        dg3.run()
+        return dg3.get_best_edf()
+
+    def _run_siena(self, best_edf: Path, output_dir: Path) -> tuple[Siena, list]:
+        """Runs Siena to find alignments."""
+        siena = Siena(
+            self.config.siena_executable,
+            best_edf,
+            self.siena_db_database_path,
+            self.config.pdb_directory,
+            output_dir,
+        )
+        siena.run()
+        best_alignments = siena.get_best_alignments(self.config.siena_max_alignments)
+        logger.info(f"Siena found best alignments: {best_alignments}")
+        return siena, best_alignments
+
+    def _run_ligand_extraction(
+        self, siena: Siena, best_alignments: list, output_dir: Path
+    ) -> dict:
+        """Extracts ligands based on Siena alignments."""
+        ligand_extractor = LigandExtractor(
+            self.config.ligand_extractor_executable,
+            siena.output_dir,
+            best_alignments,
+            output_dir,
+        )
+        ligand_extractor.run()
+        logger.info(f"Ligand extraction completed. Results saved to {output_dir}")
+        logger.debug(
+            "The following ligands were extracted:\n"
+            f" {ligand_extractor.ligand_structure}"
+        )
+        return ligand_extractor.ligand_structure
+
+    def _run_jamda_scorer(
+        self, af_model_path: Path, ligand_structure: dict, output_dir: Path
+    ) -> dict:
+        """Scores and optimizes ligands using JAMDA."""
+        jamda_scorer = JamdaScorer(
+            self.config.jamda_scorer_executable,
+            af_model_path,
+            ligand_structure,
+            output_dir,
+        )
+        optimized_ligand_structure = jamda_scorer.run()
+        logger.info(
+            f"JAMDA scoring completed. Optimized ligands: {optimized_ligand_structure}"
+        )
+        return optimized_ligand_structure
+
+    def _evaluate_and_log(
+        self,
+        uniprot_id: str,
+        evaluation_name: str,
+        af_model_path: Path,
+        best_alignments: list,
+        ligand_structure: dict,
+    ):
+        """Runs evaluation and logs the results."""
+        self.evaluator.evaluate(
+            uniprot_id,
+            evaluation_name,
+            af_model_path,
+            best_alignments,
+            ligand_structure,
+        )
+        logger.info(f"Evaluation '{evaluation_name}' completed.")
+
     def run(self):
         main_output_dir = self.config.output_dir
         siena_db = SienaDB(
@@ -66,57 +145,26 @@ class FoldFusion:
             logger.info("All UniProt IDs processed successfully")
 
     def _pipeline(self, uniprot_id: str, output_dir: Path):
-        af_fetcher = AlphaFoldFetcher(uniprot_id, output_dir)
-        af_model_path = af_fetcher.get_alphafold_model()
-        logger.info(f"AlphaFold model was saved to {af_model_path}")
+        af_model_path = self._fetch_alphafold_model(uniprot_id, output_dir)
 
-        dg3 = Dogsite3(self.config.dogsite3_executable, af_model_path, output_dir)
-        dg3.run()
-        best_edf = dg3.get_best_edf()
+        best_edf = self._run_dogsite3(af_model_path, output_dir)
+        siena, best_alignments = self._run_siena(best_edf, output_dir)
 
-        # Run Siena with the determined database path
-        siena = Siena(
-            self.config.siena_executable,
-            best_edf,
-            self.siena_db_database_path,
-            self.config.pdb_directory,
-            output_dir,
+        ligand_structure = self._run_ligand_extraction(
+            siena, best_alignments, output_dir
         )
-        siena.run()
-        best_alignments = siena.get_best_alignments(10)
-        logger.info(
-            f"Pipeline completed successfully. Best alignments: {best_alignments}"
-        )
-        ligand_extractor = LigandExtractor(
-            self.config.ligand_extractor_executable,
-            siena.output_dir,
-            best_alignments,
-            output_dir,
-        )
-        ligand_extraction_output_path = ligand_extractor.run()
-        logger.info(f"Ligand extraction completed. Results saved to {output_dir}")
-        logger.debug(
-            f"The following ligands were extracted:\n {ligand_extractor.ligand_structure}"
-        )
-        self.evaluator.evaluate(
+        self._evaluate_and_log(
             uniprot_id,
             "pre-jamda",
             af_model_path,
             best_alignments,
-            ligand_extractor.ligand_structure,
+            ligand_structure,
         )
-        # TODO: Refacotr JamdaScorer to take the same data strucutre as input as the evaluator
-        jamda_scorer = JamdaScorer(
-            self.config.jamda_scorer_executable,
-            af_model_path,
-            ligand_extractor.ligand_structure,
-            output_dir,
+
+        optimized_ligand_structure = self._run_jamda_scorer(
+            af_model_path, ligand_structure, output_dir
         )
-        optimized_ligand_structure = jamda_scorer.run()
-        logger.info(
-            f"JAMDA scoring completed. Optimized ligands: {optimized_ligand_structure}"
-        )
-        self.evaluator.evaluate(
+        self._evaluate_and_log(
             uniprot_id,
             "post-jamda",
             af_model_path,
@@ -127,3 +175,4 @@ class FoldFusion:
 
 if __name__ == "__main__":
     ff = FoldFusion("config.toml")
+    ff.run()

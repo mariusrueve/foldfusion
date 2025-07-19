@@ -103,54 +103,49 @@ class Config:
         logger.debug(f"Log file will be written to: {log_path}")
         return log_path
 
+    def _get_executable_path(self, key: str) -> Path:
+        """Helper to get and validate an executable path."""
+        value = self.dict.get(key)
+        if value is None:
+            raise ValueError(f"{key} is not configured")
+        path_obj = Path(value)
+        if not path_obj.exists():
+            logger.error(f"Executable not found at {path_obj}")
+            raise FileNotFoundError(f"Executable not found at {path_obj}")
+        if not path_obj.is_file():
+            logger.error(f"Path is not a file: {path_obj}")
+            raise ValueError(f"Path is not a file: {path_obj}")
+        logger.debug(f"Using executable: {path_obj}")
+        return path_obj
+
     # Tool executable properties
     @property
     def dogsite3_executable(self) -> Path:
         """The dogsite3 executable path."""
-        value = self.dict["dogsite3_executable"]
-        if value is None:
-            raise ValueError("dogsite3_executable is not configured")
-        path_obj = Path(value)
-        if not path_obj.exists():
-            logger.error(f"dogsite3_executable not found at {path_obj}")
-            raise FileNotFoundError(f"dogsite3_executable not found at {path_obj}")
-        if not path_obj.is_file():
-            logger.error(f"dogsite3_executable is not a file: {path_obj}")
-            raise ValueError(f"dogsite3_executable is not a file: {path_obj}")
-        logger.debug(f"Using dogsite3 executable: {path_obj}")
-        return value
+        return self._get_executable_path("dogsite3_executable")
 
     @property
     def siena_executable(self) -> Path:
-        """The siena executable path."""
-        value = self.dict["siena_executable"]
-        if value is None:
-            raise ValueError("siena_executable is not configured")
-        path_obj = Path(value)
-        if not path_obj.exists():
-            logger.error(f"siena_executable not found at {path_obj}")
-            raise FileNotFoundError(f"siena_executable not found at {path_obj}")
-        if not path_obj.is_file():
-            logger.error(f"siena_executable is not a file: {path_obj}")
-            raise ValueError(f"siena_executable is not a file: {path_obj}")
-        logger.debug(f"Using siena executable: {path_obj}")
-        return path_obj
+        """
+        Returns the path to the siena executable.
+        """
+        return self._get_executable_path("siena_executable")
+
+    @property
+    def siena_max_alignments(self) -> int:
+        """
+        Returns the maximum number of alignments for Siena.
+        """
+        value = self.dict.get("siena_max_alignments", 10)
+        if not isinstance(value, int):
+            logger.error("siena_max_alignments must be an integer.")
+            raise TypeError("siena_max_alignments must be an integer.")
+        return value
 
     @property
     def siena_db_executable(self) -> Path:
         """The siena database executable path."""
-        value = self.dict["siena_db_executable"]
-        if value is None:
-            raise ValueError("siena_db_executable is not configured")
-        path_obj = Path(value)
-        if not path_obj.exists():
-            logger.error(f"siena_db_executable not found at {path_obj}")
-            raise FileNotFoundError(f"siena_db_executable not found at {path_obj}")
-        if not path_obj.is_file():
-            logger.error(f"siena_db_executable is not a file: {path_obj}")
-            raise ValueError(f"siena_db_executable is not a file: {path_obj}")
-        logger.debug(f"Using siena database executable: {path_obj}")
-        return path_obj
+        return self._get_executable_path("siena_db_executable")
 
     @property
     def siena_db_database_path(self) -> Path:
@@ -213,37 +208,15 @@ class Config:
 
     @property
     def ligand_extractor_executable(self) -> Path:
-        """The ligand extractor executable path."""
-        value = self.dict["ligand_extractor_executable"]
-        if value is None:
-            raise ValueError("ligand_extractor_executable is not configured")
-        path_obj = Path(value)
-        if not path_obj.exists():
-            logger.error(f"ligand_extractor_executable not found at {path_obj}")
-            raise FileNotFoundError(
-                f"ligand_extractor_executable not found at {path_obj}"
-            )
-        if not path_obj.is_file():
-            logger.error(f"ligand_extractor_executable is not a file: {path_obj}")
-            raise ValueError(f"ligand_extractor_executable is not a file: {path_obj}")
-        logger.debug(f"Using ligand extractor executable: {path_obj}")
-        return path_obj
+        """
+        Returns the path to the ligand_extractor executable.
+        """
+        return self._get_executable_path("ligand_extractor_executable")
 
     @property
     def jamda_scorer_executable(self) -> Path:
         """The jamda scorer executable path."""
-        value = self.dict["jamda_scorer_executable"]
-        if value is None:
-            raise ValueError("jamda_scorer_executable is not configured")
-        path_obj = Path(value)
-        if not path_obj.exists():
-            logger.error(f"jamda_scorer_executable not found at {path_obj}")
-            raise FileNotFoundError(f"jamda_scorer_executable not found at {path_obj}")
-        if not path_obj.is_file():
-            logger.error(f"jamda_scorer_executable is not a file: {path_obj}")
-            raise ValueError(f"jamda_scorer_executable is not a file: {path_obj}")
-        logger.debug(f"Using jamda scorer executable: {path_obj}")
-        return path_obj
+        return self._get_executable_path("jamda_scorer_executable")
 
     def __repr__(self):
         """Return a string representation of the Config object."""

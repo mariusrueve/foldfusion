@@ -23,6 +23,7 @@ pdb_format = 0 # file format (0=.ent.gz, 1=pdb)
 
 # siena
 siena_executable = "/home/stud2022/mrueve/local/bin/siena"
+siena_max_alignments = 10
 
 # ligand extractor
 ligand_extractor_executable = "/home/stud2022/mrueve/local/bin/ligand_extractor"
