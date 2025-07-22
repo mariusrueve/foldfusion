@@ -109,11 +109,18 @@ class Evaluator:
             if pdb_code not in self.data[uniprot_id]:
                 self.data[uniprot_id][pdb_code] = {}
 
-            # Extract all-atom RMSD if not already present
+            # Extract all-atom RMSD and backbone RMSD if not already present
             if "all_atom_rmsd" not in self.data[uniprot_id][pdb_code]:
                 if "all_atom_rmsd" in alignment:
                     self.data[uniprot_id][pdb_code]["all_atom_rmsd"] = alignment[
                         "all_atom_rmsd"
+                    ]
+            
+            # Extract backbone RMSD if not already present
+            if "backbone_rmsd" not in self.data[uniprot_id][pdb_code]:
+                if "backbone_rmsd" in alignment:
+                    self.data[uniprot_id][pdb_code]["backbone_rmsd"] = alignment[
+                        "backbone_rmsd"
                     ]
 
             if ligand_pdb_code not in self.data[uniprot_id][pdb_code]:
