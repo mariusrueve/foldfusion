@@ -1,8 +1,4 @@
-.PHONY: install install-dev test lint format format-fix clean build install-local
-
-# Install package in development mode
-install:
-	pip install -e .
+.PHONY: install install-dev test lint format format-fix
 
 # Install with development dependencies
 install-dev:
@@ -26,20 +22,8 @@ format-fix:
 	ruff check --fix foldfusion/ tests/ scripts/
 	ruff format foldfusion/ tests/ scripts/
 
-# Clean build artifacts
-clean:
-	rm -rf build/
-	rm -rf dist/
-	rm -rf *.egg-info/
-	find . -type d -name __pycache__ -delete
-	find . -name "*.pyc" -delete
-
-# Build package
-build:
-	python -m build
-
 # Install from source
-install-local:
+install:
 	pip install .
 
 run:
