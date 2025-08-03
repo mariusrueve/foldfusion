@@ -1,3 +1,23 @@
+"""
+Configuration Management Module
+
+This module provides comprehensive configuration management for the FoldFusion pipeline.
+It handles loading, validation, and access to all pipeline parameters from TOML
+configuration files.
+
+Key Features:
+    - TOML configuration file parsing with error handling
+    - Automatic logging system initialization
+    - Property-based access to configuration values
+    - Built-in validation for critical parameters
+    - Path resolution and directory creation
+    - Type-safe configuration access
+
+The configuration system is designed to be robust and provide clear error messages
+when configuration issues are encountered, helping users quickly identify and
+resolve setup problems.
+"""
+
 import json
 import logging
 from pathlib import Path
@@ -11,68 +31,180 @@ logger = logging.getLogger(__name__)
 
 class Config:
     """
-    Configuration manager that reads and provides access to application settings from a
-    TOML file.
+    Configuration manager for the FoldFusion pipeline.
 
-    This class parses a TOML configuration file and organizes settings into separate
-    sections for different components of the application.
+    This class handles loading and validating configuration parameters from TOML files.
+    It provides type-safe property access to all configuration values and automatically
+    initializes the logging system based on configuration parameters.
+
+    The configuration is organized into logical sections:
+    - Logging parameters (log_level, log_file)
+    - Input/output settings (uniprot_ids, output_dir)
+    - External tool configurations (executable paths)
+    - Pipeline parameters (alignment limits, file formats)
+
+    Attributes:
+        config_path: Path to the TOML configuration file
+        dict: Parsed configuration dictionary from the TOML file
+
+    Example:
+        Loading and using configuration:
+
+        >>> from pathlib import Path
+        >>> config = Config(Path("config.toml"))
+        >>> print(config.log_level)
+        'INFO'
+        >>> print(config.uniprot_ids)
+        ['Q8CA95', 'Q9QYJ6']
+
+    Raises:
+        FileNotFoundError: If the configuration file doesn't exist
+        ValueError: If the configuration file has syntax errors or missing values
     """
 
-    def __init__(self, config_path: Path):
+    def __init__(self, config_path: Path) -> None:
+        """
+        Initialize configuration from a TOML file.
+
+        Args:
+            config_path: Path to the TOML configuration file.
+
+        Raises:
+            FileNotFoundError: If the configuration file doesn't exist.
+            ValueError: If the configuration file cannot be parsed or contains
+                       invalid values.
+
+        Note:
+            The constructor automatically initializes the logging system based
+            on the log_level and log_file parameters from the configuration.
+        """
         self.config_path = config_path
         self.dict = self.read_config()
 
-        setup_logging(
-            self.log_level,
-            self.log_file,
-        )
-        logger.info(f"Loading configuration from {config_path}")
-        logger.debug("Configuration loaded successfully")
+        # Initialize logging as early as possible
+        try:
+            setup_logging(self.log_level, self.log_file)
+            logger.info(f"Configuration loaded successfully from: {config_path}")
+            logger.debug("Logging system initialized from configuration")
+        except Exception as e:
+            # Fall back to basic logging if configuration-based setup fails
+            logging.basicConfig(level=logging.INFO)
+            logger.error(f"Failed to initialize logging from configuration: {e}")
+            raise
 
     def read_config(self) -> dict:
+        """
+        Read and parse the TOML configuration file.
+
+        Returns:
+            Dictionary containing the parsed configuration data.
+
+        Raises:
+            FileNotFoundError: If the configuration file doesn't exist.
+            ValueError: If the file cannot be parsed as valid TOML.
+
+        Note:
+            TOML files must be opened in binary mode for proper parsing.
+        """
         if not self.config_path.exists():
-            logger.error(f"Config file not found at {self.config_path}")
-            raise FileNotFoundError(f"Config file not found at {self.config_path}")
+            error_msg = f"Configuration file not found: {self.config_path}"
+            logger.error(error_msg)
+            raise FileNotFoundError(error_msg)
+
+        if not self.config_path.is_file():
+            error_msg = f"Configuration path is not a file: {self.config_path}"
+            logger.error(error_msg)
+            raise ValueError(error_msg)
+
         try:
-            logger.debug(f"Reading config file {self.config_path}")
-            with open(
-                self.config_path, "rb"
-            ) as f:  # TOML must be opened in binary mode
+            logger.debug(f"Reading configuration file: {self.config_path}")
+            with open(self.config_path, "rb") as f:
                 parsed_config = tomllib.load(f)
 
-            logger.debug("Config file parsed successfully")
+            logger.debug("Configuration file parsed successfully")
+            logger.debug(f"Configuration sections: {list(parsed_config.keys())}")
             return parsed_config
+
+        except tomllib.TOMLDecodeError as e:
+            error_msg = f"Invalid TOML syntax in configuration file: {e}"
+            logger.error(error_msg)
+            raise ValueError(error_msg) from e
+
         except Exception as e:
-            logger.exception(f"Failed to parse config file: {e}")
-            raise ValueError(f"Failed to parse config file: {e}")
+            error_msg = f"Failed to read configuration file: {e}"
+            logger.error(error_msg)
+            raise ValueError(error_msg) from e
 
     @property
     def uniprot_ids(self) -> list[str]:
-        """The UniProt ID from general settings."""
+        """
+        List of UniProt IDs to process in the pipeline.
+
+        Returns:
+            List of UniProt identifiers as strings.
+
+        Raises:
+            ValueError: If uniprot_ids is not configured or is empty.
+
+        Example:
+            >>> config.uniprot_ids
+            ['Q8CA95', 'Q9QYJ6', 'Q9Y233']
+        """
         uniprot_ids = self.dict["uniprot_ids"]
         if uniprot_ids is None:
-            logger.error("uniprot_id is not configured")
-            raise ValueError("uniprot_id is not configured")
+            logger.error("uniprot_ids is not configured")
+            raise ValueError("uniprot_ids is not configured")
+
+        if not uniprot_ids:
+            logger.error("uniprot_ids list is empty")
+            raise ValueError("uniprot_ids list cannot be empty")
+
+        logger.debug(f"Loaded {len(uniprot_ids)} UniProt IDs for processing")
         return uniprot_ids
 
     @property
     def output_dir(self) -> Path:
-        """The base output directory as a Path object from general settings."""
+        """
+        Base output directory for all pipeline results.
+
+        Returns:
+            Path object pointing to the output directory. Creates the directory
+            if it doesn't exist.
+
+        Raises:
+            ValueError: If output_dir is not configured.
+
+        Note:
+            The directory will be created automatically if it doesn't exist,
+            including any necessary parent directories.
+        """
         value = self.dict["output_dir"]
         if value is None:
             raise ValueError("output_dir is not configured")
+
         path_obj = Path(value)
         if not path_obj.exists():
-            logger.warning(f"Output directory does not exist: {path_obj}")
             logger.info(f"Creating output directory: {path_obj}")
             path_obj.mkdir(parents=True, exist_ok=True)
         else:
             logger.debug(f"Using existing output directory: {path_obj}")
+
         return path_obj
 
     @property
     def log_level(self) -> str:
-        """The log level from general settings."""
+        """
+        Logging level for the pipeline.
+
+        Returns:
+            String representing the log level (DEBUG, INFO, WARNING, ERROR, CRITICAL).
+
+        Raises:
+            ValueError: If log_level is not configured.
+
+        Note:
+            Invalid log levels will be automatically corrected to INFO with a warning.
+        """
         value = self.dict["log_level"]
         if value is None:
             raise ValueError("log_level is not configured")
@@ -86,144 +218,292 @@ class Config:
 
     @property
     def log_file(self) -> Path:
-        """The log file name from general settings."""
+        """
+        Path to the log file for pipeline execution.
+
+        Returns:
+            Path object pointing to the log file. Creates parent directories
+            if they don't exist.
+
+        Raises:
+            ValueError: If log_file is not configured.
+
+        Note:
+            Relative paths are resolved relative to the output directory.
+            Absolute paths are used as-is.
+        """
         value = self.dict["log_file"]
         if value is None:
             raise ValueError("log_file is not configured")
-        # Check if log_file is an absolute path
+
+        # Handle both absolute and relative paths
         if Path(value).is_absolute():
             log_path = Path(value)
         else:
-            # If relative path, join with output directory
             log_path = self.output_dir / value
 
-        # Ensure the parent directory exists
+        # Ensure parent directory exists
         log_path.parent.mkdir(parents=True, exist_ok=True)
+        logger.debug(f"Log file configured at: {log_path}")
 
-        logger.debug(f"Log file will be written to: {log_path}")
         return log_path
 
     def _get_executable_path(self, key: str) -> Path:
-        """Helper to get and validate an executable path."""
+        """
+        Validate and return an executable path from configuration.
+
+        Args:
+            key: Configuration key for the executable path.
+
+        Returns:
+            Path object pointing to the validated executable.
+
+        Raises:
+            ValueError: If the key is not configured or path is not a file.
+            FileNotFoundError: If the executable file doesn't exist.
+
+        Note:
+            This helper method ensures all executables are properly validated
+            before use in the pipeline.
+        """
         value = self.dict.get(key)
         if value is None:
             raise ValueError(f"{key} is not configured")
+
         path_obj = Path(value)
         if not path_obj.exists():
-            logger.error(f"Executable not found at {path_obj}")
-            raise FileNotFoundError(f"Executable not found at {path_obj}")
+            error_msg = f"Executable not found: {path_obj} (config key: {key})"
+            logger.error(error_msg)
+            raise FileNotFoundError(error_msg)
+
         if not path_obj.is_file():
-            logger.error(f"Path is not a file: {path_obj}")
-            raise ValueError(f"Path is not a file: {path_obj}")
-        logger.debug(f"Using executable: {path_obj}")
+            error_msg = f"Path is not a file: {path_obj} (config key: {key})"
+            logger.error(error_msg)
+            raise ValueError(error_msg)
+
+        logger.debug(f"Validated executable for {key}: {path_obj}")
         return path_obj
 
-    # Tool executable properties
     @property
     def dogsite3_executable(self) -> Path:
-        """The dogsite3 executable path."""
+        """
+        Path to the DoGSite3 executable for binding site prediction.
+
+        Returns:
+            Path object pointing to the DoGSite3 executable.
+
+        Raises:
+            ValueError: If dogsite3_executable is not configured.
+            FileNotFoundError: If the executable doesn't exist.
+        """
         return self._get_executable_path("dogsite3_executable")
 
     @property
     def siena_executable(self) -> Path:
         """
-        Returns the path to the siena executable.
+        Path to the SIENA executable for structure alignment.
+
+        Returns:
+            Path object pointing to the SIENA executable.
+
+        Raises:
+            ValueError: If siena_executable is not configured.
+            FileNotFoundError: If the executable doesn't exist.
         """
         return self._get_executable_path("siena_executable")
 
     @property
     def siena_max_alignments(self) -> int:
         """
-        Returns the maximum number of alignments for Siena.
+        Maximum number of structural alignments to retrieve from SIENA.
+
+        Returns:
+            Integer specifying the maximum number of alignments (default: 10).
+
+        Raises:
+            TypeError: If the value is not an integer.
+
+        Note:
+            This parameter controls the trade-off between processing time
+            and alignment quality. Higher values provide more options but
+            increase computational cost.
         """
         value = self.dict.get("siena_max_alignments", 10)
         if not isinstance(value, int):
-            logger.error("siena_max_alignments must be an integer.")
-            raise TypeError("siena_max_alignments must be an integer.")
+            error_msg = "siena_max_alignments must be an integer"
+            logger.error(error_msg)
+            raise TypeError(error_msg)
+
+        if value <= 0:
+            error_msg = "siena_max_alignments must be positive"
+            logger.error(error_msg)
+            raise ValueError(error_msg)
+
+        logger.debug(f"Using maximum {value} SIENA alignments")
         return value
 
     @property
     def siena_db_executable(self) -> Path:
-        """The siena database executable path."""
+        """
+        Path to the SIENA database creation executable.
+
+        Returns:
+            Path object pointing to the SIENA database executable.
+
+        Raises:
+            ValueError: If siena_db_executable is not configured.
+            FileNotFoundError: If the executable doesn't exist.
+        """
         return self._get_executable_path("siena_db_executable")
 
     @property
     def siena_db_database_path(self) -> Path:
-        """The existing siena database path."""
+        """
+        Path to the SIENA database file or target location.
+
+        Returns:
+            Path object pointing to the SIENA database. May not exist initially
+            if the database needs to be created from PDB files.
+
+        Raises:
+            ValueError: If both database path and PDB directory are invalid.
+
+        Note:
+            If the database doesn't exist, it will be created from the
+            configured PDB directory during pipeline execution.
+        """
         value = self.dict["siena_db_database_path"]
         if value is None:
             raise ValueError("siena_db_database_path is not configured")
+
         path_obj = Path(value)
+
+        # Validate that either database exists or PDB directory is available
         if not path_obj.exists() and not self.pdb_directory.exists():
-            error = (
-                f"siena_db_database_path ({path_obj}) and "
-                f"pdb_directory ({self.pdb_directory}) do not exist!"
-                "At least pdb_directory has to be valid"
+            error_msg = (
+                f"Neither SIENA database ({path_obj}) nor PDB directory "
+                f"({self.pdb_directory}) exists. At least PDB directory "
+                f"must be available for database creation."
             )
-            logger.error(error)
-            raise ValueError(error)
+            logger.error(error_msg)
+            raise ValueError(error_msg)
+
         if path_obj.exists():
-            logger.debug(f"Using existing siena database: {path_obj}")
+            logger.debug(f"Using existing SIENA database: {path_obj}")
         else:
-            logger.warning(
-                f"Siena database not found at {path_obj}, "
-                "will try to create from PDB directory"
+            logger.info(
+                f"SIENA database will be created at: {path_obj} "
+                f"from PDB directory: {self.pdb_directory}"
             )
+
         return path_obj
 
     @property
     def pdb_directory(self) -> Path:
-        """The PDB directory path."""
+        """
+        Directory containing PDB structure files.
+
+        Returns:
+            Path object pointing to the PDB directory.
+
+        Raises:
+            ValueError: If pdb_directory is not configured or not a directory.
+            FileNotFoundError: If the directory doesn't exist.
+
+        Note:
+            This directory should contain PDB files in the format specified
+            by the pdb_format configuration parameter.
+        """
         value = self.dict["pdb_directory"]
         if value is None:
             raise ValueError("pdb_directory is not configured")
+
         path_obj = Path(value)
         if not path_obj.exists():
-            logger.error(f"pdb_directory not found at {path_obj}")
-            raise FileNotFoundError(f"pdb_directory not found at {path_obj}")
+            error_msg = f"PDB directory not found: {path_obj}"
+            logger.error(error_msg)
+            raise FileNotFoundError(error_msg)
+
         if not path_obj.is_dir():
-            logger.error(f"pdb_directory is not a directory: {path_obj}")
-            raise ValueError(f"pdb_directory is not a directory: {path_obj}")
+            error_msg = f"PDB directory path is not a directory: {path_obj}"
+            logger.error(error_msg)
+            raise ValueError(error_msg)
+
         logger.debug(f"Using PDB directory: {path_obj}")
         return path_obj
 
     @property
     def pdb_format(self) -> int:
-        """The PDB file format (0=.ent.gz, 1=pdb)."""
+        """
+        PDB file format specification.
+
+        Returns:
+            Integer indicating file format:
+            - 0: Compressed format (.ent.gz)
+            - 1: Standard PDB format (.pdb)
+
+        Raises:
+            ValueError: If pdb_format is not configured or has invalid value.
+            TypeError: If the value is not an integer.
+
+        Note:
+            This parameter determines how PDB files are read from the
+            configured PDB directory.
+        """
         value = self.dict["pdb_format"]
         if value is None:
             raise ValueError("pdb_format is not configured")
+
         if not isinstance(value, int):
-            logger.error(
+            error_msg = (
                 f"pdb_format must be an integer, got {type(value).__name__}: {value}"
             )
-            raise ValueError(
-                f"pdb_format must be an integer, got {type(value).__name__}: {value}"
-            )
+            logger.error(error_msg)
+            raise TypeError(error_msg)
+
         if value not in [0, 1]:
-            logger.error(f"pdb_format must be 0 (.ent.gz) or 1 (pdb), got: {value}")
-            raise ValueError(f"pdb_format must be 0 (.ent.gz) or 1 (pdb), got: {value}")
-        logger.debug(f"Using PDB format: {value}")
+            error_msg = f"pdb_format must be 0 (.ent.gz) or 1 (.pdb), got: {value}"
+            logger.error(error_msg)
+            raise ValueError(error_msg)
+
+        format_desc = ".ent.gz" if value == 0 else ".pdb"
+        logger.debug(f"Using PDB format: {value} ({format_desc})")
         return value
 
     @property
     def ligand_extractor_executable(self) -> Path:
         """
-        Returns the path to the ligand_extractor executable.
+        Path to the ligand extraction executable.
+
+        Returns:
+            Path object pointing to the ligand extractor executable.
+
+        Raises:
+            ValueError: If ligand_extractor_executable is not configured.
+            FileNotFoundError: If the executable doesn't exist.
         """
         return self._get_executable_path("ligand_extractor_executable")
 
     @property
     def jamda_scorer_executable(self) -> Path:
-        """The jamda scorer executable path."""
+        """
+        Path to the JAMDA scoring executable for ligand optimization.
+
+        Returns:
+            Path object pointing to the JAMDA scorer executable.
+
+        Raises:
+            ValueError: If jamda_scorer_executable is not configured.
+            FileNotFoundError: If the executable doesn't exist.
+        """
         return self._get_executable_path("jamda_scorer_executable")
 
-    def __repr__(self):
-        """Return a string representation of the Config object."""
+    def __repr__(self) -> str:
+        """Return a concise string representation of the Config object."""
         return f"Config(config_path={self.config_path})"
 
-    def __str__(self):
-        """Return a readable string representation of the config."""
+    def __str__(self) -> str:
+        """Return a formatted JSON representation of the configuration."""
         return json.dumps(self.dict, indent=4, default=str)
 
 
