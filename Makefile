@@ -1,4 +1,4 @@
-.PHONY: install install-dev test lint format format-fix
+.PHONY: install install-dev test lint format format-fix digest
 
 # Install with development dependencies
 install-dev:
@@ -28,3 +28,6 @@ install:
 
 run:
 	python3 main.py
+
+digest:
+	gitingest -i "*.py, *.toml" . 
