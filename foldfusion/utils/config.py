@@ -140,27 +140,122 @@ class Config:
         """
         List of UniProt IDs to process in the pipeline.
 
+        This property supports two configuration modes:
+        1. Direct list of UniProt IDs in the TOML file
+        2. Path to a text file containing one UniProt ID per line
+
         Returns:
             List of UniProt identifiers as strings.
 
         Raises:
-            ValueError: If uniprot_ids is not configured or is empty.
+            ValueError: If uniprot_ids is not configured, is empty, or
+                       file cannot be read.
+            FileNotFoundError: If uniprot_ids_file path doesn't exist.
 
         Example:
+            Configuration with direct list:
+            >>> uniprot_ids = ["Q8CA95", "Q9QYJ6", "Q9Y233"]
+
+            Configuration with file path:
+            >>> uniprot_ids_file = "/path/to/uniprot_ids.txt"
+
+            Usage:
             >>> config.uniprot_ids
             ['Q8CA95', 'Q9QYJ6', 'Q9Y233']
         """
-        uniprot_ids = self.dict["uniprot_ids"]
-        if uniprot_ids is None:
-            logger.error("uniprot_ids is not configured")
-            raise ValueError("uniprot_ids is not configured")
+        # Check if uniprot_ids is provided as a list
+        uniprot_ids_list = self.dict.get("uniprot_ids")
+        uniprot_ids_file = self.dict.get("uniprot_ids_file")
 
-        if not uniprot_ids:
-            logger.error("uniprot_ids list is empty")
-            raise ValueError("uniprot_ids list cannot be empty")
+        # Validate that exactly one method is provided
+        if uniprot_ids_list is not None and uniprot_ids_file is not None:
+            error_msg = (
+                "Both 'uniprot_ids' and 'uniprot_ids_file' are configured. "
+                "Please use only one method."
+            )
+            logger.error(error_msg)
+            raise ValueError(error_msg)
 
-        logger.debug(f"Loaded {len(uniprot_ids)} UniProt IDs for processing")
-        return uniprot_ids
+        if uniprot_ids_list is None and uniprot_ids_file is None:
+            error_msg = (
+                "Neither 'uniprot_ids' nor 'uniprot_ids_file' is configured. "
+                "One must be provided."
+            )
+            logger.error(error_msg)
+            raise ValueError(error_msg)
+
+        # Handle direct list configuration
+        if uniprot_ids_list is not None:
+            if not isinstance(uniprot_ids_list, list):
+                error_msg = "uniprot_ids must be a list of strings"
+                logger.error(error_msg)
+                raise TypeError(error_msg)
+
+            if not uniprot_ids_list:
+                error_msg = "uniprot_ids list cannot be empty"
+                logger.error(error_msg)
+                raise ValueError(error_msg)
+
+            # Validate that all items are strings
+            for i, uid in enumerate(uniprot_ids_list):
+                if not isinstance(uid, str):
+                    error_msg = (
+                        f"uniprot_ids[{i}] must be a string, "
+                        f"got {type(uid).__name__}: {uid}"
+                    )
+                    logger.error(error_msg)
+                    raise TypeError(error_msg)
+
+            logger.debug(f"Loaded {len(uniprot_ids_list)} UniProt IDs from direct list")
+            return uniprot_ids_list
+
+        # Handle file path configuration
+        # At this point, uniprot_ids_file is guaranteed to be not None
+        assert uniprot_ids_file is not None
+        file_path = Path(uniprot_ids_file)
+
+        if not file_path.exists():
+            error_msg = f"UniProt IDs file not found: {file_path}"
+            logger.error(error_msg)
+            raise FileNotFoundError(error_msg)
+
+        if not file_path.is_file():
+            error_msg = f"UniProt IDs path is not a file: {file_path}"
+            logger.error(error_msg)
+            raise ValueError(error_msg)
+
+        try:
+            logger.debug(f"Reading UniProt IDs from file: {file_path}")
+            with open(file_path, encoding="utf-8") as f:
+                lines = f.readlines()
+
+            # Process lines: strip whitespace and filter out empty lines
+            uniprot_ids_from_file = []
+            for i, line in enumerate(lines, 1):
+                stripped_line = line.strip()
+                if stripped_line:  # Skip empty lines
+                    # Basic validation: check for unusual lengths
+                    if len(stripped_line) < 3 or len(stripped_line) > 20:
+                        logger.warning(
+                            f"Line {i}: UniProt ID '{stripped_line}' has unusual length"
+                        )
+                    uniprot_ids_from_file.append(stripped_line)
+
+            if not uniprot_ids_from_file:
+                error_msg = f"No valid UniProt IDs found in file: {file_path}"
+                logger.error(error_msg)
+                raise ValueError(error_msg)
+
+            logger.debug(
+                f"Loaded {len(uniprot_ids_from_file)} UniProt IDs "
+                f"from file: {file_path}"
+            )
+            return uniprot_ids_from_file
+
+        except Exception as e:
+            error_msg = f"Failed to read UniProt IDs from file {file_path}: {e}"
+            logger.error(error_msg)
+            raise ValueError(error_msg) from e
 
     @property
     def output_dir(self) -> Path:
