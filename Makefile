@@ -27,7 +27,7 @@ install:
 	pip install .
 
 run:
-	python3 main.py
+	uv run main.py
 
 digest:
 	gitingest -i "*.py, *.toml" . 
