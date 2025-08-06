@@ -138,24 +138,28 @@ The pipeline generates a structured output directory for each processed protein:
 
 ```
 results/
-├── Q8CA95/
-│   ├── AlphaFold/
-│   │   ├── AF-Q8CA95-F1-model_v4.pdb
-│   │   └── AF-Q8CA95-F1-model_v4_processed.pdb
-│   ├── Dogsite3/
-│   │   └── [binding site predictions]
-│   ├── Siena/
-│   │   └── [structure alignments]
-│   ├── LigandExtractor/
-│   │   └── [extracted ligands]
-│   ├── JamdaScorer/
-│   │   └── [optimized ligands]
-│   └── evaluation_results.json
-├── Q9QYJ6/
-│   └── [similar structure]
-└── Evaluation/
-    ├── evaluation.json
-    └── [quality assessment results]
+├── Results/
+│   ├── Q8CA95/
+│   │   ├── AlphaFold/
+│   │   │   ├── AF-Q8CA95-F1-model_v4.pdb
+│   │   │   └── AF-Q8CA95-F1-model_v4_processed.pdb
+│   │   ├── Dogsite3/
+│   │   │   └── [binding site predictions]
+│   │   ├── Siena/
+│   │   │   └── [structure alignments]
+│   │   ├── LigandExtractor/
+│   │   │   └── [extracted ligands]
+│   │   ├── JamdaScorer/
+│   │   │   └── [optimized ligands]
+│   │   └── evaluation_results.json
+│   └── Q9QYJ6/
+│       └── [similar structure]
+├── Evaluation/
+│   ├── evaluation.json
+│   └── [quality assessment results]
+├── SienaDB/
+│   └── siena_db
+└── foldfusion_pipeline.log
 ```
 
 ## Quality Metrics
@@ -163,12 +167,14 @@ results/
 FoldFusion provides comprehensive quality assessment using established metrics:
 
 ### Local RMSD
+
 - Measures structural alignment quality near binding sites
 - **Good**: < 0.92 Å
 - **Medium**: 0.92 - 3.10 Å  
 - **Poor**: > 3.10 Å
 
 ### Transplant Clash Score (TCS)
+
 - Measures steric clashes between ligands and protein
 - **Good**: < 0.64 Å
 - **Medium**: 0.64 - 1.27 Å
@@ -244,8 +250,9 @@ For questions, issues, or feature requests:
 ## Changelog
 
 ### Version 1.0.0
+
 - Initial release
 - Complete pipeline implementation
 - Comprehensive documentation
 - Quality assessment metrics
-- Professional logging system 
+- Professional logging system

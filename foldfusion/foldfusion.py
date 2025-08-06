@@ -88,14 +88,10 @@ class FoldFusion:
 
         # Validate configuration file exists and is accessible
         if not self.config_path.exists():
-            raise FileNotFoundError(
-                f"Configuration file not found: {self.config_path}"
-            )
+            raise FileNotFoundError(f"Configuration file not found: {self.config_path}")
 
         if not self.config_path.is_file():
-            raise ValueError(
-                f"Configuration path is not a file: {self.config_path}"
-            )
+            raise ValueError(f"Configuration path is not a file: {self.config_path}")
 
         # Load and validate configuration
         try:
@@ -159,12 +155,10 @@ class FoldFusion:
             af_model_path = af_fetcher.get_alphafold_model()
 
             logger.info(
-                f"AlphaFold model successfully retrieved and saved to: "
-                f"{af_model_path}"
+                f"AlphaFold model successfully retrieved and saved to: {af_model_path}"
             )
             logger.debug(
-                f"AlphaFold structure file size: "
-                f"{af_model_path.stat().st_size} bytes"
+                f"AlphaFold structure file size: {af_model_path.stat().st_size} bytes"
             )
 
             return af_model_path
@@ -484,7 +478,7 @@ class FoldFusion:
                 f"Processing UniProt ID {i}/{len(self.config.uniprot_ids)}: "
                 f"{uniprot_id}"
             )
-            output_dir = main_output_dir / uniprot_id
+            output_dir = main_output_dir / "Results" / uniprot_id
 
             try:
                 self._pipeline(uniprot_id, output_dir)
