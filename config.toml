@@ -23,8 +23,8 @@ dogsite3_executable = "/home/marius/.local/bin/dogsite3"
 siena_db_executable = "/home/marius/.local/bin/generate_siena_database"
 
 # Either path to a siena database or path to pdb_files has to be valid
-siena_db_database_path = "/home/marius/code/SienaDB/siena_db" 
-pdb_directory = "/home/marius/pdb/ent/pdb"
+siena_db_database_path = "/home/marius/data/siena_db.db" 
+pdb_directory = "/home/marius/data/pdb"
 pdb_format = 0 # file format (0=.ent.gz, 1=pdb)
 
 # siena

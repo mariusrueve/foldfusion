@@ -452,46 +452,65 @@ class Config:
         return self._get_executable_path("siena_db_executable")
 
     @property
-    def siena_db_database_path(self) -> Path:
-        """
-        Path to the SIENA database file or target location.
+    def siena_db_database_path(self) -> Path | None:
+        """Optional path to the SIENA database file.
+
+        Behaviour:
+                - Path configured & exists: reuse it.
+                - Path configured but missing: ensure parent dir and use it
+                    (database created there later).
+                - No path configured: return None; default inside output directory
+                    will be used.
 
         Returns:
-            Path object pointing to the SIENA database. May not exist initially
-            if the database needs to be created from PDB files.
+                Path | None: Existing / to-be-created database path, or None if
+                not configured.
 
         Raises:
-            ValueError: If both database path and PDB directory are invalid.
-
-        Note:
-            If the database doesn't exist, it will be created from the
-            configured PDB directory during pipeline execution.
+            ValueError: If a path is configured but neither the database nor
+            the PDB directory exists (cannot create DB).
         """
-        value = self.dict["siena_db_database_path"]
-        if value is None:
-            raise ValueError("siena_db_database_path is not configured")
+
+        value = self.dict.get("siena_db_database_path")
+        if value in (None, ""):
+            logger.info(
+                "No explicit SIENA database path configured; using default location."
+            )
+            return None
 
         path_obj = Path(value)
 
-        # Validate that either database exists or PDB directory is available
-        if not path_obj.exists() and not self.pdb_directory.exists():
-            error_msg = (
-                f"Neither SIENA database ({path_obj}) nor PDB directory "
-                f"({self.pdb_directory}) exists. At least PDB directory "
-                f"must be available for database creation."
-            )
-            logger.error(error_msg)
-            raise ValueError(error_msg)
-
-        if path_obj.exists():
-            logger.debug(f"Using existing SIENA database: {path_obj}")
-        else:
+        # Ensure we can at least create it later (need valid PDB directory)
+        if not path_obj.exists():
+            if not self.pdb_directory.exists():  # triggers validation/logging
+                error_msg = (
+                    f"Cannot create SIENA database at {path_obj}: PDB directory "
+                    f"missing: {self.pdb_directory}"
+                )
+                logger.error(error_msg)
+                raise ValueError(error_msg)
+            # Will be created later
             logger.info(
-                f"SIENA database will be created at: {path_obj} "
-                f"from PDB directory: {self.pdb_directory}"
+                (
+                    "SIENA database will be created at configured path: %s "
+                    "from PDB directory: %s"
+                ),
+                path_obj,
+                self.pdb_directory,
             )
+            return path_obj
 
-        return path_obj
+        # Path exists
+        if path_obj.is_file():
+            logger.debug(f"Using existing SIENA database: {path_obj}")
+            return path_obj
+
+        # If path exists but is not a file (e.g. directory) treat as invalid
+        error_msg = (
+            f"Configured siena_db_database_path exists but is not a file: {path_obj}"
+        )
+        logger.error(error_msg)
+        raise ValueError(error_msg)
 
     @property
     def pdb_directory(self) -> Path:

@@ -1,4 +1,4 @@
-.PHONY: install install-dev test lint format format-fix digest
+.PHONY: install install-dev test lint format format-fix digest run nohup
 
 # Install with development dependencies
 install-dev:
@@ -28,6 +28,9 @@ install:
 
 run:
 	uv run main.py
+
+nohup:
+	bash -c 'nohup time uv run main.py & disown'
 
 digest:
 	gitingest -i "*.py, *.toml" . 

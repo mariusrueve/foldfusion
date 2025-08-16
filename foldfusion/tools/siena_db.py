@@ -2,7 +2,6 @@
 
 import logging
 from pathlib import Path
-from typing import List
 
 from .tool import Tool
 
@@ -25,7 +24,7 @@ class SienaDB(Tool):
     def __init__(
         self,
         executable: Path,
-        database_path: Path,
+        database_path: Path | None,
         pdb_directory: Path,
         pdb_format: int,
         output_dir: Path,
@@ -34,7 +33,8 @@ class SienaDB(Tool):
 
         Args:
             executable (Path): Path to the Siena database creation executable.
-            database_path (Path): Path to the database file. If None/empty, defaults to "sienaDB" in output_dir.
+            database_path (Path | None): Path to the database file. If None/empty,
+                defaults to a file named "siena_db" inside output_dir / "SienaDB".
             pdb_directory (Path): Directory containing PDB files to process.
             pdb_format (int): Format of PDB files (0=.ent.gz, 1=pdb).
             output_dir (Path): Directory to save the database files.
@@ -64,33 +64,46 @@ class SienaDB(Tool):
         self.executable = executable
         self.pdb_directory = pdb_directory
         self.pdb_format = pdb_format
-        self.output_dir = output_dir / "SienaDB"
 
-        # Determine the actual database path based on the logic:
-        # 1. If database_path is given and valid, use it
-        # 2. If database_path is given but invalid/empty, create new at that path
-        # 3. If database_path is None/empty, create "siena_db" at default output dir
-        if database_path is None or str(database_path).strip() == "":
-            # No path given, use default
-            self.database_path = self.output_dir / "siena_db"
-            logger.info(
-                f"No database path provided, using default: {self.database_path}"
-            )
-        else:
-            # Path was provided
+        # Base output dir for default case (when no explicit DB path given)
+        default_db_dir = output_dir / "SienaDB"
+        self.output_dir = default_db_dir
+
+        # Path selection logic
+        if database_path and str(database_path).strip():
             self.database_path = Path(database_path)
+            # Use parent directory of provided path as working directory
+            self.output_dir = self.database_path.parent
             if self._is_siena_db_valid(self.database_path):
-                logger.info(f"Using existing valid database at: {self.database_path}")
-            else:
-                self.database_path = self.output_dir / "siena_db"
                 logger.info(
-                    f"Database path provided but invalid/empty, will create new database at: {self.database_path}"
+                    "Using existing SIENA database at configured path: %s",
+                    self.database_path,
+                )
+            else:
+                logger.info(
+                    "SIENA database will be created at configured path: %s",
+                    self.database_path,
+                )
+        else:
+            self.database_path = default_db_dir / "siena_db"
+            if self._is_siena_db_valid(self.database_path):
+                logger.info(
+                    "Using existing default SIENA database: %s",
+                    self.database_path,
+                )
+            else:
+                logger.info(
+                    "No SIENA database path provided; will create at default: %s",
+                    self.database_path,
                 )
 
         # Initialize the base Tool class with command and output directory
         super().__init__(self.get_command(), self.output_dir)
         logger.debug(
-            f"SienaDB initialized with PDB dir: {pdb_directory}, format: {pdb_format}, database: {self.database_path}"
+            "SienaDB initialized with PDB dir: %s, format: %s, database: %s",
+            pdb_directory,
+            pdb_format,
+            self.database_path,
         )
 
     def run(self) -> Path:
@@ -103,6 +116,14 @@ class SienaDB(Tool):
         Returns:
             Path: The path to the output directory containing the database.
         """
+        # If database already exists and is valid, skip execution.
+        if self._is_siena_db_valid(self.database_path):
+            logger.info(
+                "Skipping SienaDB generation; existing database is valid: %s",
+                self.database_path,
+            )
+            return self.database_path.resolve()
+
         _ = super().run()
         return self.database_path.resolve()
 
@@ -116,38 +137,40 @@ class SienaDB(Tool):
         Returns:
             True if the SienaDB is valid, False otherwise
         """
-        if not siena_db_path.exists():
-            logger.info(f"SienaDB does not exist at {siena_db_path}")
+        try:
+            if not siena_db_path.exists():
+                logger.debug(f"SienaDB does not exist at {siena_db_path}")
+                return False
+
+            if not siena_db_path.is_file():
+                logger.warning(f"SienaDB path is not a file: {siena_db_path}")
+                return False
+
+            # Consider a minimal size threshold (arbitrary small size)
+            if siena_db_path.stat().st_size < 1024:  # <1KB likely invalid
+                logger.warning(
+                    "SienaDB file too small (<1KB), treating as invalid: %s",
+                    siena_db_path,
+                )
+                return False
+
+            logger.debug(f"Valid SienaDB found at {siena_db_path}")
+            return True
+        except Exception as e:
+            logger.warning(f"Error while validating SienaDB at {siena_db_path}: {e}")
             return False
 
-        if not siena_db_path.is_file():
-            logger.warning(f"SienaDB path is not a file: {siena_db_path}")
-            return False
-
-        # Check if the file has some minimum size (empty files are invalid)
-        if siena_db_path.stat().st_size == 0:
-            logger.warning(f"SienaDB file is empty: {siena_db_path}")
-            return False
-
-        logger.info(f"Valid SienaDB found at {siena_db_path}")
-        return True
-
-    def get_command(self) -> List[str]:
-        """Assembles the command and arguments for running the Siena database creation tool.
+    def get_command(self) -> list[str]:
+        """Assemble the command list for Siena database creation.
 
         Returns:
-            List[str]: The command and arguments as a list of strings.
-
-        Raises:
-            ValueError: If required paths are not set.
+            List[str]: Executable and arguments.
         """
         if not self.executable or not self.pdb_directory:
             logger.error("Executable or PDB directory path is not set")
             raise ValueError("Executable and PDB directory paths must be set")
 
-        # Use the stem (filename without extension) of the database path
-        db_name = self.database_path.stem if self.database_path else "sienaDB"
-
+        db_name = self.database_path.stem if self.database_path else "siena_db"
         command = [
             str(self.executable),
             "--database",
@@ -157,5 +180,5 @@ class SienaDB(Tool):
             "--format",
             str(self.pdb_format),
         ]
-        logger.debug(f"SienaDB command assembled: {' '.join(command)}")
+        logger.debug("SienaDB command assembled: %s", " ".join(command))
         return command

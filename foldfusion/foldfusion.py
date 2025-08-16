@@ -452,11 +452,15 @@ class FoldFusion:
 
         main_output_dir = self.config.output_dir
 
+        # TODO: When the defined siena db from config.toml is already present with a
+        # sufficient size the generate_database step can be skipped completely
+
         # Initialize SIENA database (shared across all proteins)
         try:
             logger.info("Initializing SIENA database")
             siena_db = SienaDB(
                 self.config.siena_db_executable,
+                # May be None -> SienaDB will use default path
                 self.config.siena_db_database_path,
                 self.config.pdb_directory,
                 self.config.pdb_format,
@@ -470,7 +474,7 @@ class FoldFusion:
             raise RuntimeError(error_msg) from e
 
         # Process each UniProt ID
-        skipped_uniprot_ids = []
+        skipped_uniprot_data = {}  # Dictionary to store UniProt ID -> error reason
         successful_proteins = 0
 
         for i, uniprot_id in enumerate(self.config.uniprot_ids, 1):
@@ -486,19 +490,26 @@ class FoldFusion:
                 logger.info(f"Successfully completed processing for {uniprot_id}")
 
             except Exception as e:
-                logger.error(f"Failed to process UniProt ID {uniprot_id}: {str(e)}")
-                skipped_uniprot_ids.append(uniprot_id)
+                error_reason = str(e)
+                logger.error(
+                    "Failed to process UniProt ID %s: %s", uniprot_id, error_reason
+                )
+                skipped_uniprot_data[uniprot_id] = error_reason
                 continue
 
         # Pipeline completion summary
         logger.info("FoldFusion pipeline execution completed")
         logger.info(f"Successfully processed: {successful_proteins} proteins")
 
-        if skipped_uniprot_ids:
+        if skipped_uniprot_data:
+            skipped_ids = list(skipped_uniprot_data.keys())
             logger.warning(
-                f"Skipped {len(skipped_uniprot_ids)} UniProt IDs due to errors: "
-                f"{skipped_uniprot_ids}"
+                f"Skipped {len(skipped_ids)} UniProt IDs due to errors: {skipped_ids}"
             )
+            # Log detailed error reasons for each failed UniProt ID
+            logger.warning("Detailed failure reasons:")
+            for uniprot_id, error_reason in skipped_uniprot_data.items():
+                logger.warning(f"  - {uniprot_id}: {error_reason}")
         else:
             logger.info("All UniProt IDs processed successfully")
 
