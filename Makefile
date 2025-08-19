@@ -30,7 +30,7 @@ run:
 	uv run main.py
 
 nohup:
-	bash -c 'nohup time uv run main.py & disown'
+	bash -c 'nohup uv run main.py & disown'
 
 digest:
 	gitingest -i "*.py, *.toml" . 

@@ -71,17 +71,50 @@ class SienaDB(Tool):
 
         # Path selection logic
         if database_path and str(database_path).strip():
-            self.database_path = Path(database_path)
-            # Use parent directory of provided path as working directory
+            # Accept both with and without .db extension; generator typically
+            # creates file named exactly as provided to --database (we pass
+            # stem currently). If user supplies a path ending in .db, we
+            # remember both variants so we can adapt.
+            configured_path = Path(database_path)
+            alt_no_suffix = (
+                configured_path.with_suffix("")
+                if configured_path.suffix == ".db"
+                else None
+            )
+
+            # Prefer an existing valid file among the candidates
+            chosen_path: Path
+            if self._is_siena_db_valid(configured_path):
+                chosen_path = configured_path
+            elif alt_no_suffix and self._is_siena_db_valid(alt_no_suffix):
+                logger.debug(
+                    (
+                        "Configured Siena path %s not found but alternate "
+                        "without suffix exists: %s"
+                    ),
+                    configured_path,
+                    alt_no_suffix,
+                )
+                chosen_path = alt_no_suffix
+            else:
+                # None exist yet – choose the form we expect the generator to create.
+                # The generator receives 'stem' (without extension) so use alt_no_suffix
+                # if user provided a .db path; else use configured_path directly.
+                chosen_path = alt_no_suffix or configured_path
+                logger.info(
+                    (
+                        "SIENA database will be created at configured path: %s "
+                        "(configured: %s)"
+                    ),
+                    chosen_path,
+                    configured_path,
+                )
+
+            self.database_path = chosen_path
             self.output_dir = self.database_path.parent
             if self._is_siena_db_valid(self.database_path):
                 logger.info(
                     "Using existing SIENA database at configured path: %s",
-                    self.database_path,
-                )
-            else:
-                logger.info(
-                    "SIENA database will be created at configured path: %s",
                     self.database_path,
                 )
         else:
@@ -125,6 +158,33 @@ class SienaDB(Tool):
             return self.database_path.resolve()
 
         _ = super().run()
+
+        # Post-run: if expected path (possibly with .db) not found but alternate exists,
+        # switch to the existing one so downstream tools work.
+        if not self.database_path.exists() and self.database_path.suffix == "":
+            # If we used no-suffix form but a .db file appeared, adopt it.
+            alt_with_db = self.database_path.with_suffix(".db")
+            if alt_with_db.exists():
+                logger.debug(
+                    (
+                        "Switching Siena DB path to file with .db suffix "
+                        "found after generation: %s"
+                    ),
+                    alt_with_db,
+                )
+                self.database_path = alt_with_db
+        elif not self.database_path.exists() and self.database_path.suffix == ".db":
+            alt_no_suffix = self.database_path.with_suffix("")
+            if alt_no_suffix.exists():
+                logger.debug(
+                    (
+                        "Switching Siena DB path to file without .db suffix "
+                        "found after generation: %s"
+                    ),
+                    alt_no_suffix,
+                )
+                self.database_path = alt_no_suffix
+
         return self.database_path.resolve()
 
     def _is_siena_db_valid(self, siena_db_path: Path) -> bool:
@@ -170,7 +230,16 @@ class SienaDB(Tool):
             logger.error("Executable or PDB directory path is not set")
             raise ValueError("Executable and PDB directory paths must be set")
 
-        db_name = self.database_path.stem if self.database_path else "siena_db"
+        # If user configured a path with suffix (.db), pass the full filename so
+        # the generator creates exactly that file (avoids mismatch where a bare
+        # name "siena_db" is produced while pipeline expects "siena_db.db").
+        if self.database_path:
+            if self.database_path.suffix == ".db":
+                db_name = self.database_path.name  # keep extension
+            else:
+                db_name = self.database_path.name  # same behavior as before
+        else:
+            db_name = "siena_db"
         command = [
             str(self.executable),
             "--database",
