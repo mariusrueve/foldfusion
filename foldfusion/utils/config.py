@@ -20,9 +20,8 @@ resolve setup problems.
 
 import json
 import logging
-from pathlib import Path
-
 import tomllib
+from pathlib import Path
 
 from .logger import setup_logging
 
@@ -611,6 +610,30 @@ class Config:
             FileNotFoundError: If the executable doesn't exist.
         """
         return self._get_executable_path("jamda_scorer_executable")
+
+    @property
+    def pipeline_concurrency(self) -> int:
+        """Number of pipelines to run in parallel.
+
+        Returns:
+            Positive integer specifying the maximum number of UniProt IDs
+            to process concurrently. Defaults to 1 (sequential).
+
+        Raises:
+            TypeError: If the configured value is not an integer.
+            ValueError: If the value is less than 1.
+        """
+        value = self.dict.get("pipeline_concurrency", 1)
+        if not isinstance(value, int):
+            error_msg = "pipeline_concurrency must be an integer"
+            logger.error(error_msg)
+            raise TypeError(error_msg)
+        if value < 1:
+            error_msg = "pipeline_concurrency must be at least 1"
+            logger.error(error_msg)
+            raise ValueError(error_msg)
+        logger.debug(f"Using pipeline concurrency: {value}")
+        return value
 
     def __repr__(self) -> str:
         """Return a concise string representation of the Config object."""

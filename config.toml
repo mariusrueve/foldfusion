@@ -12,27 +12,31 @@ log_file = "foldfusion_pipeline.log" # Name of the log file
 #    "A0A3Q1MHJ4",
 #]
 
-uniprot_ids_file = "/home/marius/code/foldfusion-poc/uniprot_ids.txt"
+uniprot_ids_file = "/home/marius/Code/foldfusion-poc/uniprot_ids.txt"
 # Path to the output directory
-output_dir = "/home/marius/code/output" 
+output_dir = "/home/marius/Code/output" 
+
+# Pipelines
+# Number of UniProt IDs to process in parallel (1 = sequential)
+pipeline_concurrency = 4
 
 # dogsite3
-dogsite3_executable = "/home/marius/code/zbh_tools/dogsite3_1.1.0/dogsite3"
+dogsite3_executable = "/home/marius/Data/zbh/dogsite3_1.1.0/dogsite3"
 
 # siena db
-siena_db_executable = "/home/marius/code/zbh_tools/siena_1.3.0/generate_siena_database"
+siena_db_executable = "/home/marius/Data/zbh/siena_1.3.0/generate_siena_database"
 
 # Either path to a siena database or path to pdb_files has to be valid
-siena_db_database_path = "/home/marius/code/siena_db.db" 
-pdb_directory = "/data/pdb/"
+siena_db_database_path = "/home/marius/Data/pdb/siena_db.db" 
+pdb_directory = "/home/marius/Data/pdb/"
 pdb_format = 0 # file format (0=.ent.gz, 1=pdb)
 
 # siena
-siena_executable = "/home/marius/code/zbh_tools/siena_1.3.0/siena"
+siena_executable = "/home/marius/Data/zbh/siena_1.3.0/siena"
 siena_max_alignments = 1
 
 # ligand extractor
-ligand_extractor_executable = "/home/marius/code/zbh_tools/LigandExtractor_2025-04/ligand_extractor"
+ligand_extractor_executable = "/home/marius/Data/zbh/LigandExtractor_2025-04/ligand_extractor"
 
 # jamda scorer
-jamda_scorer_executable = "/home/marius/code/zbh_tools/JamdaScorer_1.0.0/JamdaScorer"
+jamda_scorer_executable = "/home/marius/Data/zbh/JamdaScorer_1.0.0/JamdaScorer"

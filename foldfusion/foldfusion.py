@@ -18,6 +18,9 @@ facilitate debugging and testing.
 """
 
 import logging
+import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import timedelta
 from pathlib import Path
 
 from .evaluation import Evaluator
@@ -449,69 +452,112 @@ class FoldFusion:
         """
         logger.info("Starting FoldFusion pipeline execution")
         logger.info(f"Processing {len(self.config.uniprot_ids)} UniProt IDs")
-
-        main_output_dir = self.config.output_dir
-
-        # TODO: When the defined siena db from config.toml is already present with a
-        # sufficient size the generate_database step can be skipped completely
-
-        # Initialize SIENA database (shared across all proteins)
+        _pipeline_start_ts = time.perf_counter()
         try:
-            logger.info("Initializing SIENA database")
-            siena_db = SienaDB(
-                self.config.siena_db_executable,
-                # May be None -> SienaDB will use default path
-                self.config.siena_db_database_path,
-                self.config.pdb_directory,
-                self.config.pdb_format,
-                main_output_dir,
-            )
-            self.siena_db_database_path = siena_db.run()
-            logger.info(f"SIENA database initialized at: {self.siena_db_database_path}")
-        except Exception as e:
-            error_msg = f"Failed to initialize SIENA database: {str(e)}"
-            logger.error(error_msg)
-            raise RuntimeError(error_msg) from e
+            main_output_dir = self.config.output_dir
 
-        # Process each UniProt ID
-        skipped_uniprot_data = {}  # Dictionary to store UniProt ID -> error reason
-        successful_proteins = 0
+            # TODO: When the defined siena db from config.toml is already present with a
+            # sufficient size the generate_database step can be skipped completely
 
-        for i, uniprot_id in enumerate(self.config.uniprot_ids, 1):
-            logger.info(
-                f"Processing UniProt ID {i}/{len(self.config.uniprot_ids)}: "
-                f"{uniprot_id}"
-            )
-            output_dir = main_output_dir / "Results" / uniprot_id
-
+            # Initialize SIENA database (shared across all proteins)
             try:
-                self._pipeline(uniprot_id, output_dir)
-                successful_proteins += 1
-                logger.info(f"Successfully completed processing for {uniprot_id}")
-
-            except Exception as e:
-                error_reason = str(e)
-                logger.error(
-                    "Failed to process UniProt ID %s: %s", uniprot_id, error_reason
+                logger.info("Initializing SIENA database")
+                siena_db = SienaDB(
+                    self.config.siena_db_executable,
+                    # May be None -> SienaDB will use default path
+                    self.config.siena_db_database_path,
+                    self.config.pdb_directory,
+                    self.config.pdb_format,
+                    main_output_dir,
                 )
-                skipped_uniprot_data[uniprot_id] = error_reason
-                continue
+                self.siena_db_database_path = siena_db.run()
+                logger.info(
+                    f"SIENA database initialized at: {self.siena_db_database_path}"
+                )
+            except Exception as e:
+                error_msg = f"Failed to initialize SIENA database: {str(e)}"
+                logger.error(error_msg)
+                raise RuntimeError(error_msg) from e
 
-        # Pipeline completion summary
-        logger.info("FoldFusion pipeline execution completed")
-        logger.info(f"Successfully processed: {successful_proteins} proteins")
+            # Process UniProt IDs, possibly in parallel
+            skipped_uniprot_data: dict[str, str] = {}
+            successful_proteins = 0
 
-        if skipped_uniprot_data:
-            skipped_ids = list(skipped_uniprot_data.keys())
-            logger.warning(
-                f"Skipped {len(skipped_ids)} UniProt IDs due to errors: {skipped_ids}"
+            total = len(self.config.uniprot_ids)
+            max_workers = self.config.pipeline_concurrency
+            logger.info(
+                "Executing per-protein pipelines with concurrency=%d", max_workers
             )
-            # Log detailed error reasons for each failed UniProt ID
-            logger.warning("Detailed failure reasons:")
-            for uniprot_id, error_reason in skipped_uniprot_data.items():
-                logger.warning(f"  - {uniprot_id}: {error_reason}")
-        else:
-            logger.info("All UniProt IDs processed successfully")
+
+            def _task(uid: str) -> str:
+                logger.info("Starting pipeline for UniProt ID: %s", uid)
+                output_dir = main_output_dir / "Results" / uid
+                self._pipeline(uid, output_dir)
+                return uid
+
+            if max_workers == 1:
+                # Sequential execution (original behavior)
+                for i, uid in enumerate(self.config.uniprot_ids, 1):
+                    logger.info("Processing UniProt ID %d/%d: %s", i, total, uid)
+                    try:
+                        _task(uid)
+                        successful_proteins += 1
+                        logger.info("Successfully completed processing for %s", uid)
+                    except Exception as e:
+                        error_reason = str(e)
+                        logger.error(
+                            "Failed to process UniProt ID %s: %s", uid, error_reason
+                        )
+                        skipped_uniprot_data[uid] = error_reason
+            else:
+                # Parallel execution
+                with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                    future_to_uid = {
+                        executor.submit(_task, uid): uid
+                        for uid in self.config.uniprot_ids
+                    }
+                    for future in as_completed(future_to_uid):
+                        uid = future_to_uid[future]
+                        try:
+                            future.result()
+                            successful_proteins += 1
+                            logger.info(
+                                "Successfully completed processing for %s (parallel)",
+                                uid,
+                            )
+                        except Exception as e:
+                            error_reason = str(e)
+                            logger.error(
+                                "Failed to process UniProt ID %s: %s",
+                                uid,
+                                error_reason,
+                            )
+                            skipped_uniprot_data[uid] = error_reason
+
+            # Pipeline completion summary
+            logger.info("FoldFusion pipeline execution completed")
+            logger.info(f"Successfully processed: {successful_proteins} proteins")
+
+            if skipped_uniprot_data:
+                skipped_ids = list(skipped_uniprot_data.keys())
+                logger.warning(
+                    "Skipped %d UniProt IDs due to errors: %s",
+                    len(skipped_ids),
+                    skipped_ids,
+                )
+                # Log detailed error reasons for each failed UniProt ID
+                logger.warning("Detailed failure reasons:")
+                for uniprot_id, error_reason in skipped_uniprot_data.items():
+                    logger.warning(f"  - {uniprot_id}: {error_reason}")
+            else:
+                logger.info("All UniProt IDs processed successfully")
+        finally:
+            _elapsed = time.perf_counter() - _pipeline_start_ts
+            logger.info(
+                "Total pipeline wall-clock time: %s (%.2f seconds)",
+                str(timedelta(seconds=int(_elapsed))),
+                _elapsed,
+            )
 
     def _pipeline(self, uniprot_id: str, output_dir: Path) -> None:
         """
