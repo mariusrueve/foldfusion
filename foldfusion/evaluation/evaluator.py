@@ -27,44 +27,57 @@ class Evaluator:
         siena_structures: list[dict],
         ligand_structures: dict[str, list[dict]],
     ) -> None:
-        # Precompute metrics outside the lock
-        computed: list[dict] = []
+        # Build a quick lookup of the best (or first) alignment per PDB to get
+        # ensemble paths and RMSDs
+        pdb_alignment_map: dict[str, dict] = {}
         for alignment in siena_structures:
             pdb_code = alignment.get("pdb_code")
-            ensemble_path = alignment.get("ensemble_path")
-            ligand_pdb_code = alignment.get("ligand_pdb_code")
-
-            ligand_path: Path | None = None
-            for _, lig_list in ligand_structures.items():
-                for ligand_dict in lig_list:
-                    if ligand_dict.get("ligand_id") == ligand_pdb_code:
-                        p = ligand_dict.get("path")
-                        if p:
-                            ligand_path = Path(p)
-                        break
-                if ligand_path is not None:
-                    break
-
-            if ligand_path is not None and ensemble_path is not None:
-                local_rmsd = self._compute_local_rmsd(
-                    alphafold_structure, Path(ensemble_path), ligand_path
-                )
-                tcs = self._compute_tcs(alphafold_structure, ligand_path)
-            else:
-                local_rmsd = None
-                tcs = None
-
-            computed.append(
-                {
-                    "pdb_code": pdb_code,
-                    "ligand_id": ligand_pdb_code,
-                    "stage": stage,
-                    "local_rmsd": local_rmsd,
-                    "tcs": tcs,
+            if not pdb_code:
+                continue
+            # Prefer the first occurrence (list is already sorted by quality)
+            if pdb_code not in pdb_alignment_map:
+                ep_val = alignment.get("ensemble_path")
+                ep_path = Path(ep_val) if ep_val is not None else None
+                pdb_alignment_map[pdb_code] = {
+                    "ensemble_path": ep_path,
                     "all_atom_rmsd": alignment.get("all_atom_rmsd"),
                     "backbone_rmsd": alignment.get("backbone_rmsd"),
                 }
-            )
+
+        # Precompute metrics for ALL ligands available per PDB code
+        computed: list[dict] = []
+        for pdb_code, lig_list in ligand_structures.items():
+            align_info = pdb_alignment_map.get(pdb_code)
+            ensemble_path = align_info.get("ensemble_path") if align_info else None
+            for ligand_dict in lig_list:
+                ligand_id = ligand_dict.get("ligand_id")
+                p = ligand_dict.get("path")
+                ligand_path: Path | None = Path(p) if p else None
+
+                if ligand_path is not None and ensemble_path is not None:
+                    local_rmsd = self._compute_local_rmsd(
+                        alphafold_structure, Path(ensemble_path), ligand_path
+                    )
+                    tcs = self._compute_tcs(alphafold_structure, ligand_path)
+                else:
+                    local_rmsd = None
+                    tcs = None
+
+                computed.append(
+                    {
+                        "pdb_code": pdb_code,
+                        "ligand_id": ligand_id,
+                        "stage": stage,
+                        "local_rmsd": local_rmsd,
+                        "tcs": tcs,
+                        "all_atom_rmsd": (
+                            align_info.get("all_atom_rmsd") if align_info else None
+                        ),
+                        "backbone_rmsd": (
+                            align_info.get("backbone_rmsd") if align_info else None
+                        ),
+                    }
+                )
 
         # Merge and write under a lock
         with self._io_lock:

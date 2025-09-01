@@ -355,7 +355,12 @@ class FoldFusion:
             The optimization process may reject ligands that cannot be
             satisfactorily placed without severe steric conflicts.
         """
-        logger.info(f"Starting JAMDA optimization for {len(ligand_structure)} ligands")
+        # Compute total ligand count across all PDB codes for accurate logging
+        total_ligands = sum(len(v) for v in ligand_structure.values())
+        logger.info(
+            f"Starting JAMDA optimization for {total_ligands} ligands across"
+            f" {len(ligand_structure)} PDB groups"
+        )
 
         try:
             jamda_scorer = JamdaScorer(
@@ -367,7 +372,11 @@ class FoldFusion:
             optimized_ligand_structure = jamda_scorer.run()
 
             logger.info("JAMDA optimization completed successfully")
-            logger.info(f"Optimized ligands: {len(optimized_ligand_structure)}")
+            opt_total = sum(len(v) for v in optimized_ligand_structure.values())
+            logger.info(
+                f"Optimized ligands: {opt_total} across"
+                f" {len(optimized_ligand_structure)} PDB groups"
+            )
             logger.debug(f"Optimization results: {optimized_ligand_structure}")
 
             return optimized_ligand_structure
