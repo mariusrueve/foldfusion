@@ -1,0 +1,116 @@
+{
+  "alphafill_version": "2.1.0",
+  "date": "2023-11-30",
+  "file": "/DATA/afdb-v4//Q1/AF-Q15554-F1-model_v4.cif.gz",
+  "hits": [
+    {
+      "alignment": {
+        "af_start": 93,
+        "identity": 1,
+        "length": 188,
+        "pdb_start": 9
+      },
+      "global_rmsd": 1.21035,
+      "pdb_asym_id": "D",
+      "pdb_id": "4RQI",
+      "transplants": [
+        {
+          "analogue_id": "MG",
+          "asym_id": "B",
+          "clash": {
+            "clash_count": 0,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.6842,
+                "poly_atom": {
+                  "id": "CA",
+                  "seq_id": 114
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.72663,
+                "poly_atom": {
+                  "id": "C",
+                  "seq_id": 114
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.87643,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 114
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.54199,
+                "poly_atom": {
+                  "id": "N",
+                  "seq_id": 116
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.7729,
+                "poly_atom": {
+                  "id": "CA",
+                  "seq_id": 116
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.79471,
+                "poly_atom": {
+                  "id": "N",
+                  "seq_id": 117
+                }
+              }
+            ],
+            "poly_atom_count": 6,
+            "score": 0,
+            "transplant_atom_count": 1
+          },
+          "compound_id": "MG",
+          "local_rmsd": 0.154273,
+          "pae": {
+            "matrix": [
+              [
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                0
+              ]
+            ],
+            "mean": 1,
+            "median": 1,
+            "stddev": 0
+          },
+          "pdb_asym_id": "K",
+          "pdb_auth_asym_id": "D",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "301",
+          "validation": {
+            "binding_site_atom_count": 24,
+            "binding_site_rmsd": 0.23848,
+            "local_environment_rmsd": 0.233662,
+            "transplant_atom_count": 1,
+            "transplant_rmsd": 0.000478788
+          }
+        }
+      ]
+    }
+  ],
+  "id": "AF-Q15554-F1"
+}

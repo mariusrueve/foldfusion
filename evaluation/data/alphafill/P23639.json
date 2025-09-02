@@ -1,0 +1,237 @@
+{
+  "alphafill_version": "2.1.0",
+  "date": "2023-11-29",
+  "file": "/DATA/afdb-v4//P2/AF-P23639-F1-model_v4.cif.gz",
+  "hits": [
+    {
+      "alignment": {
+        "af_start": 0,
+        "identity": 1,
+        "length": 250,
+        "pdb_start": 0
+      },
+      "global_rmsd": 3.16694,
+      "pdb_asym_id": "D",
+      "pdb_id": "4X6Z",
+      "transplants": [
+        {
+          "analogue_id": "MG",
+          "asym_id": "B",
+          "clash": {
+            "clash_count": 0,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.75077,
+                "poly_atom": {
+                  "id": "CA",
+                  "seq_id": 223
+                }
+              }
+            ],
+            "poly_atom_count": 1,
+            "score": 0,
+            "transplant_atom_count": 1
+          },
+          "compound_id": "MG",
+          "local_rmsd": 0.248818,
+          "pae": {
+            "matrix": [
+              [
+                0
+              ]
+            ]
+          },
+          "pdb_asym_id": "AU",
+          "pdb_auth_asym_id": "B",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "301",
+          "validation": {
+            "binding_site_atom_count": 11,
+            "binding_site_rmsd": 0.247199,
+            "local_environment_rmsd": 0.236675,
+            "transplant_atom_count": 1,
+            "transplant_rmsd": 0.000332687
+          }
+        }
+      ]
+    },
+    {
+      "alignment": {
+        "af_start": 0,
+        "identity": 1,
+        "length": 250,
+        "pdb_start": 0
+      },
+      "global_rmsd": 3.66309,
+      "pdb_asym_id": "A",
+      "pdb_id": "5L5U",
+      "transplants": [
+        {
+          "analogue_id": "MG",
+          "asym_id": "C",
+          "clash": {
+            "clash_count": 0,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.45773,
+                "poly_atom": {
+                  "id": "CA",
+                  "seq_id": 118
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.0299,
+                "poly_atom": {
+                  "id": "C",
+                  "seq_id": 118
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.56969,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 118
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.28837,
+                "poly_atom": {
+                  "id": "O",
+                  "seq_id": 118
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.67454,
+                "poly_atom": {
+                  "id": "CG2",
+                  "seq_id": 122
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.80862,
+                "poly_atom": {
+                  "id": "CA",
+                  "seq_id": 129
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.90115,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 129
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.51836,
+                "poly_atom": {
+                  "id": "N",
+                  "seq_id": 130
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.77737,
+                "poly_atom": {
+                  "id": "CD2",
+                  "seq_id": 130
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.97427,
+                "poly_atom": {
+                  "id": "CA",
+                  "seq_id": 152
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.40426,
+                "poly_atom": {
+                  "id": "C",
+                  "seq_id": 152
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.30889,
+                "poly_atom": {
+                  "id": "O",
+                  "seq_id": 152
+                }
+              }
+            ],
+            "poly_atom_count": 12,
+            "score": 0,
+            "transplant_atom_count": 1
+          },
+          "compound_id": "MG",
+          "local_rmsd": 0.242281,
+          "pae": {
+            "matrix": [
+              [
+                0,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                0
+              ]
+            ],
+            "mean": 1,
+            "median": 1,
+            "stddev": 0
+          },
+          "pdb_asym_id": "AC",
+          "pdb_auth_asym_id": "A",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "301",
+          "validation": {
+            "binding_site_atom_count": 57,
+            "binding_site_rmsd": 0.516169,
+            "local_environment_rmsd": 0.5117,
+            "transplant_atom_count": 1,
+            "transplant_rmsd": 0.000717005
+          }
+        }
+      ]
+    }
+  ],
+  "id": "AF-P23639-F1"
+}

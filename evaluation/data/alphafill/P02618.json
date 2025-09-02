@@ -1,0 +1,1428 @@
+{
+  "alphafill_version": "2.1.0",
+  "date": "2023-11-29",
+  "file": "/DATA/afdb-v4//P0/AF-P02618-F1-model_v4.cif.gz",
+  "hits": [
+    {
+      "alignment": {
+        "af_start": 0,
+        "identity": 1,
+        "length": 108,
+        "pdb_start": 1
+      },
+      "global_rmsd": 0.354927,
+      "pdb_asym_id": "A",
+      "pdb_id": "4CPV",
+      "transplants": [
+        {
+          "analogue_id": "CA",
+          "asym_id": "B",
+          "clash": {
+            "clash_count": 1,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.94779,
+                "poly_atom": {
+                  "id": "CA",
+                  "seq_id": 90
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.75662,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 90
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.94486,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 90
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.37027,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 92
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.66194,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 92
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.79044,
+                "poly_atom": {
+                  "id": "OD2",
+                  "seq_id": 92
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.25935,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 94
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.84261,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 94
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.85868,
+                "poly_atom": {
+                  "id": "OD2",
+                  "seq_id": 94
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.63684,
+                "poly_atom": {
+                  "id": "C",
+                  "seq_id": 96
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.60711,
+                "poly_atom": {
+                  "id": "O",
+                  "seq_id": 96
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.05859,
+                "poly_atom": {
+                  "id": "CD",
+                  "seq_id": 101
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.05297,
+                "poly_atom": {
+                  "id": "OE1",
+                  "seq_id": 101
+                }
+              },
+              {
+                "VdW_overlap": 0.0173159,
+                "distance": 2.50268,
+                "poly_atom": {
+                  "id": "OE2",
+                  "seq_id": 101
+                }
+              }
+            ],
+            "poly_atom_count": 14,
+            "score": 0.00462786,
+            "transplant_atom_count": 1
+          },
+          "compound_id": "CA",
+          "local_rmsd": 0.267805,
+          "pae": {
+            "matrix": [
+              [
+                0,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                0
+              ]
+            ],
+            "mean": 1,
+            "median": 1,
+            "stddev": 0
+          },
+          "pdb_asym_id": "B",
+          "pdb_auth_asym_id": "A",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "109",
+          "validation": {
+            "binding_site_atom_count": 55,
+            "binding_site_rmsd": 0.331826,
+            "local_environment_rmsd": 0.32885,
+            "transplant_atom_count": 1,
+            "transplant_rmsd": 0.000307095
+          }
+        },
+        {
+          "analogue_id": "CA",
+          "asym_id": "C",
+          "clash": {
+            "clash_count": 1,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.65995,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 51
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.92958,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 51
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.44096,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 53
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.57771,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 53
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.94282,
+                "poly_atom": {
+                  "id": "N",
+                  "seq_id": 55
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.49656,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 55
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.6225,
+                "poly_atom": {
+                  "id": "OG",
+                  "seq_id": 55
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.76057,
+                "poly_atom": {
+                  "id": "C",
+                  "seq_id": 57
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.76833,
+                "poly_atom": {
+                  "id": "O",
+                  "seq_id": 57
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.15522,
+                "poly_atom": {
+                  "id": "CD",
+                  "seq_id": 59
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.54375,
+                "poly_atom": {
+                  "id": "OE1",
+                  "seq_id": 59
+                }
+              },
+              {
+                "VdW_overlap": 0.356858,
+                "distance": 2.16314,
+                "poly_atom": {
+                  "id": "OE2",
+                  "seq_id": 59
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.91912,
+                "poly_atom": {
+                  "id": "CD",
+                  "seq_id": 62
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.86832,
+                "poly_atom": {
+                  "id": "OE1",
+                  "seq_id": 62
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.77334,
+                "poly_atom": {
+                  "id": "OE2",
+                  "seq_id": 62
+                }
+              }
+            ],
+            "poly_atom_count": 15,
+            "score": 0.0921403,
+            "transplant_atom_count": 1
+          },
+          "compound_id": "CA",
+          "local_rmsd": 0.261196,
+          "pae": {
+            "matrix": [
+              [
+                0,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0,
+                1,
+                1,
+                2,
+                2
+              ],
+              [
+                1,
+                1,
+                0,
+                1,
+                2,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                1,
+                0
+              ]
+            ],
+            "mean": 1.1,
+            "median": 1,
+            "stddev": 0.0182574
+          },
+          "pdb_asym_id": "C",
+          "pdb_auth_asym_id": "A",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "110",
+          "validation": {
+            "binding_site_atom_count": 53,
+            "binding_site_rmsd": 0.334688,
+            "local_environment_rmsd": 0.331574,
+            "transplant_atom_count": 1,
+            "transplant_rmsd": 0.000529117
+          }
+        }
+      ]
+    },
+    {
+      "alignment": {
+        "af_start": 0,
+        "identity": 0.972222,
+        "length": 108,
+        "pdb_start": 0
+      },
+      "global_rmsd": 1.44362,
+      "pdb_asym_id": "A",
+      "pdb_id": "1B8C",
+      "transplants": [
+        {
+          "analogue_id": "MG",
+          "asym_id": "D",
+          "clash": {
+            "clash_count": 1,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.75047,
+                "poly_atom": {
+                  "id": "CA",
+                  "seq_id": 90
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.88016,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 90
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.45068,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 90
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.77614,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 90
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.82123,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 92
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.01177,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 92
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.28689,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 94
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.67722,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 94
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.96459,
+                "poly_atom": {
+                  "id": "OD2",
+                  "seq_id": 94
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.97584,
+                "poly_atom": {
+                  "id": "N",
+                  "seq_id": 96
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.17453,
+                "poly_atom": {
+                  "id": "C",
+                  "seq_id": 96
+                }
+              },
+              {
+                "VdW_overlap": 0.127626,
+                "distance": 2.11237,
+                "poly_atom": {
+                  "id": "O",
+                  "seq_id": 96
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.97112,
+                "poly_atom": {
+                  "id": "N",
+                  "seq_id": 97
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.98206,
+                "poly_atom": {
+                  "id": "CA",
+                  "seq_id": 97
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.34373,
+                "poly_atom": {
+                  "id": "CD",
+                  "seq_id": 101
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.38557,
+                "poly_atom": {
+                  "id": "OE1",
+                  "seq_id": 101
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.67079,
+                "poly_atom": {
+                  "id": "OE2",
+                  "seq_id": 101
+                }
+              }
+            ],
+            "poly_atom_count": 17,
+            "score": 0.0309538,
+            "transplant_atom_count": 1
+          },
+          "compound_id": "MG",
+          "local_rmsd": 0.567661,
+          "pae": {
+            "matrix": [
+              [
+                0,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                1,
+                0
+              ]
+            ],
+            "mean": 1,
+            "median": 1,
+            "stddev": 0
+          },
+          "pdb_asym_id": "C",
+          "pdb_auth_asym_id": "A",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "308"
+        }
+      ]
+    },
+    {
+      "alignment": {
+        "af_start": 0,
+        "identity": 0.972222,
+        "length": 108,
+        "pdb_start": 0
+      },
+      "global_rmsd": 1.0667,
+      "pdb_asym_id": "A",
+      "pdb_id": "1B8L",
+      "transplants": [
+        {
+          "analogue_id": "CO3",
+          "asym_id": "E",
+          "clash": {
+            "clash_count": 1,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.91896,
+                "poly_atom": {
+                  "id": "CA",
+                  "seq_id": 98
+                },
+                "res_atom_id": "O2"
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.75775,
+                "poly_atom": {
+                  "id": "C",
+                  "seq_id": 98
+                },
+                "res_atom_id": "O2"
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.20575,
+                "poly_atom": {
+                  "id": "N",
+                  "seq_id": 99
+                },
+                "res_atom_id": "O2"
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.89341,
+                "poly_atom": {
+                  "id": "CA",
+                  "seq_id": 99
+                },
+                "res_atom_id": "O2"
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.99221,
+                "poly_atom": {
+                  "id": "C",
+                  "seq_id": 99
+                },
+                "res_atom_id": "O2"
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.64332,
+                "poly_atom": {
+                  "id": "CG1",
+                  "seq_id": 99
+                },
+                "res_atom_id": "C"
+              },
+              {
+                "VdW_overlap": 0.0133977,
+                "distance": 3.2066,
+                "poly_atom": {
+                  "id": "CG1",
+                  "seq_id": 99
+                },
+                "res_atom_id": "O2"
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.36921,
+                "poly_atom": {
+                  "id": "CG1",
+                  "seq_id": 99
+                },
+                "res_atom_id": "O3"
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.14479,
+                "poly_atom": {
+                  "id": "N",
+                  "seq_id": 100
+                },
+                "res_atom_id": "O2"
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.66495,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 100
+                },
+                "res_atom_id": "O2"
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.73701,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 100
+                },
+                "res_atom_id": "O2"
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.79812,
+                "poly_atom": {
+                  "id": "OD2",
+                  "seq_id": 100
+                },
+                "res_atom_id": "O2"
+              }
+            ],
+            "poly_atom_count": 10,
+            "score": 0.00386758,
+            "transplant_atom_count": 4
+          },
+          "compound_id": "CO3",
+          "local_rmsd": 0.353009,
+          "pae": {
+            "matrix": [
+              [
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                0
+              ]
+            ],
+            "mean": 1,
+            "median": 1,
+            "stddev": 0
+          },
+          "pdb_asym_id": "B",
+          "pdb_auth_asym_id": "A",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "109"
+        }
+      ]
+    },
+    {
+      "alignment": {
+        "af_start": 0,
+        "identity": 0.777778,
+        "length": 108,
+        "pdb_start": 1
+      },
+      "global_rmsd": 1.05796,
+      "pdb_asym_id": "A",
+      "pdb_id": "2PAL",
+      "transplants": [
+        {
+          "analogue_id": "MN",
+          "asym_id": "F",
+          "clash": {
+            "clash_count": 0,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.91215,
+                "poly_atom": {
+                  "id": "CA",
+                  "seq_id": 90
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.64237,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 90
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.8765,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 90
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.52706,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 92
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.76629,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 92
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.9551,
+                "poly_atom": {
+                  "id": "OD2",
+                  "seq_id": 92
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.19688,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 94
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.70744,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 94
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.83156,
+                "poly_atom": {
+                  "id": "OD2",
+                  "seq_id": 94
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.45365,
+                "poly_atom": {
+                  "id": "C",
+                  "seq_id": 96
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.41981,
+                "poly_atom": {
+                  "id": "O",
+                  "seq_id": 96
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.21496,
+                "poly_atom": {
+                  "id": "CD",
+                  "seq_id": 101
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.22647,
+                "poly_atom": {
+                  "id": "OE1",
+                  "seq_id": 101
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.60709,
+                "poly_atom": {
+                  "id": "OE2",
+                  "seq_id": 101
+                }
+              }
+            ],
+            "poly_atom_count": 14,
+            "score": 0,
+            "transplant_atom_count": 1
+          },
+          "compound_id": "MN",
+          "local_rmsd": 0.273026,
+          "pae": {
+            "matrix": [
+              [
+                0,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                0
+              ]
+            ],
+            "mean": 1,
+            "median": 1,
+            "stddev": 0
+          },
+          "pdb_asym_id": "B",
+          "pdb_auth_asym_id": "A",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "110"
+        },
+        {
+          "analogue_id": "MN",
+          "asym_id": "G",
+          "clash": {
+            "clash_count": 1,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.55196,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 51
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.86059,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 51
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.55748,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 53
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.65482,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 53
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.87997,
+                "poly_atom": {
+                  "id": "N",
+                  "seq_id": 55
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.4266,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 55
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.50305,
+                "poly_atom": {
+                  "id": "OG",
+                  "seq_id": 55
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.60981,
+                "poly_atom": {
+                  "id": "C",
+                  "seq_id": 57
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.61361,
+                "poly_atom": {
+                  "id": "O",
+                  "seq_id": 57
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.16546,
+                "poly_atom": {
+                  "id": "CD",
+                  "seq_id": 59
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.52418,
+                "poly_atom": {
+                  "id": "OE1",
+                  "seq_id": 59
+                }
+              },
+              {
+                "VdW_overlap": 0.00852346,
+                "distance": 2.18148,
+                "poly_atom": {
+                  "id": "OE2",
+                  "seq_id": 59
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.03474,
+                "poly_atom": {
+                  "id": "CD",
+                  "seq_id": 62
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.00486,
+                "poly_atom": {
+                  "id": "OE1",
+                  "seq_id": 62
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.82322,
+                "poly_atom": {
+                  "id": "OE2",
+                  "seq_id": 62
+                }
+              }
+            ],
+            "poly_atom_count": 15,
+            "score": 0.00220075,
+            "transplant_atom_count": 1
+          },
+          "compound_id": "MN",
+          "local_rmsd": 0.277988,
+          "pae": {
+            "matrix": [
+              [
+                0,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                0,
+                1,
+                1,
+                2,
+                2
+              ],
+              [
+                1,
+                1,
+                0,
+                1,
+                2,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                0,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                0,
+                1
+              ],
+              [
+                1,
+                1,
+                1,
+                1,
+                1,
+                0
+              ]
+            ],
+            "mean": 1.1,
+            "median": 1,
+            "stddev": 0.0182574
+          },
+          "pdb_asym_id": "C",
+          "pdb_auth_asym_id": "A",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "111"
+        },
+        {
+          "analogue_id": "MN",
+          "asym_id": "H",
+          "clash": {
+            "clash_count": 0,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.74843,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 53
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.34837,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 53
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.41912,
+                "poly_atom": {
+                  "id": "OD2",
+                  "seq_id": 53
+                }
+              }
+            ],
+            "poly_atom_count": 3,
+            "score": 0,
+            "transplant_atom_count": 1
+          },
+          "compound_id": "MN",
+          "local_rmsd": 0.114212,
+          "pae": {
+            "matrix": [
+              [
+                0
+              ]
+            ]
+          },
+          "pdb_asym_id": "D",
+          "pdb_auth_asym_id": "A",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "223"
+        }
+      ]
+    },
+    {
+      "alignment": {
+        "af_start": 0,
+        "identity": 0.777778,
+        "length": 108,
+        "pdb_start": 1
+      },
+      "global_rmsd": 1.2436,
+      "pdb_asym_id": "A",
+      "pdb_id": "3PAL",
+      "transplants": [
+        {
+          "analogue_id": "MG",
+          "asym_id": "I",
+          "clash": {
+            "clash_count": 0,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.36323,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 53
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.34304,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 53
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.75117,
+                "poly_atom": {
+                  "id": "OD2",
+                  "seq_id": 53
+                }
+              }
+            ],
+            "poly_atom_count": 3,
+            "score": 0,
+            "transplant_atom_count": 1
+          },
+          "compound_id": "MG",
+          "local_rmsd": 0.11994,
+          "pae": {
+            "matrix": [
+              [
+                0
+              ]
+            ]
+          },
+          "pdb_asym_id": "D",
+          "pdb_auth_asym_id": "A",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "223"
+        }
+      ]
+    },
+    {
+      "alignment": {
+        "af_start": 4,
+        "identity": 0.519608,
+        "length": 102,
+        "pdb_start": 4
+      },
+      "global_rmsd": 0.530313,
+      "pdb_asym_id": "A",
+      "pdb_id": "1OMD",
+      "transplants": [
+        {
+          "analogue_id": "CA",
+          "asym_id": "J",
+          "clash": {
+            "clash_count": 5,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.45194,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 71
+                }
+              },
+              {
+                "VdW_overlap": 0.178002,
+                "distance": 2.522,
+                "poly_atom": {
+                  "id": "CD",
+                  "seq_id": 71
+                }
+              },
+              {
+                "VdW_overlap": 1.23567,
+                "distance": 1.46433,
+                "poly_atom": {
+                  "id": "CE",
+                  "seq_id": 71
+                }
+              },
+              {
+                "VdW_overlap": 2.0459,
+                "distance": 0.504103,
+                "poly_atom": {
+                  "id": "NZ",
+                  "seq_id": 71
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.84719,
+                "poly_atom": {
+                  "id": "CG",
+                  "seq_id": 73
+                }
+              },
+              {
+                "VdW_overlap": 0.0391452,
+                "distance": 2.48085,
+                "poly_atom": {
+                  "id": "OD1",
+                  "seq_id": 73
+                }
+              },
+              {
+                "VdW_overlap": 0.0776052,
+                "distance": 2.44239,
+                "poly_atom": {
+                  "id": "OD2",
+                  "seq_id": 73
+                }
+              }
+            ],
+            "poly_atom_count": 7,
+            "score": 0.906469,
+            "transplant_atom_count": 1
+          },
+          "compound_id": "CA",
+          "local_rmsd": 0.105075,
+          "pae": {
+            "matrix": [
+              [
+                0,
+                1
+              ],
+              [
+                1,
+                0
+              ]
+            ],
+            "mean": 1,
+            "median": 1,
+            "stddev": 0
+          },
+          "pdb_asym_id": "D",
+          "pdb_auth_asym_id": "A",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "135"
+        }
+      ]
+    },
+    {
+      "alignment": {
+        "af_start": 4,
+        "identity": 0.519608,
+        "length": 102,
+        "pdb_start": 4
+      },
+      "global_rmsd": 0.570625,
+      "pdb_asym_id": "A",
+      "pdb_id": "1RRO",
+      "transplants": [
+        {
+          "analogue_id": "CA",
+          "asym_id": "K",
+          "clash": {
+            "clash_count": 1,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.4366,
+                "poly_atom": {
+                  "id": "C",
+                  "seq_id": 37
+                }
+              },
+              {
+                "VdW_overlap": 0.16066,
+                "distance": 2.35934,
+                "poly_atom": {
+                  "id": "O",
+                  "seq_id": 37
+                }
+              }
+            ],
+            "poly_atom_count": 2,
+            "score": 0.113603,
+            "transplant_atom_count": 1
+          },
+          "compound_id": "CA",
+          "local_rmsd": 0.154021,
+          "pae": {
+            "matrix": [
+              [
+                0
+              ]
+            ]
+          },
+          "pdb_asym_id": "D",
+          "pdb_auth_asym_id": "A",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "124"
+        }
+      ]
+    }
+  ],
+  "id": "AF-P02618-F1"
+}

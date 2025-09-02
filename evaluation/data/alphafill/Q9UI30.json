@@ -1,0 +1,177 @@
+{
+  "alphafill_version": "2.1.0",
+  "date": "2023-12-01",
+  "file": "/DATA/afdb-v4//Q9/AF-Q9UI30-F1-model_v4.cif.gz",
+  "hits": [
+    {
+      "alignment": {
+        "af_start": 0,
+        "identity": 0.33871,
+        "length": 124,
+        "pdb_start": 0
+      },
+      "global_rmsd": 2.68035,
+      "pdb_asym_id": "A",
+      "pdb_id": "5CM2",
+      "transplants": [
+        {
+          "analogue_id": "ZN",
+          "asym_id": "B",
+          "clash": {
+            "clash_count": 1,
+            "distances": [
+              {
+                "VdW_overlap": 0,
+                "distance": 3.40342,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 11
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.90059,
+                "poly_atom": {
+                  "id": "OG",
+                  "seq_id": 11
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.79225,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 13
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.96579,
+                "poly_atom": {
+                  "id": "CG2",
+                  "seq_id": 13
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.52249,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 16
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.11411,
+                "poly_atom": {
+                  "id": "CG1",
+                  "seq_id": 16
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.96727,
+                "poly_atom": {
+                  "id": "CG2",
+                  "seq_id": 16
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.991,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 100
+                }
+              },
+              {
+                "VdW_overlap": 0.797639,
+                "distance": 1.74236,
+                "poly_atom": {
+                  "id": "SG",
+                  "seq_id": 100
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.73424,
+                "poly_atom": {
+                  "id": "N",
+                  "seq_id": 103
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 3.40085,
+                "poly_atom": {
+                  "id": "CB",
+                  "seq_id": 103
+                }
+              },
+              {
+                "VdW_overlap": 0,
+                "distance": 2.62822,
+                "poly_atom": {
+                  "id": "OG",
+                  "seq_id": 103
+                }
+              }
+            ],
+            "poly_atom_count": 12,
+            "score": 0.230259,
+            "transplant_atom_count": 1
+          },
+          "compound_id": "ZN",
+          "local_rmsd": 0.463183,
+          "pae": {
+            "matrix": [
+              [
+                0,
+                3,
+                8,
+                8,
+                9
+              ],
+              [
+                2,
+                0,
+                7,
+                10,
+                14
+              ],
+              [
+                13,
+                7,
+                0,
+                12,
+                13
+              ],
+              [
+                6,
+                5,
+                6,
+                0,
+                3
+              ],
+              [
+                6,
+                7,
+                6,
+                1,
+                0
+              ]
+            ],
+            "mean": 7.3,
+            "median": 7,
+            "stddev": 1.40872
+          },
+          "pdb_asym_id": "C",
+          "pdb_auth_asym_id": "M",
+          "pdb_auth_ins_code": null,
+          "pdb_auth_seq_id": "201"
+        }
+      ]
+    }
+  ],
+  "id": "AF-Q9UI30-F1"
+}
