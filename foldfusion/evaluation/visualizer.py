@@ -1,5 +1,4 @@
 from pathlib import Path
-from typing import Optional, Tuple
 
 import numpy as np
 import plotly.graph_objects as go
@@ -29,8 +28,8 @@ def visualize_protein_with_radius(
     experimental_protein: Path,
     ligand: Path,
     radius: float = 6.0,
-    output_file: Optional[Path] = None,
-) -> Tuple[Optional[object], str]:
+    output_file: Path | None = None,
+) -> tuple[object | None, str]:
     """
     Create an interactive 3D visualization of proteins with ligand radius sphere.
 
@@ -39,8 +38,9 @@ def visualize_protein_with_radius(
         experimental_protein: Path to experimental protein PDB file
         ligand: Path to ligand SDF file
         radius: Radius around ligand to visualize
-        output_file: Optional path to save HTML file. If not provided and config is available,
-                    saves to config output directory with auto-generated filename
+        output_file: Optional path to save HTML. If not provided and config is
+            available, saves to config output directory with auto-generated
+            filename
 
     Returns:
         Tuple of (plotly figure, HTML string)
@@ -67,9 +67,12 @@ def visualize_protein_with_radius(
             y=alphafold_coords[:, 1],
             z=alphafold_coords[:, 2],
             mode="markers",
-            marker=dict(size=3, color="blue", opacity=0.7),
+            marker={"size": 3, "color": "blue", "opacity": 0.7},
             name="AlphaFold Protein",
-            hovertemplate="AlphaFold<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>",
+            hovertemplate=(
+                "AlphaFold"
+                "<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>"
+            ),
         )
     )
 
@@ -80,9 +83,12 @@ def visualize_protein_with_radius(
             y=experimental_coords[:, 1],
             z=experimental_coords[:, 2],
             mode="markers",
-            marker=dict(size=3, color="red", opacity=0.7),
+            marker={"size": 3, "color": "red", "opacity": 0.7},
             name="Experimental Protein",
-            hovertemplate="Experimental<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>",
+            hovertemplate=(
+                "Experimental"
+                "<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>"
+            ),
         )
     )
 
@@ -93,9 +99,11 @@ def visualize_protein_with_radius(
             y=ligand_coords[:, 1],
             z=ligand_coords[:, 2],
             mode="markers",
-            marker=dict(size=8, color="green", opacity=1.0),
+            marker={"size": 8, "color": "green", "opacity": 1.0},
             name="Ligand",
-            hovertemplate="Ligand<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>",
+            hovertemplate=(
+                "Ligand" "<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>"
+            ),
         )
     )
 
@@ -116,12 +124,12 @@ def visualize_protein_with_radius(
     # Update layout
     fig.update_layout(
         title=f"Protein Structure Comparison with {radius}Å Radius",
-        scene=dict(
-            xaxis_title="X (Å)",
-            yaxis_title="Y (Å)",
-            zaxis_title="Z (Å)",
-            aspectmode="cube",
-        ),
+        scene={
+            "xaxis_title": "X (Å)",
+            "yaxis_title": "Y (Å)",
+            "zaxis_title": "Z (Å)",
+            "aspectmode": "cube",
+        },
         width=1000,
         height=800,
         showlegend=True,
@@ -149,8 +157,8 @@ def visualize_local_rmsd_region(
     experimental_protein: Path,
     ligand: Path,
     radius: float = 6.0,
-    rmsd_value: Optional[float] = None,
-    output_file: Optional[Path] = None,
+    rmsd_value: float | None = None,
+    output_file: Path | None = None,
 ):
     """
     Create visualization highlighting the atoms used in local RMSD calculation.
@@ -161,8 +169,9 @@ def visualize_local_rmsd_region(
         ligand: Path to ligand SDF file
         radius: Radius around ligand to analyze
         rmsd_value: Pre-calculated RMSD value to display
-        output_file: Optional path to save HTML file. If not provided and config is available,
-                    saves to config output directory with auto-generated filename
+        output_file: Optional path to save HTML. If not provided and config is
+            available, saves to config output directory with auto-generated
+            filename
     """
 
     # Parse structures
@@ -190,9 +199,12 @@ def visualize_local_rmsd_region(
             y=alphafold_coords[~af_within_radius, 1],
             z=alphafold_coords[~af_within_radius, 2],
             mode="markers",
-            marker=dict(size=2, color="lightblue", opacity=0.3),
+            marker={"size": 2, "color": "lightblue", "opacity": 0.3},
             name="AlphaFold (outside radius)",
-            hovertemplate="AlphaFold (excluded)<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>",
+            hovertemplate=(
+                "AlphaFold (excluded)"
+                "<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>"
+            ),
         )
     )
 
@@ -204,9 +216,12 @@ def visualize_local_rmsd_region(
                 y=alphafold_coords[af_within_radius, 1],
                 z=alphafold_coords[af_within_radius, 2],
                 mode="markers",
-                marker=dict(size=4, color="blue", opacity=0.8),
+                marker={"size": 4, "color": "blue", "opacity": 0.8},
                 name="AlphaFold (within radius)",
-                hovertemplate="AlphaFold (RMSD)<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>",
+                hovertemplate=(
+                    "AlphaFold (RMSD)"
+                    "<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>"
+                ),
             )
         )
 
@@ -217,9 +232,12 @@ def visualize_local_rmsd_region(
             y=experimental_coords[~ex_within_radius, 1],
             z=experimental_coords[~ex_within_radius, 2],
             mode="markers",
-            marker=dict(size=2, color="lightcoral", opacity=0.3),
+            marker={"size": 2, "color": "lightcoral", "opacity": 0.3},
             name="Experimental (outside radius)",
-            hovertemplate="Experimental (excluded)<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>",
+            hovertemplate=(
+                "Experimental (excluded)"
+                "<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>"
+            ),
         )
     )
 
@@ -231,9 +249,12 @@ def visualize_local_rmsd_region(
                 y=experimental_coords[ex_within_radius, 1],
                 z=experimental_coords[ex_within_radius, 2],
                 mode="markers",
-                marker=dict(size=4, color="red", opacity=0.8),
+                marker={"size": 4, "color": "red", "opacity": 0.8},
                 name="Experimental (within radius)",
-                hovertemplate="Experimental (RMSD)<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>",
+                hovertemplate=(
+                    "Experimental (RMSD)"
+                    "<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>"
+                ),
             )
         )
 
@@ -244,9 +265,11 @@ def visualize_local_rmsd_region(
             y=ligand_coords[:, 1],
             z=ligand_coords[:, 2],
             mode="markers",
-            marker=dict(size=8, color="green", opacity=1.0),
+            marker={"size": 8, "color": "green", "opacity": 1.0},
             name="Ligand",
-            hovertemplate="Ligand<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>",
+            hovertemplate=(
+                "Ligand" "<br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>"
+            ),
         )
     )
 
@@ -271,12 +294,12 @@ def visualize_local_rmsd_region(
 
     fig.update_layout(
         title=title,
-        scene=dict(
-            xaxis_title="X (Å)",
-            yaxis_title="Y (Å)",
-            zaxis_title="Z (Å)",
-            aspectmode="cube",
-        ),
+        scene={
+            "xaxis_title": "X (Å)",
+            "yaxis_title": "Y (Å)",
+            "zaxis_title": "Z (Å)",
+            "aspectmode": "cube",
+        },
         width=1000,
         height=800,
         showlegend=True,

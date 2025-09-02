@@ -1,4 +1,4 @@
-"""This package contains modules for various bioinformatics tools integrated into the FoldFusion pipeline."""
+"""Modules for bioinformatics tools integrated into the FoldFusion pipeline."""
 
 from .alphafoldfetcher import AlphaFoldFetcher
 from .dogsite3 import Dogsite3

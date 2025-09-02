@@ -6,9 +6,11 @@ and save one JSON file per UniProt ID into evaluation/data/alphafill/{UNIPROT}.j
 API reference: https://alphafill.eu/man/alphafill-api/
 
 Strategy:
-- Try GET https://alphafill.eu/v1/aff/AF-{UNIPROT}-F1/json first (common AlphaFold model ID)
-- If not found (404), query https://alphafill.eu/v1/aff/3d-beacon/{UNIPROT} and try to
-  extract a valid AlphaFill ID (e.g., AF-{UNIPROT}-F{n}) from the response, then fetch its JSON.
+- Try GET https://alphafill.eu/v1/aff/AF-{UNIPROT}-F1/json first (common
+    AlphaFold model ID)
+- If not found (404), query https://alphafill.eu/v1/aff/3d-beacon/{UNIPROT}
+    and try to extract a valid AlphaFill ID (e.g., AF-{UNIPROT}-F{n}) from the
+    response, then fetch its JSON.
 
 This script uses only Python stdlib (urllib) to avoid extra dependencies.
 """
@@ -25,20 +27,19 @@ from dataclasses import dataclass
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
-
 ALPHAFILL_BASE = "https://alphafill.eu/v1/aff"
 
 
 @dataclass
 class FetchResult:
     uniprot_id: str
-    alphafill_id: t.Optional[str]
+    alphafill_id: str | None
     status: str  # "ok" | "not_found" | "error"
-    error: t.Optional[str] = None
+    error: str | None = None
 
 
 def read_uniprot_ids(bins_path: str) -> list[str]:
-    with open(bins_path, "r", encoding="utf-8") as f:
+    with open(bins_path, encoding="utf-8") as f:
         data = json.load(f)
     ids: set[str] = set()
     for bin_entry in data.get("ligand_bins", []):
@@ -50,7 +51,7 @@ def read_uniprot_ids(bins_path: str) -> list[str]:
 
 
 def http_get_json(
-    url: str, timeout: float = 30.0, headers: t.Optional[dict] = None
+    url: str, timeout: float = 30.0, headers: dict | None = None
 ) -> t.Any:
     req = Request(
         url,
@@ -202,7 +203,8 @@ def main(argv: list[str]) -> int:
             except Exception as e:
                 errors += 1
                 print(
-                    f"[{i}/{len(uniprot_ids)}] {uid}: error saving {result.alphafill_id}: {e}"
+                    f"[{i}/{len(uniprot_ids)}] {uid}: error saving "
+                    f"{result.alphafill_id}: {e}"
                 )
         elif result.status == "not_found":
             not_found += 1

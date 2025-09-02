@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 class Dogsite3(Tool):
-    """Runs the DoGSiteScorer (DoGSite3) tool to predict binding pockets in protein structures.
+    """Run DoGSiteScorer (DoGSite3) to predict binding pockets in proteins.
 
     Attributes:
         pdb_file (Path): Path to the input PDB file for pocket prediction.
@@ -39,29 +39,35 @@ class Dogsite3(Tool):
     def get_command(self) -> list[str]:
         """Assembles the command and arguments for running DoGSite3."""
         if not self.pdb_file:
-            logger.error("PDB file path is not set. Cannot assemble DoGSite3 command.")
+            logger.error(
+                "PDB file path is not set. Cannot assemble DoGSite3 command."
+            )
             raise ValueError(
                 "PDB file path must be set before assembling command arguments."
             )
 
-        command = ["--proteinFile", str(self.pdb_file.resolve())]  # Use resolved path
+        command = [
+            "--proteinFile",
+            str(self.pdb_file.resolve()),
+        ]  # Use resolved path
         command = [str(self.executable)] + command + ["--writeSiteResiduesEDF"]
         logger.debug(f"DoGSite3 command assembled: {' '.join(command)}")
         return command
 
     def get_best_edf(self) -> Path:
-        """Retrieves the path to the best pocket's EDF file and updates its reference PDB path.
+        """Retrieve best pocket EDF and update its REFERENCE PDB path.
 
-        The EDF (Pocket Description File) with the suffix "_P_1_res.edf" is assumed
-        to be the one corresponding to the best-ranked pocket.
-        This method also updates the REFERENCE field in the EDF file to point to the
+        The EDF (Pocket Description File) with the suffix "_P_1_res.edf" is
+        assumed to be the one corresponding to the best-ranked pocket. This
+        method also updates the REFERENCE field in the EDF file to point to the
         correct input PDB file if it was originally "<NO-FILE>".
 
         Returns:
             Path: The absolute path to the (potentially modified) best EDF file.
 
         Raises:
-            FileNotFoundError: If the expected EDF file is not found in the output directory.
+            FileNotFoundError: If the expected EDF file is not found in the
+                output directory.
         """
         edf_filename = "output_P_1_res.edf"
         edf_file_path = self.output_dir / edf_filename
@@ -69,12 +75,13 @@ class Dogsite3(Tool):
 
         if not edf_file_path.is_file():
             logger.error(
-                f"EDF file not found: {edf_file_path}. "
-                f"Ensure the Dogsite3 tool has been run and produced this output file."
+                "EDF file not found: %s. Ensure the Dogsite3 tool has been run "
+                "and produced this output file.",
+                edf_file_path,
             )
             raise FileNotFoundError(
                 f"EDF file not found: {edf_file_path}. "
-                f"Ensure the Dogsite3 tool has been run and produced this output file."
+                "Ensure the Dogsite3 tool has been run and produced this output file."
             )
 
         try:
@@ -94,7 +101,7 @@ class Dogsite3(Tool):
                 new_lines.append(f"REFERENCE {reference_pdb_path_str}")
                 modified = True
                 logger.info(
-                    f"Updated REFERENCE in EDF file to: {reference_pdb_path_str}"
+                    "Updated REFERENCE in EDF file to: %s", reference_pdb_path_str
                 )
             else:
                 new_lines.append(line)
@@ -105,14 +112,15 @@ class Dogsite3(Tool):
                 content_to_write = "\n".join(new_lines) + "\n"
                 edf_file_path.write_text(content_to_write)
                 logger.info(
-                    f"Successfully modified and saved EDF file: {edf_file_path}"
+                    "Successfully modified and saved EDF file: %s", edf_file_path
                 )
             except Exception as e:
                 logger.error(f"Error writing modified EDF file {edf_file_path}: {e}")
                 raise
         else:
             logger.info(
-                f"No modification needed for REFERENCE in EDF file: {edf_file_path}"
+                "No modification needed for REFERENCE in EDF file: %s",
+                edf_file_path,
             )
 
         resolved_edf_path = edf_file_path.resolve()

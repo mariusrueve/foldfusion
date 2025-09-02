@@ -2,8 +2,9 @@ import json
 import logging
 from pathlib import Path
 
-from .tool import Tool
 from foldfusion.evaluation.utils import parse_sdf
+
+from .tool import Tool
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +14,8 @@ class LigandExtractor(Tool):
     LigandExtractor
     ===============
 
-    This class is responsible for extracting ligand information from PDB files and organizing the output in a structured format.
+    This class extracts ligand information from PDB files and organizes the
+    output in a structured format.
 
     Attributes:
     -----------
@@ -43,7 +45,8 @@ class LigandExtractor(Tool):
         Args:
             executable: Path to the ligand extraction executable
             siena_dir: Directory containing the Siena ensemble files
-            alignment_list: List of alignment dictionaries from Siena.get_best_alignments()
+            alignment_list: List of alignment dicts from
+                Siena.get_best_alignments()
             output_dir: Directory where extracted ligand files will be stored
 
     _get_siena_pdb_path(pdb_code: str) -> Path
@@ -86,7 +89,7 @@ class LigandExtractor(Tool):
     def _get_ligand_ids(self, pdb_path: Path, wanted_chain_id: str) -> list[str]:
         ligands = []
 
-        with open(pdb_path, "r") as f:
+        with open(pdb_path) as f:
             for line in f:
                 if line.startswith("HET "):
                     parts = line.split()
@@ -97,9 +100,12 @@ class LigandExtractor(Tool):
                     has_number_in_chain = any(char.isdigit() for char in chain_id)
                     if has_number_in_chain:
                         logger.warning(
-                            f"Found number in chain ID '{chain_id}' for ligand "
-                            f"{ligand_name} at position {residue_number}. "
-                            "Applying fixes. Please check for correctnes."
+                            "Found number in chain ID '%s' for ligand %s at "
+                            "position %s. Applying fixes. Please check for "
+                            "correctness.",
+                            chain_id,
+                            ligand_name,
+                            residue_number,
                         )
                         # Split the chain ID after the first character
                         first_char = chain_id[0]
@@ -108,8 +114,9 @@ class LigandExtractor(Tool):
                         # Update chain ID to just the first character
                         chain_id = first_char
                         logger.debug(
-                            f"Split chain ID into '{chain_id}' and updated residue "
-                            + f"number to {residue_number}"
+                            "Split chain ID into '%s' and updated residue number to %s",
+                            chain_id,
+                            residue_number,
                         )
                     if not chain_id == wanted_chain_id:
                         continue
@@ -167,11 +174,11 @@ class LigandExtractor(Tool):
                 parsed = parse_sdf(output_path)
                 if parsed["num_atoms"] == 0:
                     logger.warning(
-                        f"Extracted ligand SDF is empty: {output_path}. Skipping."
+                        "Extracted ligand SDF is empty: %s. Skipping.", output_path
                     )
                     continue
             except Exception as e:
-                logger.warning(f"Failed to parse SDF {output_path}: {e}. Skipping.")
+                logger.warning("Failed to parse SDF %s: %s. Skipping.", output_path, e)
                 continue
 
             # Organize the structure in a nested dictionary with better structure
@@ -196,6 +203,6 @@ class LigandExtractor(Tool):
         with open(json_output_path, "w") as json_file:
             json.dump(ligand_structure, json_file, indent=2)
 
-        logger.info(f"Ligand structure saved to {json_output_path}")
+        logger.info("Ligand structure saved to %s", json_output_path)
 
         return self.output_dir

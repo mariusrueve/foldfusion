@@ -1,10 +1,9 @@
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 
 
-def parse_pdb(pdb_file: Path) -> Dict:
+def parse_pdb(pdb_file: Path) -> dict:
     """
     Parse PDB file and extract protein structure information.
 
@@ -18,7 +17,7 @@ def parse_pdb(pdb_file: Path) -> Dict:
     header_info = {}
     hetero_atoms = []
 
-    with open(pdb_file, "r") as f:
+    with open(pdb_file) as f:
         for line in f:
             record_type = line[:6].strip()
 
@@ -72,7 +71,7 @@ def parse_pdb(pdb_file: Path) -> Dict:
     }
 
 
-def parse_sdf(sdf_file: Path) -> Dict:
+def parse_sdf(sdf_file: Path) -> dict:
     """
     Parse SDF file and extract molecular structure information.
 
@@ -85,7 +84,7 @@ def parse_sdf(sdf_file: Path) -> Dict:
     atoms = []
     header_info = {}
 
-    with open(sdf_file, "r") as f:
+    with open(sdf_file) as f:
         lines = f.readlines()
 
     # Parse header (first 3 lines)
@@ -98,7 +97,7 @@ def parse_sdf(sdf_file: Path) -> Dict:
     if len(lines) >= 4:
         counts_line = lines[3]
         num_atoms = int(counts_line[:3])
-        num_bonds = int(counts_line[3:6])
+        _ = int(counts_line[3:6])  # bonds count (unused)
 
         # Parse atom block
         for i in range(4, 4 + num_atoms):
@@ -129,14 +128,15 @@ def parse_sdf(sdf_file: Path) -> Dict:
 
 
 def get_coordinates(
-    parsed_data: Dict, atom_types: Optional[List[str]] = None
+    parsed_data: dict, atom_types: list[str] | None = None
 ) -> np.ndarray:
     """
     Extract coordinates from parsed PDB data.
 
     Args:
         parsed_data: Dictionary from parse_pdb function
-        atom_types: List of atom types to filter (e.g., ['CA', 'CB']). If None, returns all atoms.
+        atom_types: List of atom types to filter (e.g., ['CA', 'CB']). If None,
+            returns all atoms.
 
     Returns:
         numpy array of shape (n_atoms, 3) containing x, y, z coordinates

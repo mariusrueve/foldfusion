@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from __future__ import annotations
+
 import difflib
 import json
 import random
@@ -8,14 +9,15 @@ import sys
 import time
 import unicodedata
 from collections import defaultdict
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Dict, Iterable, List, Optional, Set, Tuple
 
 try:
     import requests  # type: ignore
 except Exception:
     print(
-        "This script requires the 'requests' package. Install with: pip install requests",
+        "This script requires the 'requests' package. "
+        "Install with: pip install requests",
         file=sys.stderr,
     )
     raise
@@ -24,7 +26,7 @@ except Exception:
 # Configuration
 # -------------------------
 
-DEFAULT_BIN_DEFS: Dict[str, List[str]] = {
+DEFAULT_BIN_DEFS: dict[str, list[str]] = {
     # Pragmatic chem_comp ID sets; tweak as needed
     "ADP/ATP": ["ATP", "ADP", "ANP", "AGS"],  # ANP: AMP-PNP; AGS: ATP-γ-S
     "FAD": ["FAD"],
@@ -94,7 +96,7 @@ RCSB_ROWS_PER_CHEM = (
 )
 
 # Reuse a single HTTP session to reduce connection overhead
-_SESSION: Optional["requests.Session"] = None
+_SESSION: requests.Session | None = None
 
 # -------------------------
 # Data Classes
@@ -103,24 +105,24 @@ _SESSION: Optional["requests.Session"] = None
 
 @dataclass
 class PDBEvidence:
-    resolution: Optional[float]
-    method: Optional[str]
-    matched_ligands: List[str] = field(default_factory=list)
+    resolution: float | None
+    method: str | None
+    matched_ligands: list[str] = field(default_factory=list)
 
 
 @dataclass
 class UniProtEntry:
     uniprot_id: str
-    protein: Optional[str] = None
-    gene: Optional[str] = None
-    organism: Optional[str] = None
-    length: Optional[int] = None
-    ec_numbers: List[str] = field(default_factory=list)
-    keywords: List[str] = field(default_factory=list)
-    validation_pdb: List[str] = field(default_factory=list)
-    pdb_evidence: Dict[str, PDBEvidence] = field(default_factory=dict)
-    all_supporting_pdbs: List[Dict[str, object]] = field(default_factory=list)
-    alphafold_url: Optional[str] = None
+    protein: str | None = None
+    gene: str | None = None
+    organism: str | None = None
+    length: int | None = None
+    ec_numbers: list[str] = field(default_factory=list)
+    keywords: list[str] = field(default_factory=list)
+    validation_pdb: list[str] = field(default_factory=list)
+    pdb_evidence: dict[str, PDBEvidence] = field(default_factory=dict)
+    all_supporting_pdbs: list[dict[str, object]] = field(default_factory=list)
+    alphafold_url: str | None = None
 
 
 # -------------------------
@@ -129,7 +131,8 @@ class UniProtEntry:
 
 
 def _norm(s: str) -> str:
-    # Unicode fold (strip accents/superscripts), lower, drop spaces and punctuation we don't need
+    # Unicode fold (strip accents/superscripts), lower, drop spaces and
+    # punctuation we don't need
     t = unicodedata.normalize("NFKD", s)
     t = t.encode("ascii", "ignore").decode("ascii")
     t = t.lower()
@@ -138,8 +141,8 @@ def _norm(s: str) -> str:
     return t
 
 
-def _canonical_map() -> Dict[str, str]:
-    m: Dict[str, str] = {}
+def _canonical_map() -> dict[str, str]:
+    m: dict[str, str] = {}
     for canon in DEFAULT_BIN_DEFS.keys():
         m[_norm(canon)] = canon
     # add synonyms
@@ -153,7 +156,7 @@ def _canonical_map() -> Dict[str, str]:
 # -------------------------
 
 
-def _get_json(url: str) -> Optional[dict]:
+def _get_json(url: str) -> dict | None:
     global _SESSION
     if _SESSION is None:
         try:
@@ -177,7 +180,7 @@ def _get_json(url: str) -> Optional[dict]:
     return None
 
 
-def _post_json(url: str, payload: dict) -> Optional[dict]:
+def _post_json(url: str, payload: dict) -> dict | None:
     global _SESSION
     if _SESSION is None:
         try:
@@ -210,8 +213,8 @@ def _post_json(url: str, payload: dict) -> Optional[dict]:
 
 
 def rcsb_search_entries_for_chem(
-    chem_id: str, resolution_max: float, method: Optional[str] = "X-RAY DIFFRACTION"
-) -> Set[str]:
+    chem_id: str, resolution_max: float, method: str | None = "X-RAY DIFFRACTION"
+) -> set[str]:
     """Return PDB IDs that contain chem_id, match method and resolution threshold.
     If method is None or 'ANY', don't filter by method.
 
@@ -221,7 +224,7 @@ def rcsb_search_entries_for_chem(
 
     chem_id = (chem_id or "").upper()
 
-    nodes: List[dict] = [
+    nodes: list[dict] = [
         {
             "type": "terminal",
             "service": "text",
@@ -258,7 +261,8 @@ def rcsb_search_entries_for_chem(
         "query": {"type": "group", "logical_operator": "and", "nodes": nodes},
         "return_type": "entry",
         "request_options": {
-            # Limit rows per chem id to keep the pipeline fast while still finding many entries
+            # Limit rows per chem id to keep the pipeline fast while still
+            # finding many entries
             "paginate": {"start": 0, "rows": RCSB_ROWS_PER_CHEM},
             "results_content_type": ["experimental"],
         },
@@ -273,7 +277,7 @@ def rcsb_search_entries_for_chem(
         return set()
 
 
-def rcsb_entry_details(pdb_id: str) -> Tuple[Optional[float], Optional[str], List[str]]:
+def rcsb_entry_details(pdb_id: str) -> tuple[float | None, str | None, list[str]]:
     """Return (best_resolution, method, polymer_entity_ids) for an entry."""
     url = RCSB_ENTRY_URL.format(pdb_id=pdb_id)
     data = _get_json(url)
@@ -285,8 +289,8 @@ def rcsb_entry_details(pdb_id: str) -> Tuple[Optional[float], Optional[str], Lis
     try:
         rc = data.get("rcsb_entry_info", {}).get("resolution_combined")
         if isinstance(rc, list) and rc:
-            res = min([x for x in rc if isinstance(x, (int, float))])
-        elif isinstance(rc, (int, float)):
+            res = min([x for x in rc if isinstance(x, int | float)])
+        elif isinstance(rc, int | float):
             res = float(rc)
     except Exception:
         res = None
@@ -310,9 +314,9 @@ def rcsb_entry_details(pdb_id: str) -> Tuple[Optional[float], Optional[str], Lis
     return res, method, [str(eid) for eid in entity_ids]
 
 
-def rcsb_entry_uniprot_ids(pdb_id: str, entity_ids: Iterable[str]) -> Set[str]:
+def rcsb_entry_uniprot_ids(pdb_id: str, entity_ids: Iterable[str]) -> set[str]:
     """Return UniProt accessions mapped in the given polymer entities of this entry."""
-    uniprots: Set[str] = set()
+    uniprots: set[str] = set()
     for eid in entity_ids:
         url = RCSB_ENTITY_URL.format(pdb_id=pdb_id, entity_id=eid)
         data = _get_json(url)
@@ -334,18 +338,18 @@ def rcsb_entry_uniprot_ids(pdb_id: str, entity_ids: Iterable[str]) -> Set[str]:
 # -------------------------
 
 
-_UNIPROT_CACHE: Dict[
+_UNIPROT_CACHE: dict[
     str,
-    Tuple[
-        Optional[str], Optional[str], Optional[str], Optional[int], List[str], List[str]
+    tuple[
+        str | None, str | None, str | None, int | None, list[str], list[str]
     ],
 ] = {}
 
 
 def fetch_uniprot_meta(
     acc: str,
-) -> Tuple[
-    Optional[str], Optional[str], Optional[str], Optional[int], List[str], List[str]
+) -> tuple[
+    str | None, str | None, str | None, int | None, list[str], list[str]
 ]:
     """Return (protein_name, gene, organism, length, ec_numbers, keywords)."""
     if acc in _UNIPROT_CACHE:
@@ -384,7 +388,7 @@ def fetch_uniprot_meta(
         length = int(data.get("sequence", {}).get("length"))
     except Exception:
         length = None
-    ec_numbers: List[str] = []
+    ec_numbers: list[str] = []
     try:
         ec = (
             data.get("proteinDescription", {})
@@ -397,7 +401,7 @@ def fetch_uniprot_meta(
                 ec_numbers.append(v)
     except Exception:
         pass
-    keywords: List[str] = []
+    keywords: list[str] = []
     try:
         for kw in data.get("keywords", []) or []:
             v = kw.get("value")
@@ -420,17 +424,17 @@ def fetch_uniprot_meta(
 
 def build_bin(
     bin_name: str,
-    comp_ids: List[str],
+    comp_ids: list[str],
     resolution_max: float,
-    method: Optional[str],
-    max_per_bin: Optional[int],
-    seed: Optional[int],
-) -> Tuple[dict, List[UniProtEntry]]:
+    method: str | None,
+    max_per_bin: int | None,
+    seed: int | None,
+) -> tuple[dict, list[UniProtEntry]]:
     """Build a single bin as a dict matching the grouped JSON schema."""
     rng = random.Random(seed)
 
     # 1) Find all entries matching any comp_id
-    entry_to_matched_ligs: Dict[str, Set[str]] = defaultdict(set)
+    entry_to_matched_ligs: dict[str, set[str]] = defaultdict(set)
     # Randomize order of comp_ids to diversify early hits
     for chem in rng.sample(comp_ids, k=len(comp_ids)):
         pdbs = rcsb_search_entries_for_chem(chem, resolution_max, method)
@@ -438,8 +442,8 @@ def build_bin(
             entry_to_matched_ligs[pdb_id].add(chem)
 
     # 2) For each entry, get resolution/method and UniProt IDs
-    uniprot_to_evidence: Dict[str, Dict[str, PDBEvidence]] = defaultdict(dict)
-    pdb_meta_cache: Dict[str, Tuple[Optional[float], Optional[str], List[str]]] = {}
+    uniprot_to_evidence: dict[str, dict[str, PDBEvidence]] = defaultdict(dict)
+    pdb_meta_cache: dict[str, tuple[float | None, str | None, list[str]]] = {}
 
     # Early-stop threshold if user asked for a max per bin; gather a small cushion
     target_uniprots = (
@@ -460,12 +464,13 @@ def build_bin(
             uniprot_to_evidence[up][pdb_id] = PDBEvidence(
                 resolution=res, method=meth, matched_ligands=sorted(matched_ligs)
             )
-        # If we already have enough UniProt entries, stop fetching more PDBs for this bin
+    # If we already have enough UniProt entries, stop fetching more PDBs
+    # for this bin
         if target_uniprots is not None and len(uniprot_to_evidence) >= target_uniprots:
             break
 
     # 3) For each UniProt, pick best validation PDB (lowest resolution)
-    entries: List[UniProtEntry] = []
+    entries: list[UniProtEntry] = []
     for up, evid in uniprot_to_evidence.items():
         # Best PDB by lowest resolution (None treated as +inf)
         best_pdb = None
@@ -473,7 +478,7 @@ def build_bin(
         for pdb_id, ev in evid.items():
             r = (
                 ev.resolution
-                if isinstance(ev.resolution, (int, float))
+                if isinstance(ev.resolution, int | float)
                 else float("inf")
             )
             if r < best_res:
@@ -540,11 +545,11 @@ def build_bin(
 # -------------------------
 
 
-def classify_protein_classes(ue: UniProtEntry) -> Set[str]:
+def classify_protein_classes(ue: UniProtEntry) -> set[str]:
     """Infer broad protein classes from EC numbers and UniProt keywords.
     Returns a set of class names such as 'Kinase', 'Oxidoreductase', etc.
     """
-    classes: Set[str] = set()
+    classes: set[str] = set()
     ecs = ue.ec_numbers or []
     kws = [k.lower() for k in (ue.keywords or [])]
 
@@ -591,7 +596,7 @@ def classify_protein_classes(ue: UniProtEntry) -> Set[str]:
 # -------------------------
 
 
-def _resolve_bins(user_bins: List[str], fuzzy: bool) -> List[Tuple[str, List[str]]]:
+def _resolve_bins(user_bins: list[str], fuzzy: bool) -> list[tuple[str, list[str]]]:
     """Resolve user-provided bin names (case-insensitive, synonyms, optional fuzzy).
     Returns list of (canonical_name, comp_ids).
     """
@@ -603,8 +608,8 @@ def _resolve_bins(user_bins: List[str], fuzzy: bool) -> List[Tuple[str, List[str
         return [(name, DEFAULT_BIN_DEFS[name]) for name in DEFAULT_BIN_DEFS.keys()]
 
     cmap = _canonical_map()
-    resolved: List[Tuple[str, List[str]]] = []
-    unknown: List[str] = []
+    resolved: list[tuple[str, list[str]]] = []
+    unknown: list[str] = []
     for b in user_bins:
         key = cmap.get(_norm(b))
         if key:
@@ -628,7 +633,8 @@ def _resolve_bins(user_bins: List[str], fuzzy: bool) -> List[Tuple[str, List[str
     if not resolved:
         # Final graceful fallback: use all bins but warn prominently
         print(
-            f"[WARN] None of the provided bins could be resolved: {unknown}. Using ALL bins.",
+            f"[WARN] None of the provided bins could be resolved: {unknown}. "
+            "Using ALL bins.",
             file=sys.stderr,
         )
         return [(name, DEFAULT_BIN_DEFS[name]) for name in DEFAULT_BIN_DEFS.keys()]
@@ -648,10 +654,10 @@ def _write_output(obj: dict, outfile: str) -> None:
 def main() -> int:
     # Simple script configuration – edit here
     outfile = "evaluation_bins.json"  # Use '-' for stdout
-    user_bins: List[str] = []  # [] = all bins, or e.g. ["HEME", "ADP/ATP"]
+    user_bins: list[str] = []  # [] = all bins, or e.g. ["HEME", "ADP/ATP"]
     resolution_max: float = 2.5
-    method: Optional[str] = "X-RAY DIFFRACTION"  # or "ANY"/None
-    max_per_bin: Optional[int] = 15  # small for testing
+    method: str | None = "X-RAY DIFFRACTION"  # or "ANY"/None
+    max_per_bin: int | None = 15  # small for testing
     seed: int = 42
     fuzzy: bool = True
     dry_run: bool = False
@@ -659,8 +665,8 @@ def main() -> int:
     selected_bins = _resolve_bins(user_bins or [], fuzzy=fuzzy)
 
     out = {"ligand_bins": [], "protein_bins": []}
-    ligand_rows: List[dict] = []
-    all_entries: List[UniProtEntry] = []
+    ligand_rows: list[dict] = []
+    all_entries: list[UniProtEntry] = []
 
     try:
         from tqdm import tqdm  # type: ignore
@@ -709,7 +715,8 @@ def main() -> int:
                 )
             if not b["entries"]:
                 print(
-                    f"[WARN] Bin '{bin_name}' produced 0 entries (filters may be too strict).",
+                    f"[WARN] Bin '{bin_name}' produced 0 entries "
+                    f"(filters may be too strict).",
                     file=sys.stderr,
                 )
             out["ligand_bins"].append(b)
@@ -722,8 +729,8 @@ def main() -> int:
     # Build protein class bins from aggregated entries
     if all_entries:
         rng = random.Random(seed)
-        class_to_entries: Dict[str, List[UniProtEntry]] = defaultdict(list)
-        class_seen: Dict[str, Set[str]] = defaultdict(set)
+        class_to_entries: dict[str, list[UniProtEntry]] = defaultdict(list)
+        class_seen: dict[str, set[str]] = defaultdict(set)
         for ue in all_entries:
             classes = classify_protein_classes(ue)
             if not classes:
@@ -749,7 +756,7 @@ def main() -> int:
             }
 
         protein_bins = []
-        protein_rows: List[dict] = []
+        protein_rows: list[dict] = []
         for cls, entries_for_class in class_to_entries.items():
             pick = entries_for_class
             if (

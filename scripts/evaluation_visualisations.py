@@ -1,9 +1,10 @@
 import json
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
-import numpy as np
 import os
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import seaborn as sns
 
 # Set up the plotting style
 plt.style.use("seaborn-v0_8")
@@ -16,7 +17,7 @@ os.makedirs(output_dir, exist_ok=True)
 
 def load_evaluation_data(json_file):
     """Load and parse the evaluation JSON data."""
-    with open(json_file, "r") as f:
+    with open(json_file) as f:
         return json.load(f)
 
 
@@ -155,7 +156,7 @@ def create_alignment_quality_plots(data):
         0.95,
         f"R = {corr1:.3f}",
         transform=ax1.transAxes,
-        bbox=dict(boxstyle="round", facecolor="white", alpha=0.8),
+        bbox={"boxstyle": "round", "facecolor": "white", "alpha": 0.8},
     )
 
     # Plot 2: All-atom RMSD vs Post-JAMDA Local RMSD
@@ -184,7 +185,7 @@ def create_alignment_quality_plots(data):
         0.95,
         f"R = {corr2:.3f}",
         transform=ax2.transAxes,
-        bbox=dict(boxstyle="round", facecolor="white", alpha=0.8),
+        bbox={"boxstyle": "round", "facecolor": "white", "alpha": 0.8},
     )
 
     plt.tight_layout()
@@ -275,7 +276,9 @@ def create_improvement_analysis(data):
     ax4.grid(True, alpha=0.3)
 
     plt.tight_layout()
-    plt.savefig(f"{output_dir}/improvement_analysis.png", dpi=300, bbox_inches="tight")
+    plt.savefig(
+        f"{output_dir}/improvement_analysis.png", dpi=300, bbox_inches="tight"
+    )
     plt.close()
 
     # Print summary statistics
@@ -284,16 +287,24 @@ def create_improvement_analysis(data):
     print("=" * 60)
     print(f"Total transplants analyzed: {len(df)}")
     print(
-        f"RMSD improvements > 0: {(df['rmsd_improvement'] > 0).sum()} ({(df['rmsd_improvement'] > 0).mean() * 100:.1f}%)"
+        "RMSD improvements > 0: %s (%.1f%%)",
+        (df["rmsd_improvement"] > 0).sum(),
+        (df["rmsd_improvement"] > 0).mean() * 100,
     )
     print(
-        f"TCS improvements > 0: {(df['tcs_improvement'] > 0).sum()} ({(df['tcs_improvement'] > 0).mean() * 100:.1f}%)"
+        "TCS improvements > 0: %s (%.1f%%)",
+        (df["tcs_improvement"] > 0).sum(),
+        (df["tcs_improvement"] > 0).mean() * 100,
     )
     print(
-        f"Mean RMSD improvement: {df['rmsd_improvement'].mean():.3f} ± {df['rmsd_improvement'].std():.3f} Å"
+        "Mean RMSD improvement: %.3f ± %.3f Å",
+        df["rmsd_improvement"].mean(),
+        df["rmsd_improvement"].std(),
     )
     print(
-        f"Mean TCS improvement: {df['tcs_improvement'].mean():.3f} ± {df['tcs_improvement'].std():.3f}"
+        "Mean TCS improvement: %.3f ± %.3f",
+        df["tcs_improvement"].mean(),
+        df["tcs_improvement"].std(),
     )
 
     return df
