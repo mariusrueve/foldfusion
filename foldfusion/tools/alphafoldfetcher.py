@@ -16,22 +16,18 @@ class AlphaFoldFetcher:
 
     def _filter_unreliable_residues(self, pdb_file_path: Path) -> Path:
         """
-        Processes a PDB file to remove unreliable residues based on pLDDT scores.
+        Processes a PDB file to remove unreliable residue segments based on
+        pLDDT scores.
 
-        A residue is considered unreliable if any of its atoms have a pLDDT < 70.
-        If the percentage of unreliable residues is <= 15%, ATOM lines for these
-        residues are removed, and a new file with '_processed' suffix is saved.
-        If more than 15% of residues are unreliable, the model is discarded by
-        raising a ValueError.
+        This method removes segments of ≥5 consecutive residues with pLDDT < 50.
+        This is more conservative than the previous approach and focuses on removing
+        low-confidence segments rather than individual residues.
 
         Args:
             pdb_file_path (Path): The path to the input PDB file.
 
         Returns:
             Path: The path to the processed PDB file.
-
-        Raises:
-            ValueError: If more than 15% of residues have pLDDT < 70.
         """
         logger.info(f"Starting PDB processing for: {pdb_file_path}")
 
@@ -41,126 +37,114 @@ class AlphaFoldFetcher:
             logger.error(f"Could not read PDB file {pdb_file_path}: {e}")
             return pdb_file_path
 
-        unique_residues = set()
-        unreliable_residue_ids = set()  # Stores (chain_id, res_seq_num, i_code) tuples
+        # Process PDB using segment-based trimming approach
+        trimmed_lines = self._process_pdb_segments(pdb_lines)
 
-        for line in pdb_lines:
-            if line.startswith("ATOM  "):  # Standard PDB ATOM record
-                try:
-                    # PDB format:
-                    # Chain ID: column 22 (index 21)
-                    # Residue sequence number: columns 23-26 (index 22-25)
-                    # Insertion code: column 27 (index 26)
-                    # B-factor (pLDDT): columns 61-66 (index 60-65)
-
-                    chain_id = line[21:22].strip()
-                    res_seq_num = line[22:26].strip()
-                    i_code = line[26:27].strip()  # Insertion code
-
-                    residue_id = (chain_id, res_seq_num, i_code)
-                    unique_residues.add(residue_id)
-
-                    plddt_str = line[60:66].strip()
-                    plddt = float(plddt_str)
-
-                    if plddt < 70.0:
-                        unreliable_residue_ids.add(residue_id)
-                except ValueError:
-                    logger.warning(
-                        f"Could not parse pLDDT or residue info from ATOM line: '{line.strip()}' in {pdb_file_path}"
-                    )
-                except IndexError:
-                    logger.warning(
-                        f"Malformed ATOM line (IndexError): '{line.strip()}' in {pdb_file_path}"
-                    )
-
-        if not unique_residues:
-            logger.warning(
-                f"No residues found in {pdb_file_path}. Skipping processing."
-            )
-            return pdb_file_path
-
-        num_total_residues = len(unique_residues)
-        num_unreliable_residues = len(unreliable_residue_ids)
-
-        percentage_unreliable = (num_unreliable_residues / num_total_residues) * 100
-
-        logger.info(
-            f"Residue analysis for {pdb_file_path.name}: "
-            f"Total unique residues: {num_total_residues}, "
-            f"Unreliable residues (pLDDT < 70): {num_unreliable_residues} "
-            f"({percentage_unreliable:.2f}%)"
+        # Create processed file
+        processed_file_name = (
+            f"{pdb_file_path.stem}_processed{pdb_file_path.suffix}"
         )
+        processed_pdb_path = pdb_file_path.with_name(processed_file_name)
 
-        if percentage_unreliable <= 15.00:
-            # Keep the model and process it by removing unreliable residues
-            processed_file_name = (
-                f"{pdb_file_path.stem}_processed{pdb_file_path.suffix}"
-            )
-            processed_pdb_path = pdb_file_path.with_name(processed_file_name)
+        logger.info(f"Writing processed file to: {processed_pdb_path}")
+
+        try:
+            with open(processed_pdb_path, "w", encoding="utf-8") as outfile:
+                for line in trimmed_lines:
+                    outfile.write(line)
+                    if not line.endswith('\n'):
+                        outfile.write('\n')
 
             logger.info(
-                f"Percentage of unreliable residues ({percentage_unreliable:.2f}%) is <= 15%. "
-                f"Model is reliable. Writing processed file to: {processed_pdb_path}"
+                f"Successfully wrote processed PDB file: {processed_pdb_path}"
             )
+            return processed_pdb_path
+        except OSError as e:
+            logger.error(
+                f"Failed to write processed PDB file {processed_pdb_path}: {e}"
+            )
+            return pdb_file_path  # Return original if writing fails
+
+    def _process_pdb_segments(self, lines):
+        """
+        Processes PDB file by removing low-confidence segments.
+
+        Removes segments with ≥5 consecutive residues with pLDDT < 50.
+
+        Args:
+            lines: List of PDB file lines
+
+        Returns:
+            List of processed PDB lines
+        """
+        residue_sequence = []
+        trimmed = []
+        bad_residues = set()
+        current_segment = []
+
+        # First pass: identify residue sequence and low-confidence segments
+        for line in lines:
+            if line.startswith("ATOM"):
+                try:
+                    # pLDDT is in columns 61-66 (0-indexed: 60-65)
+                    plddt = float(line[60:66])
+                    # Residue identifier (name + chain + number)
+                    res_id = line[17:26].strip()
+                    residue_sequence.append((res_id, plddt))
+                except (ValueError, IndexError):
+                    logger.warning(
+                        f"Could not parse pLDDT from ATOM line: '{line.strip()}'"
+                    )
+                    continue
+
+        # Find segments with ≥5 residues with pLDDT < 50
+        for res_id, plddt in residue_sequence:
+            if plddt < 50:
+                if not current_segment or current_segment[-1] != res_id:
+                    current_segment.append(res_id)
+            else:
+                if len(current_segment) >= 5:
+                    bad_residues.update(current_segment)
+                current_segment = []
+
+        # Check last segment (end of sequence)
+        if len(current_segment) >= 5:
+            bad_residues.update(current_segment)
+
+        logger.info(
+            f"Found {len(bad_residues)} residues in low-confidence segments to remove"
+        )
+
+        # Second pass: remove detected segments
+        for line in lines:
+            if not line.startswith("ATOM"):
+                trimmed.append(line)
+                continue
 
             try:
-                with open(processed_pdb_path, "w", encoding="utf-8") as outfile:
-                    for line in pdb_lines:
-                        if line.startswith("ATOM  "):
-                            try:
-                                chain_id = line[21:22].strip()
-                                res_seq_num = line[22:26].strip()
-                                i_code = line[26:27].strip()
-                                current_residue_id = (chain_id, res_seq_num, i_code)
-                                if current_residue_id in unreliable_residue_ids:
-                                    continue  # Skip ATOM lines of unreliable residues
-                            except (
-                                IndexError
-                            ):  # Should not happen if parsed above, but as safeguard
-                                logger.warning(
-                                    f"Skipping malformed ATOM line during write: {line.strip()}"
-                                )
-                                outfile.write(line + "\n")  # Write if unsure
-                                continue
+                res_id = line[17:26].strip()
+                if res_id not in bad_residues:
+                    trimmed.append(line)
+            except IndexError:
+                logger.warning(f"Malformed ATOM line: '{line.strip()}'")
+                trimmed.append(line)  # Keep line if parsing fails
 
-                        outfile.write(line + "\n")
-                logger.info(
-                    f"Successfully wrote processed PDB file: {processed_pdb_path}"
-                )
-                return processed_pdb_path
-            except IOError as e:
-                logger.error(
-                    f"Failed to write processed PDB file {processed_pdb_path}: {e}"
-                )
-                return pdb_file_path  # Return original if writing fails
-        else:
-            # If more than 15% of residues are unreliable, discard the model
-            logger.warning(
-                f"Percentage of unreliable residues ({percentage_unreliable:.2f}%) > "
-                f"15%. Model is considered unreliable and should be discarded."
-            )
-            # Raise an exception to indicate the model should be discarded
-            raise ValueError(
-                f"Model {pdb_file_path.name} has {percentage_unreliable:.2f}% "
-                "unreliable residues (>15% threshold) and should be discarded."
-            )
+        return trimmed
 
     def get_alphafold_model(self) -> Path:
         """Downloads the AlphaFold PDB model and processes it.
 
         Tries fetching model versions v4 and then v3.
-        Models are processed to ensure they meet quality standards. Models with more
-        than 15% unreliable residues (residues with pLDDT < 70) are discarded. For
-        models with 15% or fewer unreliable residues, those residues are removed and a
-        processed file is returned.
+        Models are processed using a segment-based trimming approach: segments of ≥5
+        consecutive residues with pLDDT < 50 are removed. This is more conservative
+        than removing individual low-confidence residues and focuses on removing
+        entire unreliable segments.
 
         Returns:
             Path: The path to the downloaded and processed PDB file.
 
         Raises:
             FileNotFoundError: If no PDB file can be fetched from AlphaFold DB.
-            ValueError: If all fetched models have more than 15% unreliable residues.
             requests.exceptions.RequestException: For network or HTTP errors during
             download.
         """
@@ -221,31 +205,19 @@ class AlphaFoldFetcher:
 
             # If download successful, process the file
             try:
-                # Process the downloaded PDB file - this will raise an exception if
-                # the model has more than 15% unreliable residues
+                # Process the downloaded PDB file using segment-based trimming
+                processed_pdb_path = self._filter_unreliable_residues(
+                    output_file_path
+                )
+                resolved_path = processed_pdb_path.resolve()
 
-                # processed_pdb_path = self._filter_unreliable_residues(output_file_path)
-                # resolved_path = processed_pdb_path.resolve()
-
-                # TODO: Fix why so many are being filtered out
-                resolved_path = output_file_path
                 logger.info(
-                    f"Model {version} is reliable. Returning path for processed model:"
-                    + f" {resolved_path}"
+                    f"Model {version} processed successfully. "
+                    f"Returning path: {resolved_path}"
                 )
                 return resolved_path
-            except ValueError as e:
-                # This indicates the model has too many unreliable residues
-                if "unreliable residues" in str(e):
-                    logger.warning(f"{e}")
-                    model_quality_errors.append((version, str(e)))
-                    # Continue to next version
-                    continue
-                else:
-                    # Re-raise unexpected ValueError
-                    raise
             except Exception as e:
-                # For other processing errors, log and try next version
+                # For processing errors, log and try next version
                 logger.error(
                     f"Error processing model {version} PDB file {output_file_path}: {e}"
                 )
@@ -256,8 +228,8 @@ class AlphaFoldFetcher:
         if model_quality_errors:
             error_details = ", ".join([f"{v}: {e}" for v, e in model_quality_errors])
             error_message = (
-                f"All AlphaFold models for {self.uniprot_id} failed quality"
-                + f" checks: {error_details}"
+                f"All AlphaFold models for {self.uniprot_id} failed during"
+                + f" processing: {error_details}"
             )
             logger.error(error_message)
             raise ValueError(error_message)

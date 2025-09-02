@@ -1,12 +1,12 @@
 """Module for running the Siena tool for protein structure alignment."""
 
+import json
 import logging
 from pathlib import Path
 
 import pandas as pd
 
 from .tool import Tool
-import json
 
 logger = logging.getLogger(__name__)
 
@@ -81,6 +81,8 @@ class Siena(Tool):
             str(self.siena_db.resolve()),
             "--output",
             ".",
+            "--identity",
+            "0.85",
         ]
         logger.debug(f"Siena command assembled: {' '.join(command)}")
         return command
@@ -123,8 +125,32 @@ class Siena(Tool):
                 lambda row: f"{str(row['PDB code']).strip()}_{row.name + 1}.pdb", axis=1
             )
 
-            # Sort by RMSD values (lower is better)
-            df = df.sort_values(by=["Backbone RMSD", "All atom RMSD"], ascending=True)
+            # Ensure numeric types for RMSD columns
+            if "Backbone RMSD" in df.columns:
+                df["Backbone RMSD"] = pd.to_numeric(
+                    df["Backbone RMSD"], errors="coerce"
+                )
+            if "All atom RMSD" in df.columns:
+                df["All atom RMSD"] = pd.to_numeric(
+                    df["All atom RMSD"], errors="coerce"
+                )
+
+            # Sort primarily by Active site identity (higher is better),
+            # then by RMSD values (lower is better)
+            if "Active site identity" in df.columns:
+                # Ensure numeric sorting even if CSV stores it as text
+                df["Active site identity"] = pd.to_numeric(
+                    df["Active site identity"], errors="coerce"
+                ).fillna(0)
+                df = df.sort_values(
+                    by=["Active site identity", "Backbone RMSD", "All atom RMSD"],
+                    ascending=[False, True, True],
+                )
+            else:
+                # Fallback to RMSD-only sorting if identity is unavailable
+                df = df.sort_values(
+                    by=["Backbone RMSD", "All atom RMSD"], ascending=[True, True]
+                )
 
             # Get top n results
             top_results = df.head(n_alignments)
@@ -132,7 +158,7 @@ class Siena(Tool):
             results = []
             ensemble_dir = self.output_dir / "ensemble"
 
-            for index, (_, row) in enumerate(top_results.iterrows()):
+            for _, row in top_results.iterrows():
                 pdb_code = str(row["PDB code"]).strip()
                 pdb_chains = str(row["PDB chains"]).strip()
                 ligand_pdb_code = str(row["Ligand PDB code"]).strip()
@@ -145,13 +171,25 @@ class Siena(Tool):
                     )
                     continue
 
+                # Convert NaN numeric values to None to avoid propagating NaN in JSON
+                bb_rmsd = (
+                    float(row["Backbone RMSD"])
+                    if pd.notna(row["Backbone RMSD"])
+                    else None
+                )
+                aa_rmsd = (
+                    float(row["All atom RMSD"])
+                    if pd.notna(row["All atom RMSD"])
+                    else None
+                )
+
                 alignment_data = {
                     "pdb_code": pdb_code,
                     "chain": pdb_chains,
                     "ensemble_path": ensemble_path,
                     "ligand_pdb_code": ligand_pdb_code,
-                    "backbone_rmsd": float(row["Backbone RMSD"]),
-                    "all_atom_rmsd": float(row["All atom RMSD"]),
+                    "backbone_rmsd": bb_rmsd,
+                    "all_atom_rmsd": aa_rmsd,
                 }
                 results.append(alignment_data)
 
@@ -165,9 +203,9 @@ class Siena(Tool):
                 json.dump(serializable_results, f, indent=2)
             return results
 
-        except pd.errors.EmptyDataError:
+        except pd.errors.EmptyDataError as e:
             logger.error("Results file is empty or malformed")
-            raise ValueError("Results file is empty or malformed")
+            raise ValueError("Results file is empty or malformed") from e
         except Exception as e:
             logger.error(f"Error processing results file: {e}")
             raise

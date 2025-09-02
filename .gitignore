@@ -176,3 +176,4 @@ siena_db.db
 siena_db
 pipeline_output/*
 output/*
+digest.txt

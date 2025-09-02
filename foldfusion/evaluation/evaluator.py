@@ -1,179 +1,124 @@
 import json
+import threading
 from pathlib import Path
 
 import numpy as np
 from scipy.spatial import distance_matrix
 
 from .utils import get_coordinates, parse_pdb, parse_sdf
-from .visualizer import (
-    visualize_local_rmsd_region,
-    visualize_protein_with_radius,
-)
 
 
 class Evaluator:
-    """
-    Evaluator for protein structure alignment and ligand transplant quality assessment.
-
-    This class provides metrics to evaluate the quality of protein structure alignments
-    and ligand transplants, specifically for AlphaFold models enhanced with experimental
-    ligand binding sites.
-
-    Metrics:
-    - Local RMSD: Root Mean Square Deviation of protein atoms near ligand binding sites.
-      Lower values indicate better structural alignment (good: <0.92Å, poor: >3.10Å).
-    - TCS (Transplant Clash Score): Van der Waals overlap score for ligand-protein clashes.
-      Lower values indicate fewer atomic clashes and better transplant quality
-      (good: <0.64Å, poor: >1.27Å).
-
-    The evaluator processes multiple protein structures, alignments, and ligands,
-    storing results in a hierarchical JSON format organized by:
-    UniProt ID -> PDB Code -> Ligand ID -> Stage -> Metrics
-    """
+    """Thread-safe evaluator for Local RMSD and TCS metrics."""
 
     def __init__(self, output_dir: Path) -> None:
-        """
-        Initialize the Evaluator.
-
-        Args:
-            output_dir: Directory where evaluation results will be stored.
-                       Creates an 'Evaluation' subdirectory for output files.
-        """
         self.output_dir = output_dir / "Evaluation"
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
-        # Quality thresholds for Local RMSD (Angstroms)
-        # Lower values indicate better structural alignment
-        # good: < medium threshold, medium: medium-low range, poor: > low threshold
-        self.local_rmsd_thresholds = {"medium": 0.92, "low": 3.10}
-
-        # Quality thresholds for TCS (Angstroms)
-        # Lower values indicate fewer clashes and better transplant quality
-        # good: < medium threshold, medium: medium-low range, poor: > low threshold
-        self.tcs_thresholds = {"medium": 0.64, "low": 1.27}
-
         self.output_file_json = self.output_dir / "evaluation.json"
-        self.data = {}
+        self.data: dict = {}
+        self._io_lock = threading.Lock()
 
     def evaluate(
         self,
         uniprot_id: str,
         stage: str,
-        alphafold_structure,
-        siena_structures,
-        ligand_structures,
-    ):
-        """
-        Evaluate protein structure alignments and ligand transplant quality.
-
-        This method computes Local RMSD and TCS metrics for all ligand-protein
-        combinations and stores the results in a hierarchical JSON structure.
-        It also stores the all-atom RMSD from SIENA alignments.
-
-        Args:
-            uniprot_id: UniProt identifier for the target protein
-            stage: Processing stage identifier (e.g., 'initial', 'refined')
-            alphafold_structure: Path to AlphaFold protein structure file
-            siena_structures: List of alignment structures from SIENA, each containing:
-                - pdb_code: PDB code of the template structure
-                - ensemble_path: Path to the aligned ensemble structure
-                - ligand_pdb_code: Ligand identifier from the template
-                - all_atom_rmsd: All-atom RMSD of the alignment
-            ligand_structures: Dictionary mapping PDB codes to lists of ligand structures,
-                each containing:
-                - ligand_id: Ligand identifier
-                - path: Path to ligand structure file
-
-        The method updates the internal data structure and saves results to JSON.
-        Results are organized as:
-        - uniprot_id -> pdb_code -> 'all_atom_rmsd'
-        - uniprot_id -> pdb_code -> ligand_id -> stage -> metrics
-        where metrics include 'local_rmsd' and 'tcs'.
-        """
-        try:
-            with open(self.output_file_json, "r") as f:
-                self.data = json.load(f)
-        except (FileNotFoundError, json.JSONDecodeError):
-            self.data = {}
-
-        # Ensure the uniprot_id key exists
-        if uniprot_id not in self.data:
-            self.data[uniprot_id] = {}
-
-        # Process each alignment structure
+        alphafold_structure: Path,
+        siena_structures: list[dict],
+        ligand_structures: dict[str, list[dict]],
+    ) -> None:
+        # Build a quick lookup of the best (or first) alignment per PDB to get
+        # ensemble paths and RMSDs
+        pdb_alignment_map: dict[str, dict] = {}
         for alignment in siena_structures:
-            pdb_code = alignment["pdb_code"]
-            ensemble_path = alignment["ensemble_path"]
-            ligand_pdb_code = alignment["ligand_pdb_code"]
+            pdb_code = alignment.get("pdb_code")
+            if not pdb_code:
+                continue
+            # Prefer the first occurrence (list is already sorted by quality)
+            if pdb_code not in pdb_alignment_map:
+                ep_val = alignment.get("ensemble_path")
+                ep_path = Path(ep_val) if ep_val is not None else None
+                pdb_alignment_map[pdb_code] = {
+                    "ensemble_path": ep_path,
+                    "all_atom_rmsd": alignment.get("all_atom_rmsd"),
+                    "backbone_rmsd": alignment.get("backbone_rmsd"),
+                }
 
-            if pdb_code not in self.data[uniprot_id]:
-                self.data[uniprot_id][pdb_code] = {}
+        # Precompute metrics for ALL ligands available per PDB code
+        computed: list[dict] = []
+        for pdb_code, lig_list in ligand_structures.items():
+            align_info = pdb_alignment_map.get(pdb_code)
+            ensemble_path = align_info.get("ensemble_path") if align_info else None
+            for ligand_dict in lig_list:
+                ligand_id = ligand_dict.get("ligand_id")
+                p = ligand_dict.get("path")
+                ligand_path: Path | None = Path(p) if p else None
 
-            # Extract all-atom RMSD and backbone RMSD if not already present
-            if "all_atom_rmsd" not in self.data[uniprot_id][pdb_code]:
-                if "all_atom_rmsd" in alignment:
-                    self.data[uniprot_id][pdb_code]["all_atom_rmsd"] = alignment[
-                        "all_atom_rmsd"
-                    ]
-            
-            # Extract backbone RMSD if not already present
-            if "backbone_rmsd" not in self.data[uniprot_id][pdb_code]:
-                if "backbone_rmsd" in alignment:
-                    self.data[uniprot_id][pdb_code]["backbone_rmsd"] = alignment[
-                        "backbone_rmsd"
-                    ]
+                if ligand_path is not None and ensemble_path is not None:
+                    local_rmsd = self._compute_local_rmsd(
+                        alphafold_structure, Path(ensemble_path), ligand_path
+                    )
+                    tcs = self._compute_tcs(alphafold_structure, ligand_path)
+                else:
+                    local_rmsd = None
+                    tcs = None
 
-            if ligand_pdb_code not in self.data[uniprot_id][pdb_code]:
-                self.data[uniprot_id][pdb_code][ligand_pdb_code] = {}
-
-            if stage not in self.data[uniprot_id][pdb_code][ligand_pdb_code]:
-                self.data[uniprot_id][pdb_code][ligand_pdb_code][stage] = {}
-
-            # Find the ligand structure matching the ligand_pdb_code
-            ligand_path = None
-            for pdb_code_key in ligand_structures:
-                for ligand_dict in ligand_structures[pdb_code_key]:
-                    if ligand_dict["ligand_id"] == ligand_pdb_code:
-                        ligand_path = ligand_dict["path"]
-                        break
-
-            if ligand_path is not None:
-                local_rmsd = self._compute_local_rmsd(
-                    alphafold_structure,
-                    ensemble_path,
-                    ligand_path,
+                computed.append(
+                    {
+                        "pdb_code": pdb_code,
+                        "ligand_id": ligand_id,
+                        "stage": stage,
+                        "local_rmsd": local_rmsd,
+                        "tcs": tcs,
+                        "all_atom_rmsd": (
+                            align_info.get("all_atom_rmsd") if align_info else None
+                        ),
+                        "backbone_rmsd": (
+                            align_info.get("backbone_rmsd") if align_info else None
+                        ),
+                    }
                 )
-                tcs = self._compute_tcs(
-                    alphafold_structure,
-                    ligand_path,
-                )
-                self.data[uniprot_id][pdb_code][ligand_pdb_code][stage][
-                    "local_rmsd"
-                ] = local_rmsd
-                self.data[uniprot_id][pdb_code][ligand_pdb_code][stage]["tcs"] = tcs
-            else:
-                self.data[uniprot_id][pdb_code][ligand_pdb_code][stage][
-                    "local_rmsd"
-                ] = None
-                self.data[uniprot_id][pdb_code][ligand_pdb_code][stage]["tcs"] = None
 
-        with open(self.output_file_json, "w") as f:
-            json.dump(self.data, f, indent=2)
+        # Merge and write under a lock
+        with self._io_lock:
+            try:
+                with open(self.output_file_json) as f:
+                    data = json.load(f)
+            except (FileNotFoundError, json.JSONDecodeError):
+                data = {}
+
+            if uniprot_id not in data:
+                data[uniprot_id] = {}
+
+            for entry in computed:
+                pdb_code = entry["pdb_code"]
+                ligand_id = entry["ligand_id"]
+                if pdb_code not in data[uniprot_id]:
+                    data[uniprot_id][pdb_code] = {}
+
+                if entry["all_atom_rmsd"] is not None:
+                    data[uniprot_id][pdb_code]["all_atom_rmsd"] = entry["all_atom_rmsd"]
+                if entry["backbone_rmsd"] is not None:
+                    data[uniprot_id][pdb_code]["backbone_rmsd"] = entry["backbone_rmsd"]
+
+                if ligand_id not in data[uniprot_id][pdb_code]:
+                    data[uniprot_id][pdb_code][ligand_id] = {}
+
+                stage_key = entry["stage"]
+                if stage_key not in data[uniprot_id][pdb_code][ligand_id]:
+                    data[uniprot_id][pdb_code][ligand_id][stage_key] = {}
+
+                data[uniprot_id][pdb_code][ligand_id][stage_key]["local_rmsd"] = entry[
+                    "local_rmsd"
+                ]
+                data[uniprot_id][pdb_code][ligand_id][stage_key]["tcs"] = entry["tcs"]
+
+            with open(self.output_file_json, "w") as f:
+                json.dump(data, f, indent=2)
+
+            self.data = data
 
     def _compute_rmsd(self, coords_ref: np.ndarray, coords_target: np.ndarray) -> float:
-        """
-        Compute Root Mean Square Deviation (RMSD) between two sets of coordinates.
-
-        Uses the Kabsch algorithm to find the optimal rotation matrix that minimizes
-        the RMSD between reference and target coordinate sets after centering.
-
-        Args:
-            coords_ref: Reference coordinates array of shape (n_atoms, 3)
-            coords_target: Target coordinates array of shape (n_atoms, 3)
-
-        Returns:
-            float: RMSD value in Angstroms. Lower values indicate better alignment.
-        """
         ref_centroid = coords_ref.mean(axis=0)
         tgt_centroid = coords_target.mean(axis=0)
         ref = coords_ref - ref_centroid
@@ -182,69 +127,40 @@ class Evaluator:
         V, S, Wt = np.linalg.svd(C)
         d = np.sign(np.linalg.det(np.dot(Wt.T, V.T)))
         R = np.dot(Wt.T, np.diag([1, 1, d])).dot(V.T)
-        rmsd = np.sqrt(np.mean(np.sum((np.dot(ref, R) - tgt) ** 2, axis=1)))
-        return rmsd
+        return float(np.sqrt(np.mean(np.sum((np.dot(ref, R) - tgt) ** 2, axis=1))))
 
     def _compute_local_rmsd(
         self,
         alphafold_protein: Path,
         experimental_protein: Path,
         ligand: Path,
-        radius=6.0,
-    ):
-        """
-        Compute Local RMSD for protein atoms within a specified radius of the ligand.
+        radius: float = 6.0,
+    ) -> float:
+        af_coords = get_coordinates(parse_pdb(alphafold_protein))
+        ex_coords = get_coordinates(parse_pdb(experimental_protein))
+        lig_coords = get_coordinates(parse_sdf(ligand))
 
-        This metric evaluates the structural similarity between AlphaFold and experimental
-        protein structures specifically in the ligand binding region. Only protein atoms
-        within the specified radius of any ligand atom are considered.
+        af_dist = distance_matrix(af_coords, lig_coords)
+        ex_dist = distance_matrix(ex_coords, lig_coords)
 
-        Args:
-            alphafold_protein: Path to AlphaFold protein structure (PDB format)
-            experimental_protein: Path to experimental protein structure (PDB format)
-            ligand: Path to ligand structure (SDF format)
-            radius: Distance cutoff in Angstroms for selecting binding site atoms (default: 6.0)
+        af_within = np.any(af_dist <= radius, axis=1)
+        ex_within = np.any(ex_dist <= radius, axis=1)
 
-        Returns:
-            float: Local RMSD value in Angstroms.
-                  - Lower values indicate better binding site alignment
-                  - Good: < 0.92Å, Medium: 0.92-3.10Å, Poor: > 3.10Å
-                  - Returns inf if no atoms are found within radius
-        """
-        alphafold_coords = get_coordinates(parse_pdb(alphafold_protein))
-        experimental_coords = get_coordinates(parse_pdb(experimental_protein))
-        ligand_coords = get_coordinates(parse_sdf(ligand))
+        af_sel = af_coords[af_within]
+        ex_sel = ex_coords[ex_within]
 
-        # Calculate distances from each protein atom to all ligand atoms
-        af_distances = distance_matrix(alphafold_coords, ligand_coords)
-        ex_distances = distance_matrix(experimental_coords, ligand_coords)
-
-        # Find atoms within radius of any ligand atom
-        af_within_radius = np.any(af_distances <= radius, axis=1)
-        ex_within_radius = np.any(ex_distances <= radius, axis=1)
-
-        # Get coordinates of atoms within radius for each structure
-        af_selected = alphafold_coords[af_within_radius]
-        ex_selected = experimental_coords[ex_within_radius]
-
-        if len(af_selected) == 0 or len(ex_selected) == 0:
+        if len(af_sel) == 0 or len(ex_sel) == 0:
             return float("inf")
 
-        # Find the best matching pairs of atoms between the two selections
-        # Calculate distance matrix between selected atoms from both structures
-        inter_distances = distance_matrix(af_selected, ex_selected)
-
-        # Use the smaller set as reference and find closest matches
-        if len(af_selected) <= len(ex_selected):
-            # For each AF atom, find the closest EX atom
-            closest_indices = np.argmin(inter_distances, axis=1)
-            af_final = af_selected
-            ex_final = ex_selected[closest_indices]
+        inter = distance_matrix(af_sel, ex_sel)
+        if len(af_sel) <= len(ex_sel):
+            closest = np.argmin(inter, axis=1)
+            af_final = af_sel
+            ex_final = ex_sel[closest]
         else:
-            # For each EX atom, find the closest AF atom
-            closest_indices = np.argmin(inter_distances, axis=0)
-            af_final = af_selected[closest_indices]
-            ex_final = ex_selected
+            closest = np.argmin(inter, axis=0)
+            af_final = af_sel[closest]
+            ex_final = ex_sel
 
         return self._compute_rmsd(af_final, ex_final)
 
@@ -252,41 +168,9 @@ class Evaluator:
         self,
         alphafold_protein: Path,
         ligand: Path,
-        distance_threshold=4.0,
-        exclude_monoatomic_ions=True,
-    ):
-        """
-        Compute Transplant Clash Score (TCS).
-
-        The TCS evaluates the physical plausibility of ligand transplants by measuring
-        van der Waals overlaps between ligand and protein atoms. It provides an
-        orthogonal quality measure to Local RMSD by focusing on atomic clashes.
-
-        The calculation involves:
-        1. Finding all protein-ligand atom pairs within distance_threshold (4Å)
-        2. Computing van der Waals overlaps for these pairs
-        3. Taking the root mean square of positive overlaps (clashes)
-
-        Args:
-            alphafold_protein: Path to AlphaFold protein structure (PDB format)
-            ligand: Path to ligand structure (SDF format)
-            distance_threshold: Distance cutoff in Angstroms for clash detection (default: 4.0)
-            exclude_monoatomic_ions: Whether to exclude monoatomic ions from calculation
-                                   to avoid biasing results (default: True)
-
-        Returns:
-            float: TCS value in Angstroms.
-                  - Lower values indicate fewer clashes and better transplant quality
-                  - Good: < 0.64Å, Medium: 0.64-1.27Å, Poor: > 1.27Å
-                  - 0.0 indicates no clashes or no close contacts
-
-        Note:
-            High TCS values may indicate:
-            - Local inaccuracies in the AlphaFold model
-            - Suboptimal ligand transplant positioning
-            - Incompatible binding site geometry
-        """
-        # Van der Waals radii in Angstroms for common elements
+        distance_threshold: float = 4.0,
+        exclude_monoatomic_ions: bool = True,
+    ) -> float:
         vdw_radii = {
             "H": 1.20,
             "C": 1.70,
@@ -317,74 +201,41 @@ class Evaluator:
             "Rn": 2.20,
             "He": 1.40,
         }
+        mono_ions = {"Na", "Mg", "K", "Ca", "Zn", "Fe", "Cl", "Br", "I", "F"}
 
-        # Monoatomic ions to potentially exclude
-        monoatomic_ions = {"Na", "Mg", "K", "Ca", "Zn", "Fe", "Cl", "Br", "I", "F"}
-
-        # Parse structures
         protein_data = parse_pdb(alphafold_protein)
         ligand_data = parse_sdf(ligand)
 
-        # Get all protein atoms (including HETATM records)
         protein_atoms = protein_data["atoms"] + protein_data["hetero_atoms"]
         ligand_atoms = ligand_data["atoms"]
 
-        # Filter out monoatomic ions from ligand if requested
         if exclude_monoatomic_ions:
-            ligand_atoms = [
-                atom for atom in ligand_atoms if atom["element"] not in monoatomic_ions
-            ]
+            ligand_atoms = [a for a in ligand_atoms if a["element"] not in mono_ions]
 
-        if len(ligand_atoms) == 0:
-            return 0.0  # No atoms to calculate TCS for
+        if not ligand_atoms:
+            return 0.0
 
-        # Extract coordinates and elements
-        protein_coords = np.array(
-            [[atom["x"], atom["y"], atom["z"]] for atom in protein_atoms]
-        )
-        ligand_coords = np.array(
-            [[atom["x"], atom["y"], atom["z"]] for atom in ligand_atoms]
-        )
+        protein_coords = np.array([[a["x"], a["y"], a["z"]] for a in protein_atoms])
+        ligand_coords = np.array([[a["x"], a["y"], a["z"]] for a in ligand_atoms])
+        protein_elements = [a["element"] for a in protein_atoms]
+        ligand_elements = [a["element"] for a in ligand_atoms]
 
-        protein_elements = [atom["element"] for atom in protein_atoms]
-        ligand_elements = [atom["element"] for atom in ligand_atoms]
-
-        # Calculate distance matrix between protein and ligand atoms
         distances = distance_matrix(protein_coords, ligand_coords)
-
-        # Find atom pairs within distance threshold
         close_pairs = np.where(distances <= distance_threshold)
-
         if len(close_pairs[0]) == 0:
-            return 0.0  # No close contacts
+            return 0.0
 
-        overlaps_squared = []
+        overlaps_sq = []
+        for pi, li in zip(close_pairs[0], close_pairs[1], strict=True):
+            pr = vdw_radii.get(protein_elements[pi], 1.70)
+            lr = vdw_radii.get(ligand_elements[li], 1.70)
+            vdw_d = pr + lr
+            d = distances[pi, li]
+            overlap = vdw_d - d
+            if overlap > 0:
+                overlaps_sq.append(overlap**2)
 
-        # Calculate van der Waals overlaps for close pairs
-        for protein_idx, ligand_idx in zip(close_pairs[0], close_pairs[1]):
-            protein_element = protein_elements[protein_idx]
-            ligand_element = ligand_elements[ligand_idx]
+        if not overlaps_sq:
+            return 0.0
 
-            # Get van der Waals radii (use default if element not found)
-            protein_radius = vdw_radii.get(
-                protein_element, 1.70
-            )  # Default to carbon radius
-            ligand_radius = vdw_radii.get(ligand_element, 1.70)
-
-            # Calculate expected van der Waals distance and actual distance
-            vdw_distance = protein_radius + ligand_radius
-            actual_distance = distances[protein_idx, ligand_idx]
-
-            # Calculate overlap (positive values indicate clash)
-            overlap = vdw_distance - actual_distance
-
-            if overlap > 0:  # Only consider positive overlaps (clashes)
-                overlaps_squared.append(overlap**2)
-
-        if len(overlaps_squared) == 0:
-            return 0.0  # No clashes detected
-
-        # Calculate root mean square of overlaps
-        tcs = np.sqrt(np.mean(overlaps_squared))
-
-        return tcs
+        return float(np.sqrt(np.mean(overlaps_sq)))

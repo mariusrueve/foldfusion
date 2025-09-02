@@ -3,126 +3,40 @@ log_level = "DEBUG"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
 log_file = "foldfusion_pipeline.log" # Name of the log file
 
 # IO
-uniprot_ids = [
-    "Q8CA95",
-    "Q9QYJ6",
-    "Q9Y233",
-    "A0A287B941",
-    "A0A2R8N4P4",
-    "A0A3Q1MHJ4",
-    "A0A5F7ZC47",
-    "A0A5F8GLA3",
-    "A0A803T088",
-    "A0A8V0XWK8",
-    "I3LZH9",
-    "Q803U3",
-    "U3KCJ2",
-    "A0A096NZN4",
-    "A0A0D9RIH4",
-    "A0A0R4IJT4",
-    "A0A151M2F3",
-    "A0A151M2H7",
-    "A0A1A7Y831",
-    "A0A1A8B5D3",
-    "A0A1A8BUE2",
-    "A0A1A8E3E6",
-    "A0A1A8G0I5",
-    "A0A1A8IUC1",
-    "A0A1A8LD72",
-    "A0A1A8QC85",
-    "A0A1A8S0S2",
-    "A0A1B1UZP3",
-    "A0A1B1UZQ1",
-    "A0A1B1UZQ4",
-    "A0A1B1UZQ8",
-    "A0A1B1UZR0",
-    "A0A1B1UZR6",
-    "A0A1D5Q6B3",
-    "A0A1D5QMF7",
-    "A0A1L8G297",
-    "A0A1S3NDF0",
-    "A0A1S3NE72",
-    "A0A1U7R842",
-    "A0A1U7V1V4",
-    "A0A1U8CIA6",
-    "A0A1U8CR01",
-    "A0A1U8CS01",
-    "A0A1V4JKV6",
-    "A0A1V4JLA8",
-    "A0A218V5J4",
-    "A0A286XN47",
-    "A0A287CVT7",
-    "A0A287CVY3",
-    "A0A287DF97",
-    "A0A2D0QKY9",
-    "A0A2D0QN85",
-    "A0A2I0MU15",
-    "A0A2I2ULC7",
-    "A0A2I2UWU4",
-    "A0A2I3HRG0",
-    "A0A2I3LCN9",
-    "A0A2I3M8N5",
-    "A0A2I3MLU2",
-    "A0A2I3MYV8",
-    "A0A2I3N0I6",
-    "A0A2I3RBI8",
-    "A0A2I3S1H3",
-    "A0A2I3SBR0",
-    "A0A2I3SXZ7",
-    "A0A2I3TF43",
-    "A0A2I4B127",
-    "A0A2I4B144",
-    "A0A2K5N3R0",
-    "A0A2K5N3R2",
-    "A0A2K5N3R5",
-    "A0A2K5N3U4",
-    "A0A2K5N3U8",
-    "A0A2K5N3W7",
-    "A0A2K5N3Y2",
-    "A0A2K5N481",
-    "A0A2K5WS86",
-    "A0A2K5WSA0",
-    "A0A2K5WSA7",
-    "A0A2K5WSJ7",
-    "A0A2K5WSM7",
-    "A0A2K5WSP5",
-    "A0A2K5ZB20",
-    "A0A2K5ZB31",
-    "A0A2K5ZB84", 
-    "A0A2K6B761",
-    "A0A2K6B765",
-    "A0A2K6B793",
-    "A0A2K6B7A4",
-    "A0A2K6B7D9",
-    "A0A2K6B7E0",
-    "A0A2K6B7F3",
-    "A0A2K6B7I7",
-    "A0A2K6K1G6",
-    "A0A2K6K1H0",
-    "A0A2K6K1I4",
-    "A0A2K6K1I9",
-    "A0A2K6PY87",
-    "A0A2K6PY92",
-    "A0A2K6PY97",
+#uniprot_ids = [
+#    "Q8CA95",
+#    "Q9QYJ6",
+#    "Q9Y233",
+#    "A0A287B941",
+#    "A0A2R8N4P4",
+#    "A0A3Q1MHJ4",
+#]
 
-]
-output_dir = "/home/stud2022/mrueve/Downloads/foldfusion-poc_output" # Path to the output directory
+uniprot_ids_file = "/home/marius/Code/foldfusion-poc/uniprot_ids.txt"
+# Path to the output directory
+output_dir = "/home/marius/Code/output" 
+
+# Pipelines
+# Number of UniProt IDs to process in parallel (1 = sequential)
+pipeline_concurrency = 4
 
 # dogsite3
-dogsite3_executable = "/home/stud2022/mrueve/local/bin/dogsite3"
+dogsite3_executable = "/home/marius/Data/zbh/dogsite3_1.1.0/dogsite3"
 
 # siena db
-siena_db_executable = "/local/mrueve/opt/siena_1.3.0/generate_siena_database"
-siena_db_database_path = "/home/stud2022/mrueve/Downloads/foldfusion-poc_output/SienaDB/siena_db" # Either path to a siena database or path to pdb_files has to be valid
-pdb_directory = "/local/mrueve/data/PDBFiles_small/"
+siena_db_executable = "/home/marius/Data/zbh/siena_1.3.0/generate_siena_database"
+
+# Either path to a siena database or path to pdb_files has to be valid
+siena_db_database_path = "/home/marius/Data/pdb/siena_db.db" 
+pdb_directory = "/home/marius/Data/pdb/"
 pdb_format = 0 # file format (0=.ent.gz, 1=pdb)
 
 # siena
-siena_executable = "/home/stud2022/mrueve/local/bin/siena"
+siena_executable = "/home/marius/Data/zbh/siena_1.3.0/siena"
 siena_max_alignments = 1
 
 # ligand extractor
-ligand_extractor_executable = "/home/stud2022/mrueve/local/bin/ligand_extractor"
+ligand_extractor_executable = "/home/marius/Data/zbh/LigandExtractor_2025-04/ligand_extractor"
 
 # jamda scorer
-jamda_scorer_executable = "/home/stud2022/mrueve/local/bin/JamdaScorer"
+jamda_scorer_executable = "/home/marius/Data/zbh/JamdaScorer_1.0.0/JamdaScorer"
