@@ -1,0 +1,3954 @@
+{
+  "ligand_bins": [
+    {
+      "ligand_bin": "ADP/ATP",
+      "ligand_comp_ids": [
+        "ATP",
+        "ADP",
+        "ANP",
+        "AGS"
+      ],
+      "entries": [
+        {
+          "uniprot_id": "P23909",
+          "protein": "DNA mismatch repair protein MutS",
+          "gene": "mutS",
+          "validation_pdb": "1WBD",
+          "matched_ligands": [
+            "ADP"
+          ]
+        },
+        {
+          "uniprot_id": "P63248",
+          "protein": "cAMP-dependent protein kinase inhibitor alpha",
+          "gene": "Pkia",
+          "validation_pdb": "4DH8",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "D0VWX4",
+          "protein": null,
+          "gene": "artP",
+          "validation_pdb": "2OLJ",
+          "matched_ligands": [
+            "ADP"
+          ]
+        },
+        {
+          "uniprot_id": "Q6QLM7",
+          "protein": "Kinesin heavy chain isoform 5A",
+          "gene": "Kif5a",
+          "validation_pdb": "2KIN",
+          "matched_ligands": [
+            "ADP"
+          ]
+        },
+        {
+          "uniprot_id": "P0AEX9",
+          "protein": "Maltose/maltodextrin-binding periplasmic protein",
+          "gene": "malE",
+          "validation_pdb": "4KI0",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "Q9JLS3",
+          "protein": "Serine/threonine-protein kinase TAO2",
+          "gene": "Taok2",
+          "validation_pdb": "1U5R",
+          "matched_ligands": [
+            "ATP"
+          ]
+        },
+        {
+          "uniprot_id": "P23919",
+          "protein": "Thymidylate kinase",
+          "gene": "DTYMK",
+          "validation_pdb": "1NMZ",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "P9WPY3",
+          "protein": "Shikimate kinase",
+          "gene": "aroK",
+          "validation_pdb": "2DFN",
+          "matched_ligands": [
+            "ADP"
+          ]
+        },
+        {
+          "uniprot_id": "P02916",
+          "protein": "Maltose/maltodextrin transport system permease protein MalF",
+          "gene": "malF",
+          "validation_pdb": "4KI0",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "P06239",
+          "protein": "Tyrosine-protein kinase Lck",
+          "gene": "LCK",
+          "validation_pdb": "1QPC",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "P0A7G6",
+          "protein": "Protein RecA",
+          "gene": "recA",
+          "validation_pdb": "1XMS",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "P05132",
+          "protein": "cAMP-dependent protein kinase catalytic subunit alpha",
+          "gene": "Prkaca",
+          "validation_pdb": "4DH8",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "O43314",
+          "protein": "Inositol hexakisphosphate and diphosphoinositol-pentakisphosphate kinase 2",
+          "gene": "PPIP5K2",
+          "validation_pdb": "3T54",
+          "matched_ligands": [
+            "ATP"
+          ]
+        },
+        {
+          "uniprot_id": "P68187",
+          "protein": "Maltose/maltodextrin import ATP-binding protein MalK",
+          "gene": "malK",
+          "validation_pdb": "4KI0",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "P12039",
+          "protein": "Phosphoribosylamine--glycine ligase",
+          "gene": "purD",
+          "validation_pdb": "2XCL",
+          "matched_ligands": [
+            "ANP"
+          ]
+        }
+      ]
+    },
+    {
+      "ligand_bin": "FAD",
+      "ligand_comp_ids": [
+        "FAD"
+      ],
+      "entries": [
+        {
+          "uniprot_id": "A5GZW8",
+          "protein": "Succinate dehydrogenase [ubiquinone] cytochrome b small subunit, mitochondrial",
+          "gene": "SDHD",
+          "validation_pdb": "1ZOY",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "P27338",
+          "protein": "Amine oxidase [flavin-containing] B",
+          "gene": "MAOB",
+          "validation_pdb": "2BYB",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "P13006",
+          "protein": "Glucose oxidase",
+          "gene": "gox",
+          "validation_pdb": "1CF3",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "P00455",
+          "protein": "Ferredoxin--NADP reductase, chloroplastic",
+          "gene": "PETH",
+          "validation_pdb": "1FRQ",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "Q9AGP8",
+          "protein": "Dimethylglycine oxidase",
+          "gene": "dmg",
+          "validation_pdb": "1PJ5",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "P00438",
+          "protein": "p-hydroxybenzoate hydroxylase",
+          "gene": "pobA",
+          "validation_pdb": "1PBD",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "Q50LF2",
+          "protein": "Sarcosine oxidase subunit beta",
+          "gene": "soxB",
+          "validation_pdb": "1VRQ",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "P00390",
+          "protein": "Glutathione reductase, mitochondrial",
+          "gene": "GSR",
+          "validation_pdb": "1DNC",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "P07342",
+          "protein": "Acetolactate synthase catalytic subunit, mitochondrial",
+          "gene": "ILV2",
+          "validation_pdb": "1T9B",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "P12676",
+          "protein": "Cholesterol oxidase",
+          "gene": "choA",
+          "validation_pdb": "1CBO",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "Q0QF01",
+          "protein": "Succinate dehydrogenase [ubiquinone] flavoprotein subunit, mitochondrial",
+          "gene": "SDHA",
+          "validation_pdb": "1ZOY",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "P08165",
+          "protein": "NADPH:adrenodoxin oxidoreductase, mitochondrial",
+          "gene": "FDXR",
+          "validation_pdb": "1E1K",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "O64411",
+          "protein": "Polyamine oxidase 1",
+          "gene": "MPAO1",
+          "validation_pdb": "1B37",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "P0A9P4",
+          "protein": "Thioredoxin reductase",
+          "gene": "trxB",
+          "validation_pdb": "1TDE",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "Q50LF1",
+          "protein": "Sarcosine oxidase subunit delta",
+          "gene": "soxD",
+          "validation_pdb": "1VRQ",
+          "matched_ligands": [
+            "FAD"
+          ]
+        }
+      ]
+    },
+    {
+      "ligand_bin": "FMN",
+      "ligand_comp_ids": [
+        "FMN"
+      ],
+      "entries": [
+        {
+          "uniprot_id": "Q50497",
+          "protein": "Coenzyme F420H(2) oxidase",
+          "gene": "fprA",
+          "validation_pdb": "2OHJ",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "P20932",
+          "protein": "(S)-mandelate dehydrogenase",
+          "gene": "mdlB",
+          "validation_pdb": "3GIY",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "Q969G6",
+          "protein": "Riboflavin kinase",
+          "gene": "RFK",
+          "validation_pdb": "1P4M",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "P00322",
+          "protein": "Flavodoxin",
+          "gene": null,
+          "validation_pdb": "2FAX",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "Q60049",
+          "protein": "NADH dehydrogenase",
+          "gene": "nox",
+          "validation_pdb": "1NOX",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "P71278",
+          "protein": null,
+          "gene": "onr",
+          "validation_pdb": "2ABB",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "Q50LF1",
+          "protein": "Sarcosine oxidase subunit delta",
+          "gene": "soxD",
+          "validation_pdb": "3AD9",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "B1YG32",
+          "protein": null,
+          "gene": null,
+          "validation_pdb": "3GE6",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "Q02127",
+          "protein": "Dihydroorotate dehydrogenase (quinone), mitochondrial",
+          "gene": "DHODH",
+          "validation_pdb": "1D3G",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "Q9F0J6",
+          "protein": "Rubredoxin-oxygen oxidoreductase",
+          "gene": "roo",
+          "validation_pdb": "1E5D",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "P10340",
+          "protein": "Flavodoxin",
+          "gene": "isiB",
+          "validation_pdb": "1CZU",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "P38489",
+          "protein": "Oxygen-insensitive NAD(P)H nitroreductase",
+          "gene": "nfsB",
+          "validation_pdb": "1YLR",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "P00323",
+          "protein": "Flavodoxin",
+          "gene": null,
+          "validation_pdb": "1F4P",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "P41407",
+          "protein": "FMN-dependent NADH:quinone oxidoreductase",
+          "gene": "azoR",
+          "validation_pdb": "2Z98",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "Q50LE9",
+          "protein": "Sarcosine oxidase subunit gamma",
+          "gene": "soxG",
+          "validation_pdb": "3AD9",
+          "matched_ligands": [
+            "FMN"
+          ]
+        }
+      ]
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "ligand_comp_ids": [
+        "NAD",
+        "NAI",
+        "NAP",
+        "NDP"
+      ],
+      "entries": [
+        {
+          "uniprot_id": "P28037",
+          "protein": "Cytosolic 10-formyltetrahydrofolate dehydrogenase",
+          "gene": "Aldh1l1",
+          "validation_pdb": "2O2Q",
+          "matched_ligands": [
+            "NAP"
+          ]
+        },
+        {
+          "uniprot_id": "P51857",
+          "protein": "Aldo-keto reductase family 1 member D1",
+          "gene": "AKR1D1",
+          "validation_pdb": "3CAV",
+          "matched_ligands": [
+            "NAP"
+          ]
+        },
+        {
+          "uniprot_id": "Q56840",
+          "protein": "2-(R)-hydroxypropyl-CoM dehydrogenase",
+          "gene": "xecD1",
+          "validation_pdb": "2CFC",
+          "matched_ligands": [
+            "NAD"
+          ]
+        },
+        {
+          "uniprot_id": "Q59771",
+          "protein": "Phenylalanine dehydrogenase",
+          "gene": "pdh",
+          "validation_pdb": "1BXG",
+          "matched_ligands": [
+            "NAD"
+          ]
+        },
+        {
+          "uniprot_id": "O66841",
+          "protein": "NADH-quinone oxidoreductase subunit F",
+          "gene": "nuoF",
+          "validation_pdb": "6Q9K",
+          "matched_ligands": [
+            "NAI"
+          ]
+        },
+        {
+          "uniprot_id": "Q071N0",
+          "protein": "Salutaridine reductase",
+          "gene": "SALR",
+          "validation_pdb": "3O26",
+          "matched_ligands": [
+            "NDP"
+          ]
+        },
+        {
+          "uniprot_id": "P00338",
+          "protein": "L-lactate dehydrogenase A chain",
+          "gene": "LDHA",
+          "validation_pdb": "5ZJD",
+          "matched_ligands": [
+            "NAI"
+          ]
+        },
+        {
+          "uniprot_id": "P9WIQ3",
+          "protein": "NADPH-ferredoxin reductase FprA",
+          "gene": "fprA",
+          "validation_pdb": "1LQU",
+          "matched_ligands": [
+            "NDP"
+          ]
+        },
+        {
+          "uniprot_id": "P08200",
+          "protein": "Isocitrate dehydrogenase [NADP]",
+          "gene": "icd",
+          "validation_pdb": "1BL5",
+          "matched_ligands": [
+            "NAP"
+          ]
+        },
+        {
+          "uniprot_id": "A0A6L8PBX8",
+          "protein": "Enoyl-[acyl-carrier-protein] reductase [NADH]",
+          "gene": "fabI",
+          "validation_pdb": "2QIO",
+          "matched_ligands": [
+            "NAD"
+          ]
+        },
+        {
+          "uniprot_id": "A0A0H3G9R2",
+          "protein": "alcohol dehydrogenase",
+          "gene": null,
+          "validation_pdb": "3MEQ",
+          "matched_ligands": [
+            "NAI"
+          ]
+        },
+        {
+          "uniprot_id": "P22045",
+          "protein": "9,11-endoperoxide prostaglandin H2 reductase",
+          "gene": "P100/11E",
+          "validation_pdb": "4G5D",
+          "matched_ligands": [
+            "NDP"
+          ]
+        },
+        {
+          "uniprot_id": "P00327",
+          "protein": "Alcohol dehydrogenase E chain",
+          "gene": null,
+          "validation_pdb": "1LDY",
+          "matched_ligands": [
+            "NAD"
+          ]
+        },
+        {
+          "uniprot_id": "A0A6L7HMK7",
+          "protein": null,
+          "gene": null,
+          "validation_pdb": "3CGE",
+          "matched_ligands": [
+            "NDP"
+          ]
+        },
+        {
+          "uniprot_id": "P9WGR1",
+          "protein": "Enoyl-[acyl-carrier-protein] reductase [NADH]",
+          "gene": "inhA",
+          "validation_pdb": "2AQH",
+          "matched_ligands": [
+            "NAI"
+          ]
+        }
+      ]
+    },
+    {
+      "ligand_bin": "PLP",
+      "ligand_comp_ids": [
+        "PLP"
+      ],
+      "entries": [
+        {
+          "uniprot_id": "P00929",
+          "protein": "Tryptophan synthase alpha chain",
+          "gene": "trpA",
+          "validation_pdb": "1TJP",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "Q96GD0",
+          "protein": "Chronophin",
+          "gene": "PDXP",
+          "validation_pdb": "2CFT",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P12995",
+          "protein": "Adenosylmethionine-8-amino-7-oxononanoate aminotransferase",
+          "gene": "bioA",
+          "validation_pdb": "1DTY",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "Q8RR70",
+          "protein": "Aminotransferase",
+          "gene": "aspC",
+          "validation_pdb": "1J32",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P00489",
+          "protein": "Glycogen phosphorylase, muscle form",
+          "gene": "PYGM",
+          "validation_pdb": "2F3Q",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P16703",
+          "protein": "Cysteine synthase B",
+          "gene": "cysM",
+          "validation_pdb": "2BHT",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "O59096",
+          "protein": "Aminotransferase",
+          "gene": null,
+          "validation_pdb": "1DJU",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P38197",
+          "protein": "Pyridoxal phosphate homeostasis protein",
+          "gene": null,
+          "validation_pdb": "1B54",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "Q9RME2",
+          "protein": "Phosphoserine aminotransferase",
+          "gene": "serC",
+          "validation_pdb": "2BHX",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "Q7SIB6",
+          "protein": "Serine hydroxymethyltransferase",
+          "gene": "glyA",
+          "validation_pdb": "2W7E",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "Q9YBL2",
+          "protein": "Protein CysO",
+          "gene": "cysO",
+          "validation_pdb": "1WKV",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P04181",
+          "protein": "Ornithine aminotransferase, mitochondrial",
+          "gene": "OAT",
+          "validation_pdb": "2BYL",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "Q9ZHG9",
+          "protein": null,
+          "gene": "c-des",
+          "validation_pdb": "1N31",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P95468",
+          "protein": "Aromatic-amino-acid aminotransferase",
+          "gene": "tyrB",
+          "validation_pdb": "2AY1",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P69908",
+          "protein": "Glutamate decarboxylase alpha",
+          "gene": "gadA",
+          "validation_pdb": "1XEY",
+          "matched_ligands": [
+            "PLP"
+          ]
+        }
+      ]
+    },
+    {
+      "ligand_bin": "HEME",
+      "ligand_comp_ids": [
+        "HEM",
+        "HEC",
+        "HEA",
+        "HEB"
+      ],
+      "entries": [
+        {
+          "uniprot_id": "P68530",
+          "protein": "Cytochrome c oxidase subunit 2",
+          "gene": "MT-CO2",
+          "validation_pdb": "9IKF",
+          "matched_ligands": [
+            "HEA"
+          ]
+        },
+        {
+          "uniprot_id": "A1BBA0",
+          "protein": "Methylamine dehydrogenase (amicyanin)",
+          "gene": null,
+          "validation_pdb": "4L3G",
+          "matched_ligands": [
+            "HEC"
+          ]
+        },
+        {
+          "uniprot_id": "P00428",
+          "protein": "Cytochrome c oxidase subunit 5B, mitochondrial",
+          "gene": "COX5B",
+          "validation_pdb": "9IKF",
+          "matched_ligands": [
+            "HEA"
+          ]
+        },
+        {
+          "uniprot_id": "P00423",
+          "protein": "Cytochrome c oxidase subunit 4 isoform 1, mitochondrial",
+          "gene": "COX4I1",
+          "validation_pdb": "9IKF",
+          "matched_ligands": [
+            "HEA"
+          ]
+        },
+        {
+          "uniprot_id": "Q8GGK7",
+          "protein": null,
+          "gene": "ppcA",
+          "validation_pdb": "3SJ4",
+          "matched_ligands": [
+            "HEC"
+          ]
+        },
+        {
+          "uniprot_id": "P02070",
+          "protein": "Hemoglobin subunit beta",
+          "gene": "HBB",
+          "validation_pdb": "1FSX",
+          "matched_ligands": [
+            "HEM"
+          ]
+        },
+        {
+          "uniprot_id": "P13183",
+          "protein": "Cytochrome c oxidase subunit 7B, mitochondrial",
+          "gene": "COX7B",
+          "validation_pdb": "9IKF",
+          "matched_ligands": [
+            "HEA"
+          ]
+        },
+        {
+          "uniprot_id": "A1BB97",
+          "protein": "Methylamine dehydrogenase heavy chain",
+          "gene": null,
+          "validation_pdb": "4L3G",
+          "matched_ligands": [
+            "HEC"
+          ]
+        },
+        {
+          "uniprot_id": "P00138",
+          "protein": "Cytochrome c'",
+          "gene": null,
+          "validation_pdb": "3ZQV",
+          "matched_ligands": [
+            "HEC"
+          ]
+        },
+        {
+          "uniprot_id": "L0DSL2",
+          "protein": "Cytochrome c-552",
+          "gene": "nir",
+          "validation_pdb": "4Q0T",
+          "matched_ligands": [
+            "HEC"
+          ]
+        },
+        {
+          "uniprot_id": "P04038",
+          "protein": "Cytochrome c oxidase subunit 6C",
+          "gene": "COX6C",
+          "validation_pdb": "9IKF",
+          "matched_ligands": [
+            "HEA"
+          ]
+        },
+        {
+          "uniprot_id": "Q8GR64",
+          "protein": "Quinohemoprotein alcohol dehydrogenase ADH IIB",
+          "gene": "qbdA",
+          "validation_pdb": "1KV9",
+          "matched_ligands": [
+            "HEC"
+          ]
+        },
+        {
+          "uniprot_id": "P69905",
+          "protein": "Hemoglobin subunit alpha",
+          "gene": "HBA1",
+          "validation_pdb": "1BUW",
+          "matched_ligands": [
+            "HEM"
+          ]
+        },
+        {
+          "uniprot_id": "P00431",
+          "protein": "Cytochrome c peroxidase, mitochondrial",
+          "gene": "CCP1",
+          "validation_pdb": "1CCP",
+          "matched_ligands": [
+            "HEM"
+          ]
+        },
+        {
+          "uniprot_id": "P00078",
+          "protein": "Cytochrome c",
+          "gene": null,
+          "validation_pdb": "2YK3",
+          "matched_ligands": [
+            "HEC"
+          ]
+        }
+      ]
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "ligand_comp_ids": [
+        "ZN"
+      ],
+      "entries": [
+        {
+          "uniprot_id": "P00959",
+          "protein": "Methionine--tRNA ligase",
+          "gene": "metG",
+          "validation_pdb": "1F4L",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P03956",
+          "protein": "Interstitial collagenase",
+          "gene": "MMP1",
+          "validation_pdb": "1CGF",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "O67135",
+          "protein": "Acetoin utilization protein AcuC",
+          "gene": "acuC1",
+          "validation_pdb": "1C3S",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P00800",
+          "protein": "Thermolysin",
+          "gene": "npr",
+          "validation_pdb": "1FJO",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "Q64288",
+          "protein": "Olfactory marker protein",
+          "gene": "Omp",
+          "validation_pdb": "1F35",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "Q55080",
+          "protein": "Cytochrome P450 119",
+          "gene": "cyp119",
+          "validation_pdb": "1F4T",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P0A6K3",
+          "protein": "Peptide deformylase",
+          "gene": "def",
+          "validation_pdb": "1BS4",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P03958",
+          "protein": "Adenosine deaminase",
+          "gene": "Ada",
+          "validation_pdb": "1FKX",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P01631",
+          "protein": "Ig kappa chain V-II region 26-10",
+          "gene": null,
+          "validation_pdb": "1BFV",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P26662",
+          "protein": "Genome polyprotein",
+          "gene": null,
+          "validation_pdb": "1DY9",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P00760",
+          "protein": "Serine protease 1",
+          "gene": "PRSS1",
+          "validation_pdb": "1C2H",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P00918",
+          "protein": "Carbonic anhydrase 2",
+          "gene": "CA2",
+          "validation_pdb": "1FQL",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P10844",
+          "protein": "Botulinum neurotoxin type B",
+          "gene": "botB",
+          "validation_pdb": "1EPW",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P29473",
+          "protein": "Nitric oxide synthase 3",
+          "gene": "NOS3",
+          "validation_pdb": "1ED5",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P32867",
+          "protein": "Protein SSO1",
+          "gene": "SSO1",
+          "validation_pdb": "1FIO",
+          "matched_ligands": [
+            "ZN"
+          ]
+        }
+      ]
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "ligand_comp_ids": [
+        "CA",
+        "MG"
+      ],
+      "entries": [
+        {
+          "uniprot_id": "P58301",
+          "protein": "DNA double-strand break repair Rad50 ATPase",
+          "gene": "rad50",
+          "validation_pdb": "1F2U",
+          "matched_ligands": [
+            "MG"
+          ]
+        },
+        {
+          "uniprot_id": "P00378",
+          "protein": "Dihydrofolate reductase",
+          "gene": "DHFR",
+          "validation_pdb": "1DR3",
+          "matched_ligands": [
+            "CA"
+          ]
+        },
+        {
+          "uniprot_id": "P40202",
+          "protein": "Superoxide dismutase 1 copper chaperone",
+          "gene": "CCS1",
+          "validation_pdb": "1EJ8",
+          "matched_ligands": [
+            "CA"
+          ]
+        },
+        {
+          "uniprot_id": "P00692",
+          "protein": "Alpha-amylase",
+          "gene": null,
+          "validation_pdb": "1E3X",
+          "matched_ligands": [
+            "CA"
+          ]
+        },
+        {
+          "uniprot_id": "P43379",
+          "protein": "Cyclomaltodextrin glucanotransferase",
+          "gene": "cgt",
+          "validation_pdb": "1CGW",
+          "matched_ligands": [
+            "CA"
+          ]
+        },
+        {
+          "uniprot_id": "P01112",
+          "protein": "GTPase HRas",
+          "gene": "HRAS",
+          "validation_pdb": "1CLU",
+          "matched_ligands": [
+            "MG"
+          ]
+        },
+        {
+          "uniprot_id": "Q94702",
+          "protein": "Intron-encoded endonuclease I-PpoI",
+          "gene": null,
+          "validation_pdb": "1CYQ",
+          "matched_ligands": [
+            "MG"
+          ]
+        },
+        {
+          "uniprot_id": "P32396",
+          "protein": "Coproporphyrin III ferrochelatase",
+          "gene": "cpfC",
+          "validation_pdb": "1DOZ",
+          "matched_ligands": [
+            "MG"
+          ]
+        },
+        {
+          "uniprot_id": "P00924",
+          "protein": "Enolase 1",
+          "gene": "ENO1",
+          "validation_pdb": "1EBH",
+          "matched_ligands": [
+            "MG"
+          ]
+        },
+        {
+          "uniprot_id": "P17119",
+          "protein": "Kinesin-like protein KAR3",
+          "gene": "KAR3",
+          "validation_pdb": "1F9V",
+          "matched_ligands": [
+            "MG"
+          ]
+        },
+        {
+          "uniprot_id": "Q24973",
+          "protein": null,
+          "gene": null,
+          "validation_pdb": "1DQN",
+          "matched_ligands": [
+            "MG"
+          ]
+        },
+        {
+          "uniprot_id": "P14418",
+          "protein": "Acidic phospholipase A2",
+          "gene": null,
+          "validation_pdb": "1BK9",
+          "matched_ligands": [
+            "CA"
+          ]
+        },
+        {
+          "uniprot_id": "Q58663",
+          "protein": "Probable branched-chain amino acid transport ATP-binding protein LivG",
+          "gene": "livG",
+          "validation_pdb": "1G6H",
+          "matched_ligands": [
+            "MG"
+          ]
+        },
+        {
+          "uniprot_id": "P95493",
+          "protein": "Gingipain R2",
+          "gene": "rgpB",
+          "validation_pdb": "1CVR",
+          "matched_ligands": [
+            "CA"
+          ]
+        },
+        {
+          "uniprot_id": "P29957",
+          "protein": "Alpha-amylase",
+          "gene": "amy",
+          "validation_pdb": "1AQH",
+          "matched_ligands": [
+            "CA"
+          ]
+        }
+      ]
+    },
+    {
+      "ligand_bin": "Sterol",
+      "ligand_comp_ids": [
+        "CLR",
+        "CHS"
+      ],
+      "entries": [
+        {
+          "uniprot_id": "P19156",
+          "protein": "Potassium-transporting ATPase alpha chain 1",
+          "gene": "ATP4A",
+          "validation_pdb": "6JXJ",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "D9IEF7",
+          "protein": "Endolysin",
+          "gene": "e",
+          "validation_pdb": "8JWY",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "Q6IYF9",
+          "protein": "Succinate receptor 1",
+          "gene": "Sucnr1",
+          "validation_pdb": "6IBB",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "I0YUS5",
+          "protein": null,
+          "gene": null,
+          "validation_pdb": "6GYH",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "Q9NS75",
+          "protein": "Cysteinyl leukotriene receptor 2",
+          "gene": "CYSLTR2",
+          "validation_pdb": "6RZ6",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "P29274",
+          "protein": "Adenosine receptor A2a",
+          "gene": "ADORA2A",
+          "validation_pdb": "5NM4",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "Q70Q12",
+          "protein": "FXYD domain-containing ion transport regulator",
+          "gene": "fxyd10",
+          "validation_pdb": "2ZXE",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "M1MR49",
+          "protein": "Japanin",
+          "gene": null,
+          "validation_pdb": "4BOE",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "P24530",
+          "protein": "Endothelin receptor type B",
+          "gene": "EDNRB",
+          "validation_pdb": "5X93",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "O64989",
+          "protein": "Steroid (22S)-hydroxylase",
+          "gene": "CYP90B1",
+          "validation_pdb": "6A15",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "P35844",
+          "protein": "Oxysterol-binding protein homolog 4",
+          "gene": "KES1",
+          "validation_pdb": "1ZHY",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "P07550",
+          "protein": "Beta-2 adrenergic receptor",
+          "gene": "ADRB2",
+          "validation_pdb": "5D5A",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "C4IX13",
+          "protein": "Sodium/potassium-transporting ATPase subunit beta",
+          "gene": "atp1b1",
+          "validation_pdb": "2ZXE",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "P42866",
+          "protein": "Mu-type opioid receptor",
+          "gene": "Oprm1",
+          "validation_pdb": "5C1M",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "O15118",
+          "protein": "NPC intracellular cholesterol transporter 1",
+          "gene": "NPC1",
+          "validation_pdb": "3GKI",
+          "matched_ligands": [
+            "CLR"
+          ]
+        }
+      ]
+    },
+    {
+      "ligand_bin": "Misc.",
+      "ligand_comp_ids": [
+        "SAM",
+        "COA",
+        "THF",
+        "SF4",
+        "FES",
+        "F3S"
+      ],
+      "entries": [
+        {
+          "uniprot_id": "Q93XJ9",
+          "protein": "Ferredoxin",
+          "gene": "fed1",
+          "validation_pdb": "4ZHP",
+          "matched_ligands": [
+            "FES"
+          ]
+        },
+        {
+          "uniprot_id": "Q6TFC6",
+          "protein": null,
+          "gene": "qdtC",
+          "validation_pdb": "3FSC",
+          "matched_ligands": [
+            "COA"
+          ]
+        },
+        {
+          "uniprot_id": "P22289",
+          "protein": "Cytochrome b-c1 complex subunit 9, mitochondrial",
+          "gene": "QCR9",
+          "validation_pdb": "1P84",
+          "matched_ligands": [
+            "FES"
+          ]
+        },
+        {
+          "uniprot_id": "B8NJH3",
+          "protein": "O-methyltransferase lepI",
+          "gene": "lepI",
+          "validation_pdb": "6J24",
+          "matched_ligands": [
+            "SAM"
+          ]
+        },
+        {
+          "uniprot_id": "A0A062UZ78",
+          "protein": "2-(3-amino-3-carboxypropyl)histidine synthase",
+          "gene": null,
+          "validation_pdb": "6BXM",
+          "matched_ligands": [
+            "SAM"
+          ]
+        },
+        {
+          "uniprot_id": "P08997",
+          "protein": "Malate synthase A",
+          "gene": "aceB",
+          "validation_pdb": "3CV2",
+          "matched_ligands": [
+            "COA"
+          ]
+        },
+        {
+          "uniprot_id": "P05102",
+          "protein": "Type II methyltransferase M.HhaI",
+          "gene": "hhaIM",
+          "validation_pdb": "1HMY",
+          "matched_ligands": [
+            "SAM"
+          ]
+        },
+        {
+          "uniprot_id": "P08525",
+          "protein": "Cytochrome b-c1 complex subunit 8, mitochondrial",
+          "gene": "QCR8",
+          "validation_pdb": "1P84",
+          "matched_ligands": [
+            "FES"
+          ]
+        },
+        {
+          "uniprot_id": "P9WFK7",
+          "protein": "N-acetyltransferase Eis",
+          "gene": "eis",
+          "validation_pdb": "5IV0",
+          "matched_ligands": [
+            "COA"
+          ]
+        },
+        {
+          "uniprot_id": "P00127",
+          "protein": "Cytochrome b-c1 complex subunit 6, mitochondrial",
+          "gene": "QCR6",
+          "validation_pdb": "1P84",
+          "matched_ligands": [
+            "FES"
+          ]
+        },
+        {
+          "uniprot_id": "P00163",
+          "protein": "Cytochrome b",
+          "gene": "COB",
+          "validation_pdb": "1P84",
+          "matched_ligands": [
+            "FES"
+          ]
+        },
+        {
+          "uniprot_id": "P07256",
+          "protein": "Cytochrome b-c1 complex subunit 1, mitochondrial",
+          "gene": "COR1",
+          "validation_pdb": "1P84",
+          "matched_ligands": [
+            "FES"
+          ]
+        },
+        {
+          "uniprot_id": "P09856",
+          "protein": "Thioredoxin F-type, chloroplastic",
+          "gene": null,
+          "validation_pdb": "2PU9",
+          "matched_ligands": [
+            "SF4"
+          ]
+        },
+        {
+          "uniprot_id": "P07143",
+          "protein": "Cytochrome c1, heme protein, mitochondrial",
+          "gene": "CYT1",
+          "validation_pdb": "1P84",
+          "matched_ligands": [
+            "FES"
+          ]
+        },
+        {
+          "uniprot_id": "Q7T918",
+          "protein": "Genome polyprotein",
+          "gene": null,
+          "validation_pdb": "3GCZ",
+          "matched_ligands": [
+            "SAM"
+          ]
+        }
+      ]
+    }
+  ],
+  "protein_bins": [
+    {
+      "protein_class": "Hydrolase",
+      "entries": [
+        {
+          "uniprot_id": "Q96GD0",
+          "protein": "Chronophin",
+          "gene": "PDXP",
+          "validation_pdb": "2CFT",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P03956",
+          "protein": "Interstitial collagenase",
+          "gene": "MMP1",
+          "validation_pdb": "1CGF",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P00800",
+          "protein": "Thermolysin",
+          "gene": "npr",
+          "validation_pdb": "1FJO",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P0A6K3",
+          "protein": "Peptide deformylase",
+          "gene": "def",
+          "validation_pdb": "1BS4",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P03958",
+          "protein": "Adenosine deaminase",
+          "gene": "Ada",
+          "validation_pdb": "1FKX",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P00760",
+          "protein": "Serine protease 1",
+          "gene": "PRSS1",
+          "validation_pdb": "1C2H",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P00692",
+          "protein": "Alpha-amylase",
+          "gene": null,
+          "validation_pdb": "1E3X",
+          "matched_ligands": [
+            "CA"
+          ]
+        },
+        {
+          "uniprot_id": "P01112",
+          "protein": "GTPase HRas",
+          "gene": "HRAS",
+          "validation_pdb": "1CLU",
+          "matched_ligands": [
+            "MG"
+          ]
+        },
+        {
+          "uniprot_id": "Q94702",
+          "protein": "Intron-encoded endonuclease I-PpoI",
+          "gene": null,
+          "validation_pdb": "1CYQ",
+          "matched_ligands": [
+            "MG"
+          ]
+        },
+        {
+          "uniprot_id": "P14418",
+          "protein": "Acidic phospholipase A2",
+          "gene": null,
+          "validation_pdb": "1BK9",
+          "matched_ligands": [
+            "CA"
+          ]
+        },
+        {
+          "uniprot_id": "P95493",
+          "protein": "Gingipain R2",
+          "gene": "rgpB",
+          "validation_pdb": "1CVR",
+          "matched_ligands": [
+            "CA"
+          ]
+        },
+        {
+          "uniprot_id": "P29957",
+          "protein": "Alpha-amylase",
+          "gene": "amy",
+          "validation_pdb": "1AQH",
+          "matched_ligands": [
+            "CA"
+          ]
+        },
+        {
+          "uniprot_id": "D9IEF7",
+          "protein": "Endolysin",
+          "gene": "e",
+          "validation_pdb": "8JWY",
+          "matched_ligands": [
+            "CLR"
+          ]
+        }
+      ]
+    },
+    {
+      "protein_class": "Isomerase",
+      "entries": [
+        {
+          "uniprot_id": "Q6QLM7",
+          "protein": "Kinesin heavy chain isoform 5A",
+          "gene": "Kif5a",
+          "validation_pdb": "2KIN",
+          "matched_ligands": [
+            "ADP"
+          ]
+        },
+        {
+          "uniprot_id": "P17119",
+          "protein": "Kinesin-like protein KAR3",
+          "gene": "KAR3",
+          "validation_pdb": "1F9V",
+          "matched_ligands": [
+            "MG"
+          ]
+        }
+      ]
+    },
+    {
+      "protein_class": "Kinase",
+      "entries": [
+        {
+          "uniprot_id": "Q9JLS3",
+          "protein": "Serine/threonine-protein kinase TAO2",
+          "gene": "Taok2",
+          "validation_pdb": "1U5R",
+          "matched_ligands": [
+            "ATP"
+          ]
+        },
+        {
+          "uniprot_id": "P23919",
+          "protein": "Thymidylate kinase",
+          "gene": "DTYMK",
+          "validation_pdb": "1NMZ",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "P9WPY3",
+          "protein": "Shikimate kinase",
+          "gene": "aroK",
+          "validation_pdb": "2DFN",
+          "matched_ligands": [
+            "ADP"
+          ]
+        },
+        {
+          "uniprot_id": "P06239",
+          "protein": "Tyrosine-protein kinase Lck",
+          "gene": "LCK",
+          "validation_pdb": "1QPC",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "P05132",
+          "protein": "cAMP-dependent protein kinase catalytic subunit alpha",
+          "gene": "Prkaca",
+          "validation_pdb": "4DH8",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "O43314",
+          "protein": "Inositol hexakisphosphate and diphosphoinositol-pentakisphosphate kinase 2",
+          "gene": "PPIP5K2",
+          "validation_pdb": "3T54",
+          "matched_ligands": [
+            "ATP"
+          ]
+        },
+        {
+          "uniprot_id": "Q969G6",
+          "protein": "Riboflavin kinase",
+          "gene": "RFK",
+          "validation_pdb": "1P4M",
+          "matched_ligands": [
+            "FMN"
+          ]
+        }
+      ]
+    },
+    {
+      "protein_class": "Ligase",
+      "entries": [
+        {
+          "uniprot_id": "P12039",
+          "protein": "Phosphoribosylamine--glycine ligase",
+          "gene": "purD",
+          "validation_pdb": "2XCL",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "P00959",
+          "protein": "Methionine--tRNA ligase",
+          "gene": "metG",
+          "validation_pdb": "1F4L",
+          "matched_ligands": [
+            "ZN"
+          ]
+        }
+      ]
+    },
+    {
+      "protein_class": "Lyase",
+      "entries": [
+        {
+          "uniprot_id": "P00929",
+          "protein": "Tryptophan synthase alpha chain",
+          "gene": "trpA",
+          "validation_pdb": "1TJP",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P69908",
+          "protein": "Glutamate decarboxylase alpha",
+          "gene": "gadA",
+          "validation_pdb": "1XEY",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P00918",
+          "protein": "Carbonic anhydrase 2",
+          "gene": "CA2",
+          "validation_pdb": "1FQL",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P32396",
+          "protein": "Coproporphyrin III ferrochelatase",
+          "gene": "cpfC",
+          "validation_pdb": "1DOZ",
+          "matched_ligands": [
+            "MG"
+          ]
+        },
+        {
+          "uniprot_id": "P00924",
+          "protein": "Enolase 1",
+          "gene": "ENO1",
+          "validation_pdb": "1EBH",
+          "matched_ligands": [
+            "MG"
+          ]
+        }
+      ]
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "entries": [
+        {
+          "uniprot_id": "A0A6L8PBX8",
+          "protein": "Enoyl-[acyl-carrier-protein] reductase [NADH]",
+          "gene": "fabI",
+          "validation_pdb": "2QIO",
+          "matched_ligands": [
+            "NAD"
+          ]
+        },
+        {
+          "uniprot_id": "P00431",
+          "protein": "Cytochrome c peroxidase, mitochondrial",
+          "gene": "CCP1",
+          "validation_pdb": "1CCP",
+          "matched_ligands": [
+            "HEM"
+          ]
+        },
+        {
+          "uniprot_id": "P38489",
+          "protein": "Oxygen-insensitive NAD(P)H nitroreductase",
+          "gene": "nfsB",
+          "validation_pdb": "1YLR",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "P27338",
+          "protein": "Amine oxidase [flavin-containing] B",
+          "gene": "MAOB",
+          "validation_pdb": "2BYB",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "O64411",
+          "protein": "Polyamine oxidase 1",
+          "gene": "MPAO1",
+          "validation_pdb": "1B37",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "P08200",
+          "protein": "Isocitrate dehydrogenase [NADP]",
+          "gene": "icd",
+          "validation_pdb": "1BL5",
+          "matched_ligands": [
+            "NAP"
+          ]
+        },
+        {
+          "uniprot_id": "P51857",
+          "protein": "Aldo-keto reductase family 1 member D1",
+          "gene": "AKR1D1",
+          "validation_pdb": "3CAV",
+          "matched_ligands": [
+            "NAP"
+          ]
+        },
+        {
+          "uniprot_id": "P29473",
+          "protein": "Nitric oxide synthase 3",
+          "gene": "NOS3",
+          "validation_pdb": "1ED5",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P08165",
+          "protein": "NADPH:adrenodoxin oxidoreductase, mitochondrial",
+          "gene": "FDXR",
+          "validation_pdb": "1E1K",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "Q50497",
+          "protein": "Coenzyme F420H(2) oxidase",
+          "gene": "fprA",
+          "validation_pdb": "2OHJ",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "L0DSL2",
+          "protein": "Cytochrome c-552",
+          "gene": "nir",
+          "validation_pdb": "4Q0T",
+          "matched_ligands": [
+            "HEC"
+          ]
+        },
+        {
+          "uniprot_id": "Q9AGP8",
+          "protein": "Dimethylglycine oxidase",
+          "gene": "dmg",
+          "validation_pdb": "1PJ5",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "P00455",
+          "protein": "Ferredoxin--NADP reductase, chloroplastic",
+          "gene": "PETH",
+          "validation_pdb": "1FRQ",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "Q50LF1",
+          "protein": "Sarcosine oxidase subunit delta",
+          "gene": "soxD",
+          "validation_pdb": "1VRQ",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "P22045",
+          "protein": "9,11-endoperoxide prostaglandin H2 reductase",
+          "gene": "P100/11E",
+          "validation_pdb": "4G5D",
+          "matched_ligands": [
+            "NDP"
+          ]
+        }
+      ]
+    },
+    {
+      "protein_class": "Transferase",
+      "entries": [
+        {
+          "uniprot_id": "Q9RME2",
+          "protein": "Phosphoserine aminotransferase",
+          "gene": "serC",
+          "validation_pdb": "2BHX",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P23919",
+          "protein": "Thymidylate kinase",
+          "gene": "DTYMK",
+          "validation_pdb": "1NMZ",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "Q9JLS3",
+          "protein": "Serine/threonine-protein kinase TAO2",
+          "gene": "Taok2",
+          "validation_pdb": "1U5R",
+          "matched_ligands": [
+            "ATP"
+          ]
+        },
+        {
+          "uniprot_id": "P9WPY3",
+          "protein": "Shikimate kinase",
+          "gene": "aroK",
+          "validation_pdb": "2DFN",
+          "matched_ligands": [
+            "ADP"
+          ]
+        },
+        {
+          "uniprot_id": "P07342",
+          "protein": "Acetolactate synthase catalytic subunit, mitochondrial",
+          "gene": "ILV2",
+          "validation_pdb": "1T9B",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "Q969G6",
+          "protein": "Riboflavin kinase",
+          "gene": "RFK",
+          "validation_pdb": "1P4M",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "P95468",
+          "protein": "Aromatic-amino-acid aminotransferase",
+          "gene": "tyrB",
+          "validation_pdb": "2AY1",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P08997",
+          "protein": "Malate synthase A",
+          "gene": "aceB",
+          "validation_pdb": "3CV2",
+          "matched_ligands": [
+            "COA"
+          ]
+        },
+        {
+          "uniprot_id": "P12995",
+          "protein": "Adenosylmethionine-8-amino-7-oxononanoate aminotransferase",
+          "gene": "bioA",
+          "validation_pdb": "1DTY",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P06239",
+          "protein": "Tyrosine-protein kinase Lck",
+          "gene": "LCK",
+          "validation_pdb": "1QPC",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "P16703",
+          "protein": "Cysteine synthase B",
+          "gene": "cysM",
+          "validation_pdb": "2BHT",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "P00489",
+          "protein": "Glycogen phosphorylase, muscle form",
+          "gene": "PYGM",
+          "validation_pdb": "2F3Q",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "Q7SIB6",
+          "protein": "Serine hydroxymethyltransferase",
+          "gene": "glyA",
+          "validation_pdb": "2W7E",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "B8NJH3",
+          "protein": "O-methyltransferase lepI",
+          "gene": "lepI",
+          "validation_pdb": "6J24",
+          "matched_ligands": [
+            "SAM"
+          ]
+        },
+        {
+          "uniprot_id": "P9WFK7",
+          "protein": "N-acetyltransferase Eis",
+          "gene": "eis",
+          "validation_pdb": "5IV0",
+          "matched_ligands": [
+            "COA"
+          ]
+        }
+      ]
+    },
+    {
+      "protein_class": "Unclassified",
+      "entries": [
+        {
+          "uniprot_id": "Q6IYF9",
+          "protein": "Succinate receptor 1",
+          "gene": "Sucnr1",
+          "validation_pdb": "6IBB",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "A5GZW8",
+          "protein": "Succinate dehydrogenase [ubiquinone] cytochrome b small subunit, mitochondrial",
+          "gene": "SDHD",
+          "validation_pdb": "1ZOY",
+          "matched_ligands": [
+            "FAD"
+          ]
+        },
+        {
+          "uniprot_id": "P63248",
+          "protein": "cAMP-dependent protein kinase inhibitor alpha",
+          "gene": "Pkia",
+          "validation_pdb": "4DH8",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "P35844",
+          "protein": "Oxysterol-binding protein homolog 4",
+          "gene": "KES1",
+          "validation_pdb": "1ZHY",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "Q9YBL2",
+          "protein": "Protein CysO",
+          "gene": "cysO",
+          "validation_pdb": "1WKV",
+          "matched_ligands": [
+            "PLP"
+          ]
+        },
+        {
+          "uniprot_id": "A0A6L7HMK7",
+          "protein": null,
+          "gene": null,
+          "validation_pdb": "3CGE",
+          "matched_ligands": [
+            "NDP"
+          ]
+        },
+        {
+          "uniprot_id": "O66841",
+          "protein": "NADH-quinone oxidoreductase subunit F",
+          "gene": "nuoF",
+          "validation_pdb": "6Q9K",
+          "matched_ligands": [
+            "NAI"
+          ]
+        },
+        {
+          "uniprot_id": "P00322",
+          "protein": "Flavodoxin",
+          "gene": null,
+          "validation_pdb": "2FAX",
+          "matched_ligands": [
+            "FMN"
+          ]
+        },
+        {
+          "uniprot_id": "P07256",
+          "protein": "Cytochrome b-c1 complex subunit 1, mitochondrial",
+          "gene": "COR1",
+          "validation_pdb": "1P84",
+          "matched_ligands": [
+            "FES"
+          ]
+        },
+        {
+          "uniprot_id": "P68187",
+          "protein": "Maltose/maltodextrin import ATP-binding protein MalK",
+          "gene": "malK",
+          "validation_pdb": "4KI0",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "P29274",
+          "protein": "Adenosine receptor A2a",
+          "gene": "ADORA2A",
+          "validation_pdb": "5NM4",
+          "matched_ligands": [
+            "CLR"
+          ]
+        },
+        {
+          "uniprot_id": "Q6TFC6",
+          "protein": null,
+          "gene": "qdtC",
+          "validation_pdb": "3FSC",
+          "matched_ligands": [
+            "COA"
+          ]
+        },
+        {
+          "uniprot_id": "P32867",
+          "protein": "Protein SSO1",
+          "gene": "SSO1",
+          "validation_pdb": "1FIO",
+          "matched_ligands": [
+            "ZN"
+          ]
+        },
+        {
+          "uniprot_id": "P0A7G6",
+          "protein": "Protein RecA",
+          "gene": "recA",
+          "validation_pdb": "1XMS",
+          "matched_ligands": [
+            "ANP"
+          ]
+        },
+        {
+          "uniprot_id": "Q24973",
+          "protein": null,
+          "gene": null,
+          "validation_pdb": "1DQN",
+          "matched_ligands": [
+            "MG"
+          ]
+        }
+      ]
+    }
+  ],
+  "ligand_rows": [
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "P23909",
+      "protein": "DNA mismatch repair protein MutS",
+      "gene": "mutS",
+      "validation_pdb": "1WBD",
+      "matched_ligands": "ADP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "P63248",
+      "protein": "cAMP-dependent protein kinase inhibitor alpha",
+      "gene": "Pkia",
+      "validation_pdb": "4DH8",
+      "matched_ligands": "ANP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "D0VWX4",
+      "protein": null,
+      "gene": "artP",
+      "validation_pdb": "2OLJ",
+      "matched_ligands": "ADP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "Q6QLM7",
+      "protein": "Kinesin heavy chain isoform 5A",
+      "gene": "Kif5a",
+      "validation_pdb": "2KIN",
+      "matched_ligands": "ADP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "P0AEX9",
+      "protein": "Maltose/maltodextrin-binding periplasmic protein",
+      "gene": "malE",
+      "validation_pdb": "4KI0",
+      "matched_ligands": "ANP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "Q9JLS3",
+      "protein": "Serine/threonine-protein kinase TAO2",
+      "gene": "Taok2",
+      "validation_pdb": "1U5R",
+      "matched_ligands": "ATP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "P23919",
+      "protein": "Thymidylate kinase",
+      "gene": "DTYMK",
+      "validation_pdb": "1NMZ",
+      "matched_ligands": "ANP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "P9WPY3",
+      "protein": "Shikimate kinase",
+      "gene": "aroK",
+      "validation_pdb": "2DFN",
+      "matched_ligands": "ADP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "P02916",
+      "protein": "Maltose/maltodextrin transport system permease protein MalF",
+      "gene": "malF",
+      "validation_pdb": "4KI0",
+      "matched_ligands": "ANP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "P06239",
+      "protein": "Tyrosine-protein kinase Lck",
+      "gene": "LCK",
+      "validation_pdb": "1QPC",
+      "matched_ligands": "ANP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "P0A7G6",
+      "protein": "Protein RecA",
+      "gene": "recA",
+      "validation_pdb": "1XMS",
+      "matched_ligands": "ANP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "P05132",
+      "protein": "cAMP-dependent protein kinase catalytic subunit alpha",
+      "gene": "Prkaca",
+      "validation_pdb": "4DH8",
+      "matched_ligands": "ANP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "O43314",
+      "protein": "Inositol hexakisphosphate and diphosphoinositol-pentakisphosphate kinase 2",
+      "gene": "PPIP5K2",
+      "validation_pdb": "3T54",
+      "matched_ligands": "ATP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "P68187",
+      "protein": "Maltose/maltodextrin import ATP-binding protein MalK",
+      "gene": "malK",
+      "validation_pdb": "4KI0",
+      "matched_ligands": "ANP"
+    },
+    {
+      "ligand_bin": "ADP/ATP",
+      "uniprot_id": "P12039",
+      "protein": "Phosphoribosylamine--glycine ligase",
+      "gene": "purD",
+      "validation_pdb": "2XCL",
+      "matched_ligands": "ANP"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "A5GZW8",
+      "protein": "Succinate dehydrogenase [ubiquinone] cytochrome b small subunit, mitochondrial",
+      "gene": "SDHD",
+      "validation_pdb": "1ZOY",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "P27338",
+      "protein": "Amine oxidase [flavin-containing] B",
+      "gene": "MAOB",
+      "validation_pdb": "2BYB",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "P13006",
+      "protein": "Glucose oxidase",
+      "gene": "gox",
+      "validation_pdb": "1CF3",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "P00455",
+      "protein": "Ferredoxin--NADP reductase, chloroplastic",
+      "gene": "PETH",
+      "validation_pdb": "1FRQ",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "Q9AGP8",
+      "protein": "Dimethylglycine oxidase",
+      "gene": "dmg",
+      "validation_pdb": "1PJ5",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "P00438",
+      "protein": "p-hydroxybenzoate hydroxylase",
+      "gene": "pobA",
+      "validation_pdb": "1PBD",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "Q50LF2",
+      "protein": "Sarcosine oxidase subunit beta",
+      "gene": "soxB",
+      "validation_pdb": "1VRQ",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "P00390",
+      "protein": "Glutathione reductase, mitochondrial",
+      "gene": "GSR",
+      "validation_pdb": "1DNC",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "P07342",
+      "protein": "Acetolactate synthase catalytic subunit, mitochondrial",
+      "gene": "ILV2",
+      "validation_pdb": "1T9B",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "P12676",
+      "protein": "Cholesterol oxidase",
+      "gene": "choA",
+      "validation_pdb": "1CBO",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "Q0QF01",
+      "protein": "Succinate dehydrogenase [ubiquinone] flavoprotein subunit, mitochondrial",
+      "gene": "SDHA",
+      "validation_pdb": "1ZOY",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "P08165",
+      "protein": "NADPH:adrenodoxin oxidoreductase, mitochondrial",
+      "gene": "FDXR",
+      "validation_pdb": "1E1K",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "O64411",
+      "protein": "Polyamine oxidase 1",
+      "gene": "MPAO1",
+      "validation_pdb": "1B37",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "P0A9P4",
+      "protein": "Thioredoxin reductase",
+      "gene": "trxB",
+      "validation_pdb": "1TDE",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FAD",
+      "uniprot_id": "Q50LF1",
+      "protein": "Sarcosine oxidase subunit delta",
+      "gene": "soxD",
+      "validation_pdb": "1VRQ",
+      "matched_ligands": "FAD"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "Q50497",
+      "protein": "Coenzyme F420H(2) oxidase",
+      "gene": "fprA",
+      "validation_pdb": "2OHJ",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "P20932",
+      "protein": "(S)-mandelate dehydrogenase",
+      "gene": "mdlB",
+      "validation_pdb": "3GIY",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "Q969G6",
+      "protein": "Riboflavin kinase",
+      "gene": "RFK",
+      "validation_pdb": "1P4M",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "P00322",
+      "protein": "Flavodoxin",
+      "gene": null,
+      "validation_pdb": "2FAX",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "Q60049",
+      "protein": "NADH dehydrogenase",
+      "gene": "nox",
+      "validation_pdb": "1NOX",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "P71278",
+      "protein": null,
+      "gene": "onr",
+      "validation_pdb": "2ABB",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "Q50LF1",
+      "protein": "Sarcosine oxidase subunit delta",
+      "gene": "soxD",
+      "validation_pdb": "3AD9",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "B1YG32",
+      "protein": null,
+      "gene": null,
+      "validation_pdb": "3GE6",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "Q02127",
+      "protein": "Dihydroorotate dehydrogenase (quinone), mitochondrial",
+      "gene": "DHODH",
+      "validation_pdb": "1D3G",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "Q9F0J6",
+      "protein": "Rubredoxin-oxygen oxidoreductase",
+      "gene": "roo",
+      "validation_pdb": "1E5D",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "P10340",
+      "protein": "Flavodoxin",
+      "gene": "isiB",
+      "validation_pdb": "1CZU",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "P38489",
+      "protein": "Oxygen-insensitive NAD(P)H nitroreductase",
+      "gene": "nfsB",
+      "validation_pdb": "1YLR",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "P00323",
+      "protein": "Flavodoxin",
+      "gene": null,
+      "validation_pdb": "1F4P",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "P41407",
+      "protein": "FMN-dependent NADH:quinone oxidoreductase",
+      "gene": "azoR",
+      "validation_pdb": "2Z98",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "FMN",
+      "uniprot_id": "Q50LE9",
+      "protein": "Sarcosine oxidase subunit gamma",
+      "gene": "soxG",
+      "validation_pdb": "3AD9",
+      "matched_ligands": "FMN"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "P28037",
+      "protein": "Cytosolic 10-formyltetrahydrofolate dehydrogenase",
+      "gene": "Aldh1l1",
+      "validation_pdb": "2O2Q",
+      "matched_ligands": "NAP"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "P51857",
+      "protein": "Aldo-keto reductase family 1 member D1",
+      "gene": "AKR1D1",
+      "validation_pdb": "3CAV",
+      "matched_ligands": "NAP"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "Q56840",
+      "protein": "2-(R)-hydroxypropyl-CoM dehydrogenase",
+      "gene": "xecD1",
+      "validation_pdb": "2CFC",
+      "matched_ligands": "NAD"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "Q59771",
+      "protein": "Phenylalanine dehydrogenase",
+      "gene": "pdh",
+      "validation_pdb": "1BXG",
+      "matched_ligands": "NAD"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "O66841",
+      "protein": "NADH-quinone oxidoreductase subunit F",
+      "gene": "nuoF",
+      "validation_pdb": "6Q9K",
+      "matched_ligands": "NAI"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "Q071N0",
+      "protein": "Salutaridine reductase",
+      "gene": "SALR",
+      "validation_pdb": "3O26",
+      "matched_ligands": "NDP"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "P00338",
+      "protein": "L-lactate dehydrogenase A chain",
+      "gene": "LDHA",
+      "validation_pdb": "5ZJD",
+      "matched_ligands": "NAI"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "P9WIQ3",
+      "protein": "NADPH-ferredoxin reductase FprA",
+      "gene": "fprA",
+      "validation_pdb": "1LQU",
+      "matched_ligands": "NDP"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "P08200",
+      "protein": "Isocitrate dehydrogenase [NADP]",
+      "gene": "icd",
+      "validation_pdb": "1BL5",
+      "matched_ligands": "NAP"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "A0A6L8PBX8",
+      "protein": "Enoyl-[acyl-carrier-protein] reductase [NADH]",
+      "gene": "fabI",
+      "validation_pdb": "2QIO",
+      "matched_ligands": "NAD"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "A0A0H3G9R2",
+      "protein": "alcohol dehydrogenase",
+      "gene": null,
+      "validation_pdb": "3MEQ",
+      "matched_ligands": "NAI"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "P22045",
+      "protein": "9,11-endoperoxide prostaglandin H2 reductase",
+      "gene": "P100/11E",
+      "validation_pdb": "4G5D",
+      "matched_ligands": "NDP"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "P00327",
+      "protein": "Alcohol dehydrogenase E chain",
+      "gene": null,
+      "validation_pdb": "1LDY",
+      "matched_ligands": "NAD"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "A0A6L7HMK7",
+      "protein": null,
+      "gene": null,
+      "validation_pdb": "3CGE",
+      "matched_ligands": "NDP"
+    },
+    {
+      "ligand_bin": "NAD(P)",
+      "uniprot_id": "P9WGR1",
+      "protein": "Enoyl-[acyl-carrier-protein] reductase [NADH]",
+      "gene": "inhA",
+      "validation_pdb": "2AQH",
+      "matched_ligands": "NAI"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "P00929",
+      "protein": "Tryptophan synthase alpha chain",
+      "gene": "trpA",
+      "validation_pdb": "1TJP",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "Q96GD0",
+      "protein": "Chronophin",
+      "gene": "PDXP",
+      "validation_pdb": "2CFT",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "P12995",
+      "protein": "Adenosylmethionine-8-amino-7-oxononanoate aminotransferase",
+      "gene": "bioA",
+      "validation_pdb": "1DTY",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "Q8RR70",
+      "protein": "Aminotransferase",
+      "gene": "aspC",
+      "validation_pdb": "1J32",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "P00489",
+      "protein": "Glycogen phosphorylase, muscle form",
+      "gene": "PYGM",
+      "validation_pdb": "2F3Q",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "P16703",
+      "protein": "Cysteine synthase B",
+      "gene": "cysM",
+      "validation_pdb": "2BHT",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "O59096",
+      "protein": "Aminotransferase",
+      "gene": null,
+      "validation_pdb": "1DJU",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "P38197",
+      "protein": "Pyridoxal phosphate homeostasis protein",
+      "gene": null,
+      "validation_pdb": "1B54",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "Q9RME2",
+      "protein": "Phosphoserine aminotransferase",
+      "gene": "serC",
+      "validation_pdb": "2BHX",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "Q7SIB6",
+      "protein": "Serine hydroxymethyltransferase",
+      "gene": "glyA",
+      "validation_pdb": "2W7E",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "Q9YBL2",
+      "protein": "Protein CysO",
+      "gene": "cysO",
+      "validation_pdb": "1WKV",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "P04181",
+      "protein": "Ornithine aminotransferase, mitochondrial",
+      "gene": "OAT",
+      "validation_pdb": "2BYL",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "Q9ZHG9",
+      "protein": null,
+      "gene": "c-des",
+      "validation_pdb": "1N31",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "P95468",
+      "protein": "Aromatic-amino-acid aminotransferase",
+      "gene": "tyrB",
+      "validation_pdb": "2AY1",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "PLP",
+      "uniprot_id": "P69908",
+      "protein": "Glutamate decarboxylase alpha",
+      "gene": "gadA",
+      "validation_pdb": "1XEY",
+      "matched_ligands": "PLP"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "P68530",
+      "protein": "Cytochrome c oxidase subunit 2",
+      "gene": "MT-CO2",
+      "validation_pdb": "9IKF",
+      "matched_ligands": "HEA"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "A1BBA0",
+      "protein": "Methylamine dehydrogenase (amicyanin)",
+      "gene": null,
+      "validation_pdb": "4L3G",
+      "matched_ligands": "HEC"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "P00428",
+      "protein": "Cytochrome c oxidase subunit 5B, mitochondrial",
+      "gene": "COX5B",
+      "validation_pdb": "9IKF",
+      "matched_ligands": "HEA"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "P00423",
+      "protein": "Cytochrome c oxidase subunit 4 isoform 1, mitochondrial",
+      "gene": "COX4I1",
+      "validation_pdb": "9IKF",
+      "matched_ligands": "HEA"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "Q8GGK7",
+      "protein": null,
+      "gene": "ppcA",
+      "validation_pdb": "3SJ4",
+      "matched_ligands": "HEC"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "P02070",
+      "protein": "Hemoglobin subunit beta",
+      "gene": "HBB",
+      "validation_pdb": "1FSX",
+      "matched_ligands": "HEM"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "P13183",
+      "protein": "Cytochrome c oxidase subunit 7B, mitochondrial",
+      "gene": "COX7B",
+      "validation_pdb": "9IKF",
+      "matched_ligands": "HEA"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "A1BB97",
+      "protein": "Methylamine dehydrogenase heavy chain",
+      "gene": null,
+      "validation_pdb": "4L3G",
+      "matched_ligands": "HEC"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "P00138",
+      "protein": "Cytochrome c'",
+      "gene": null,
+      "validation_pdb": "3ZQV",
+      "matched_ligands": "HEC"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "L0DSL2",
+      "protein": "Cytochrome c-552",
+      "gene": "nir",
+      "validation_pdb": "4Q0T",
+      "matched_ligands": "HEC"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "P04038",
+      "protein": "Cytochrome c oxidase subunit 6C",
+      "gene": "COX6C",
+      "validation_pdb": "9IKF",
+      "matched_ligands": "HEA"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "Q8GR64",
+      "protein": "Quinohemoprotein alcohol dehydrogenase ADH IIB",
+      "gene": "qbdA",
+      "validation_pdb": "1KV9",
+      "matched_ligands": "HEC"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "P69905",
+      "protein": "Hemoglobin subunit alpha",
+      "gene": "HBA1",
+      "validation_pdb": "1BUW",
+      "matched_ligands": "HEM"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "P00431",
+      "protein": "Cytochrome c peroxidase, mitochondrial",
+      "gene": "CCP1",
+      "validation_pdb": "1CCP",
+      "matched_ligands": "HEM"
+    },
+    {
+      "ligand_bin": "HEME",
+      "uniprot_id": "P00078",
+      "protein": "Cytochrome c",
+      "gene": null,
+      "validation_pdb": "2YK3",
+      "matched_ligands": "HEC"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "P00959",
+      "protein": "Methionine--tRNA ligase",
+      "gene": "metG",
+      "validation_pdb": "1F4L",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "P03956",
+      "protein": "Interstitial collagenase",
+      "gene": "MMP1",
+      "validation_pdb": "1CGF",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "O67135",
+      "protein": "Acetoin utilization protein AcuC",
+      "gene": "acuC1",
+      "validation_pdb": "1C3S",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "P00800",
+      "protein": "Thermolysin",
+      "gene": "npr",
+      "validation_pdb": "1FJO",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "Q64288",
+      "protein": "Olfactory marker protein",
+      "gene": "Omp",
+      "validation_pdb": "1F35",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "Q55080",
+      "protein": "Cytochrome P450 119",
+      "gene": "cyp119",
+      "validation_pdb": "1F4T",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "P0A6K3",
+      "protein": "Peptide deformylase",
+      "gene": "def",
+      "validation_pdb": "1BS4",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "P03958",
+      "protein": "Adenosine deaminase",
+      "gene": "Ada",
+      "validation_pdb": "1FKX",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "P01631",
+      "protein": "Ig kappa chain V-II region 26-10",
+      "gene": null,
+      "validation_pdb": "1BFV",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "P26662",
+      "protein": "Genome polyprotein",
+      "gene": null,
+      "validation_pdb": "1DY9",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "P00760",
+      "protein": "Serine protease 1",
+      "gene": "PRSS1",
+      "validation_pdb": "1C2H",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "P00918",
+      "protein": "Carbonic anhydrase 2",
+      "gene": "CA2",
+      "validation_pdb": "1FQL",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "P10844",
+      "protein": "Botulinum neurotoxin type B",
+      "gene": "botB",
+      "validation_pdb": "1EPW",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "P29473",
+      "protein": "Nitric oxide synthase 3",
+      "gene": "NOS3",
+      "validation_pdb": "1ED5",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Zn2+",
+      "uniprot_id": "P32867",
+      "protein": "Protein SSO1",
+      "gene": "SSO1",
+      "validation_pdb": "1FIO",
+      "matched_ligands": "ZN"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "P58301",
+      "protein": "DNA double-strand break repair Rad50 ATPase",
+      "gene": "rad50",
+      "validation_pdb": "1F2U",
+      "matched_ligands": "MG"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "P00378",
+      "protein": "Dihydrofolate reductase",
+      "gene": "DHFR",
+      "validation_pdb": "1DR3",
+      "matched_ligands": "CA"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "P40202",
+      "protein": "Superoxide dismutase 1 copper chaperone",
+      "gene": "CCS1",
+      "validation_pdb": "1EJ8",
+      "matched_ligands": "CA"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "P00692",
+      "protein": "Alpha-amylase",
+      "gene": null,
+      "validation_pdb": "1E3X",
+      "matched_ligands": "CA"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "P43379",
+      "protein": "Cyclomaltodextrin glucanotransferase",
+      "gene": "cgt",
+      "validation_pdb": "1CGW",
+      "matched_ligands": "CA"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "P01112",
+      "protein": "GTPase HRas",
+      "gene": "HRAS",
+      "validation_pdb": "1CLU",
+      "matched_ligands": "MG"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "Q94702",
+      "protein": "Intron-encoded endonuclease I-PpoI",
+      "gene": null,
+      "validation_pdb": "1CYQ",
+      "matched_ligands": "MG"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "P32396",
+      "protein": "Coproporphyrin III ferrochelatase",
+      "gene": "cpfC",
+      "validation_pdb": "1DOZ",
+      "matched_ligands": "MG"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "P00924",
+      "protein": "Enolase 1",
+      "gene": "ENO1",
+      "validation_pdb": "1EBH",
+      "matched_ligands": "MG"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "P17119",
+      "protein": "Kinesin-like protein KAR3",
+      "gene": "KAR3",
+      "validation_pdb": "1F9V",
+      "matched_ligands": "MG"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "Q24973",
+      "protein": null,
+      "gene": null,
+      "validation_pdb": "1DQN",
+      "matched_ligands": "MG"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "P14418",
+      "protein": "Acidic phospholipase A2",
+      "gene": null,
+      "validation_pdb": "1BK9",
+      "matched_ligands": "CA"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "Q58663",
+      "protein": "Probable branched-chain amino acid transport ATP-binding protein LivG",
+      "gene": "livG",
+      "validation_pdb": "1G6H",
+      "matched_ligands": "MG"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "P95493",
+      "protein": "Gingipain R2",
+      "gene": "rgpB",
+      "validation_pdb": "1CVR",
+      "matched_ligands": "CA"
+    },
+    {
+      "ligand_bin": "Ca2+/Mg2+",
+      "uniprot_id": "P29957",
+      "protein": "Alpha-amylase",
+      "gene": "amy",
+      "validation_pdb": "1AQH",
+      "matched_ligands": "CA"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "P19156",
+      "protein": "Potassium-transporting ATPase alpha chain 1",
+      "gene": "ATP4A",
+      "validation_pdb": "6JXJ",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "D9IEF7",
+      "protein": "Endolysin",
+      "gene": "e",
+      "validation_pdb": "8JWY",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "Q6IYF9",
+      "protein": "Succinate receptor 1",
+      "gene": "Sucnr1",
+      "validation_pdb": "6IBB",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "I0YUS5",
+      "protein": null,
+      "gene": null,
+      "validation_pdb": "6GYH",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "Q9NS75",
+      "protein": "Cysteinyl leukotriene receptor 2",
+      "gene": "CYSLTR2",
+      "validation_pdb": "6RZ6",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "P29274",
+      "protein": "Adenosine receptor A2a",
+      "gene": "ADORA2A",
+      "validation_pdb": "5NM4",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "Q70Q12",
+      "protein": "FXYD domain-containing ion transport regulator",
+      "gene": "fxyd10",
+      "validation_pdb": "2ZXE",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "M1MR49",
+      "protein": "Japanin",
+      "gene": null,
+      "validation_pdb": "4BOE",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "P24530",
+      "protein": "Endothelin receptor type B",
+      "gene": "EDNRB",
+      "validation_pdb": "5X93",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "O64989",
+      "protein": "Steroid (22S)-hydroxylase",
+      "gene": "CYP90B1",
+      "validation_pdb": "6A15",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "P35844",
+      "protein": "Oxysterol-binding protein homolog 4",
+      "gene": "KES1",
+      "validation_pdb": "1ZHY",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "P07550",
+      "protein": "Beta-2 adrenergic receptor",
+      "gene": "ADRB2",
+      "validation_pdb": "5D5A",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "C4IX13",
+      "protein": "Sodium/potassium-transporting ATPase subunit beta",
+      "gene": "atp1b1",
+      "validation_pdb": "2ZXE",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "P42866",
+      "protein": "Mu-type opioid receptor",
+      "gene": "Oprm1",
+      "validation_pdb": "5C1M",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Sterol",
+      "uniprot_id": "O15118",
+      "protein": "NPC intracellular cholesterol transporter 1",
+      "gene": "NPC1",
+      "validation_pdb": "3GKI",
+      "matched_ligands": "CLR"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "Q93XJ9",
+      "protein": "Ferredoxin",
+      "gene": "fed1",
+      "validation_pdb": "4ZHP",
+      "matched_ligands": "FES"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "Q6TFC6",
+      "protein": null,
+      "gene": "qdtC",
+      "validation_pdb": "3FSC",
+      "matched_ligands": "COA"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "P22289",
+      "protein": "Cytochrome b-c1 complex subunit 9, mitochondrial",
+      "gene": "QCR9",
+      "validation_pdb": "1P84",
+      "matched_ligands": "FES"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "B8NJH3",
+      "protein": "O-methyltransferase lepI",
+      "gene": "lepI",
+      "validation_pdb": "6J24",
+      "matched_ligands": "SAM"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "A0A062UZ78",
+      "protein": "2-(3-amino-3-carboxypropyl)histidine synthase",
+      "gene": null,
+      "validation_pdb": "6BXM",
+      "matched_ligands": "SAM"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "P08997",
+      "protein": "Malate synthase A",
+      "gene": "aceB",
+      "validation_pdb": "3CV2",
+      "matched_ligands": "COA"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "P05102",
+      "protein": "Type II methyltransferase M.HhaI",
+      "gene": "hhaIM",
+      "validation_pdb": "1HMY",
+      "matched_ligands": "SAM"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "P08525",
+      "protein": "Cytochrome b-c1 complex subunit 8, mitochondrial",
+      "gene": "QCR8",
+      "validation_pdb": "1P84",
+      "matched_ligands": "FES"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "P9WFK7",
+      "protein": "N-acetyltransferase Eis",
+      "gene": "eis",
+      "validation_pdb": "5IV0",
+      "matched_ligands": "COA"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "P00127",
+      "protein": "Cytochrome b-c1 complex subunit 6, mitochondrial",
+      "gene": "QCR6",
+      "validation_pdb": "1P84",
+      "matched_ligands": "FES"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "P00163",
+      "protein": "Cytochrome b",
+      "gene": "COB",
+      "validation_pdb": "1P84",
+      "matched_ligands": "FES"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "P07256",
+      "protein": "Cytochrome b-c1 complex subunit 1, mitochondrial",
+      "gene": "COR1",
+      "validation_pdb": "1P84",
+      "matched_ligands": "FES"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "P09856",
+      "protein": "Thioredoxin F-type, chloroplastic",
+      "gene": null,
+      "validation_pdb": "2PU9",
+      "matched_ligands": "SF4"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "P07143",
+      "protein": "Cytochrome c1, heme protein, mitochondrial",
+      "gene": "CYT1",
+      "validation_pdb": "1P84",
+      "matched_ligands": "FES"
+    },
+    {
+      "ligand_bin": "Misc.",
+      "uniprot_id": "Q7T918",
+      "protein": "Genome polyprotein",
+      "gene": null,
+      "validation_pdb": "3GCZ",
+      "matched_ligands": "SAM"
+    }
+  ],
+  "protein_rows": [
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "Q6IYF9",
+      "protein": "Succinate receptor 1",
+      "gene": "Sucnr1",
+      "validation_pdb": "6IBB",
+      "matched_ligands": "CLR"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "A5GZW8",
+      "protein": "Succinate dehydrogenase [ubiquinone] cytochrome b small subunit, mitochondrial",
+      "gene": "SDHD",
+      "validation_pdb": "1ZOY",
+      "matched_ligands": "FAD"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "P63248",
+      "protein": "cAMP-dependent protein kinase inhibitor alpha",
+      "gene": "Pkia",
+      "validation_pdb": "4DH8",
+      "matched_ligands": "ANP"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "P35844",
+      "protein": "Oxysterol-binding protein homolog 4",
+      "gene": "KES1",
+      "validation_pdb": "1ZHY",
+      "matched_ligands": "CLR"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "Q9YBL2",
+      "protein": "Protein CysO",
+      "gene": "cysO",
+      "validation_pdb": "1WKV",
+      "matched_ligands": "PLP"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "A0A6L7HMK7",
+      "protein": null,
+      "gene": null,
+      "validation_pdb": "3CGE",
+      "matched_ligands": "NDP"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "O66841",
+      "protein": "NADH-quinone oxidoreductase subunit F",
+      "gene": "nuoF",
+      "validation_pdb": "6Q9K",
+      "matched_ligands": "NAI"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "P00322",
+      "protein": "Flavodoxin",
+      "gene": null,
+      "validation_pdb": "2FAX",
+      "matched_ligands": "FMN"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "P07256",
+      "protein": "Cytochrome b-c1 complex subunit 1, mitochondrial",
+      "gene": "COR1",
+      "validation_pdb": "1P84",
+      "matched_ligands": "FES"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "P68187",
+      "protein": "Maltose/maltodextrin import ATP-binding protein MalK",
+      "gene": "malK",
+      "validation_pdb": "4KI0",
+      "matched_ligands": "ANP"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "P29274",
+      "protein": "Adenosine receptor A2a",
+      "gene": "ADORA2A",
+      "validation_pdb": "5NM4",
+      "matched_ligands": "CLR"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "Q6TFC6",
+      "protein": null,
+      "gene": "qdtC",
+      "validation_pdb": "3FSC",
+      "matched_ligands": "COA"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "P32867",
+      "protein": "Protein SSO1",
+      "gene": "SSO1",
+      "validation_pdb": "1FIO",
+      "matched_ligands": "ZN"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "P0A7G6",
+      "protein": "Protein RecA",
+      "gene": "recA",
+      "validation_pdb": "1XMS",
+      "matched_ligands": "ANP"
+    },
+    {
+      "protein_class": "Unclassified",
+      "uniprot_id": "Q24973",
+      "protein": null,
+      "gene": null,
+      "validation_pdb": "1DQN",
+      "matched_ligands": "MG"
+    },
+    {
+      "protein_class": "Isomerase",
+      "uniprot_id": "Q6QLM7",
+      "protein": "Kinesin heavy chain isoform 5A",
+      "gene": "Kif5a",
+      "validation_pdb": "2KIN",
+      "matched_ligands": "ADP"
+    },
+    {
+      "protein_class": "Isomerase",
+      "uniprot_id": "P17119",
+      "protein": "Kinesin-like protein KAR3",
+      "gene": "KAR3",
+      "validation_pdb": "1F9V",
+      "matched_ligands": "MG"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "Q9RME2",
+      "protein": "Phosphoserine aminotransferase",
+      "gene": "serC",
+      "validation_pdb": "2BHX",
+      "matched_ligands": "PLP"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "P23919",
+      "protein": "Thymidylate kinase",
+      "gene": "DTYMK",
+      "validation_pdb": "1NMZ",
+      "matched_ligands": "ANP"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "Q9JLS3",
+      "protein": "Serine/threonine-protein kinase TAO2",
+      "gene": "Taok2",
+      "validation_pdb": "1U5R",
+      "matched_ligands": "ATP"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "P9WPY3",
+      "protein": "Shikimate kinase",
+      "gene": "aroK",
+      "validation_pdb": "2DFN",
+      "matched_ligands": "ADP"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "P07342",
+      "protein": "Acetolactate synthase catalytic subunit, mitochondrial",
+      "gene": "ILV2",
+      "validation_pdb": "1T9B",
+      "matched_ligands": "FAD"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "Q969G6",
+      "protein": "Riboflavin kinase",
+      "gene": "RFK",
+      "validation_pdb": "1P4M",
+      "matched_ligands": "FMN"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "P95468",
+      "protein": "Aromatic-amino-acid aminotransferase",
+      "gene": "tyrB",
+      "validation_pdb": "2AY1",
+      "matched_ligands": "PLP"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "P08997",
+      "protein": "Malate synthase A",
+      "gene": "aceB",
+      "validation_pdb": "3CV2",
+      "matched_ligands": "COA"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "P12995",
+      "protein": "Adenosylmethionine-8-amino-7-oxononanoate aminotransferase",
+      "gene": "bioA",
+      "validation_pdb": "1DTY",
+      "matched_ligands": "PLP"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "P06239",
+      "protein": "Tyrosine-protein kinase Lck",
+      "gene": "LCK",
+      "validation_pdb": "1QPC",
+      "matched_ligands": "ANP"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "P16703",
+      "protein": "Cysteine synthase B",
+      "gene": "cysM",
+      "validation_pdb": "2BHT",
+      "matched_ligands": "PLP"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "P00489",
+      "protein": "Glycogen phosphorylase, muscle form",
+      "gene": "PYGM",
+      "validation_pdb": "2F3Q",
+      "matched_ligands": "PLP"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "Q7SIB6",
+      "protein": "Serine hydroxymethyltransferase",
+      "gene": "glyA",
+      "validation_pdb": "2W7E",
+      "matched_ligands": "PLP"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "B8NJH3",
+      "protein": "O-methyltransferase lepI",
+      "gene": "lepI",
+      "validation_pdb": "6J24",
+      "matched_ligands": "SAM"
+    },
+    {
+      "protein_class": "Transferase",
+      "uniprot_id": "P9WFK7",
+      "protein": "N-acetyltransferase Eis",
+      "gene": "eis",
+      "validation_pdb": "5IV0",
+      "matched_ligands": "COA"
+    },
+    {
+      "protein_class": "Kinase",
+      "uniprot_id": "Q9JLS3",
+      "protein": "Serine/threonine-protein kinase TAO2",
+      "gene": "Taok2",
+      "validation_pdb": "1U5R",
+      "matched_ligands": "ATP"
+    },
+    {
+      "protein_class": "Kinase",
+      "uniprot_id": "P23919",
+      "protein": "Thymidylate kinase",
+      "gene": "DTYMK",
+      "validation_pdb": "1NMZ",
+      "matched_ligands": "ANP"
+    },
+    {
+      "protein_class": "Kinase",
+      "uniprot_id": "P9WPY3",
+      "protein": "Shikimate kinase",
+      "gene": "aroK",
+      "validation_pdb": "2DFN",
+      "matched_ligands": "ADP"
+    },
+    {
+      "protein_class": "Kinase",
+      "uniprot_id": "P06239",
+      "protein": "Tyrosine-protein kinase Lck",
+      "gene": "LCK",
+      "validation_pdb": "1QPC",
+      "matched_ligands": "ANP"
+    },
+    {
+      "protein_class": "Kinase",
+      "uniprot_id": "P05132",
+      "protein": "cAMP-dependent protein kinase catalytic subunit alpha",
+      "gene": "Prkaca",
+      "validation_pdb": "4DH8",
+      "matched_ligands": "ANP"
+    },
+    {
+      "protein_class": "Kinase",
+      "uniprot_id": "O43314",
+      "protein": "Inositol hexakisphosphate and diphosphoinositol-pentakisphosphate kinase 2",
+      "gene": "PPIP5K2",
+      "validation_pdb": "3T54",
+      "matched_ligands": "ATP"
+    },
+    {
+      "protein_class": "Kinase",
+      "uniprot_id": "Q969G6",
+      "protein": "Riboflavin kinase",
+      "gene": "RFK",
+      "validation_pdb": "1P4M",
+      "matched_ligands": "FMN"
+    },
+    {
+      "protein_class": "Ligase",
+      "uniprot_id": "P12039",
+      "protein": "Phosphoribosylamine--glycine ligase",
+      "gene": "purD",
+      "validation_pdb": "2XCL",
+      "matched_ligands": "ANP"
+    },
+    {
+      "protein_class": "Ligase",
+      "uniprot_id": "P00959",
+      "protein": "Methionine--tRNA ligase",
+      "gene": "metG",
+      "validation_pdb": "1F4L",
+      "matched_ligands": "ZN"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "A0A6L8PBX8",
+      "protein": "Enoyl-[acyl-carrier-protein] reductase [NADH]",
+      "gene": "fabI",
+      "validation_pdb": "2QIO",
+      "matched_ligands": "NAD"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "P00431",
+      "protein": "Cytochrome c peroxidase, mitochondrial",
+      "gene": "CCP1",
+      "validation_pdb": "1CCP",
+      "matched_ligands": "HEM"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "P38489",
+      "protein": "Oxygen-insensitive NAD(P)H nitroreductase",
+      "gene": "nfsB",
+      "validation_pdb": "1YLR",
+      "matched_ligands": "FMN"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "P27338",
+      "protein": "Amine oxidase [flavin-containing] B",
+      "gene": "MAOB",
+      "validation_pdb": "2BYB",
+      "matched_ligands": "FAD"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "O64411",
+      "protein": "Polyamine oxidase 1",
+      "gene": "MPAO1",
+      "validation_pdb": "1B37",
+      "matched_ligands": "FAD"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "P08200",
+      "protein": "Isocitrate dehydrogenase [NADP]",
+      "gene": "icd",
+      "validation_pdb": "1BL5",
+      "matched_ligands": "NAP"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "P51857",
+      "protein": "Aldo-keto reductase family 1 member D1",
+      "gene": "AKR1D1",
+      "validation_pdb": "3CAV",
+      "matched_ligands": "NAP"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "P29473",
+      "protein": "Nitric oxide synthase 3",
+      "gene": "NOS3",
+      "validation_pdb": "1ED5",
+      "matched_ligands": "ZN"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "P08165",
+      "protein": "NADPH:adrenodoxin oxidoreductase, mitochondrial",
+      "gene": "FDXR",
+      "validation_pdb": "1E1K",
+      "matched_ligands": "FAD"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "Q50497",
+      "protein": "Coenzyme F420H(2) oxidase",
+      "gene": "fprA",
+      "validation_pdb": "2OHJ",
+      "matched_ligands": "FMN"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "L0DSL2",
+      "protein": "Cytochrome c-552",
+      "gene": "nir",
+      "validation_pdb": "4Q0T",
+      "matched_ligands": "HEC"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "Q9AGP8",
+      "protein": "Dimethylglycine oxidase",
+      "gene": "dmg",
+      "validation_pdb": "1PJ5",
+      "matched_ligands": "FAD"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "P00455",
+      "protein": "Ferredoxin--NADP reductase, chloroplastic",
+      "gene": "PETH",
+      "validation_pdb": "1FRQ",
+      "matched_ligands": "FAD"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "Q50LF1",
+      "protein": "Sarcosine oxidase subunit delta",
+      "gene": "soxD",
+      "validation_pdb": "1VRQ",
+      "matched_ligands": "FAD"
+    },
+    {
+      "protein_class": "Oxidoreductase",
+      "uniprot_id": "P22045",
+      "protein": "9,11-endoperoxide prostaglandin H2 reductase",
+      "gene": "P100/11E",
+      "validation_pdb": "4G5D",
+      "matched_ligands": "NDP"
+    },
+    {
+      "protein_class": "Lyase",
+      "uniprot_id": "P00929",
+      "protein": "Tryptophan synthase alpha chain",
+      "gene": "trpA",
+      "validation_pdb": "1TJP",
+      "matched_ligands": "PLP"
+    },
+    {
+      "protein_class": "Lyase",
+      "uniprot_id": "P69908",
+      "protein": "Glutamate decarboxylase alpha",
+      "gene": "gadA",
+      "validation_pdb": "1XEY",
+      "matched_ligands": "PLP"
+    },
+    {
+      "protein_class": "Lyase",
+      "uniprot_id": "P00918",
+      "protein": "Carbonic anhydrase 2",
+      "gene": "CA2",
+      "validation_pdb": "1FQL",
+      "matched_ligands": "ZN"
+    },
+    {
+      "protein_class": "Lyase",
+      "uniprot_id": "P32396",
+      "protein": "Coproporphyrin III ferrochelatase",
+      "gene": "cpfC",
+      "validation_pdb": "1DOZ",
+      "matched_ligands": "MG"
+    },
+    {
+      "protein_class": "Lyase",
+      "uniprot_id": "P00924",
+      "protein": "Enolase 1",
+      "gene": "ENO1",
+      "validation_pdb": "1EBH",
+      "matched_ligands": "MG"
+    },
+    {
+      "protein_class": "Hydrolase",
+      "uniprot_id": "Q96GD0",
+      "protein": "Chronophin",
+      "gene": "PDXP",
+      "validation_pdb": "2CFT",
+      "matched_ligands": "PLP"
+    },
+    {
+      "protein_class": "Hydrolase",
+      "uniprot_id": "P03956",
+      "protein": "Interstitial collagenase",
+      "gene": "MMP1",
+      "validation_pdb": "1CGF",
+      "matched_ligands": "ZN"
+    },
+    {
+      "protein_class": "Hydrolase",
+      "uniprot_id": "P00800",
+      "protein": "Thermolysin",
+      "gene": "npr",
+      "validation_pdb": "1FJO",
+      "matched_ligands": "ZN"
+    },
+    {
+      "protein_class": "Hydrolase",
+      "uniprot_id": "P0A6K3",
+      "protein": "Peptide deformylase",
+      "gene": "def",
+      "validation_pdb": "1BS4",
+      "matched_ligands": "ZN"
+    },
+    {
+      "protein_class": "Hydrolase",
+      "uniprot_id": "P03958",
+      "protein": "Adenosine deaminase",
+      "gene": "Ada",
+      "validation_pdb": "1FKX",
+      "matched_ligands": "ZN"
+    },
+    {
+      "protein_class": "Hydrolase",
+      "uniprot_id": "P00760",
+      "protein": "Serine protease 1",
+      "gene": "PRSS1",
+      "validation_pdb": "1C2H",
+      "matched_ligands": "ZN"
+    },
+    {
+      "protein_class": "Hydrolase",
+      "uniprot_id": "P00692",
+      "protein": "Alpha-amylase",
+      "gene": null,
+      "validation_pdb": "1E3X",
+      "matched_ligands": "CA"
+    },
+    {
+      "protein_class": "Hydrolase",
+      "uniprot_id": "P01112",
+      "protein": "GTPase HRas",
+      "gene": "HRAS",
+      "validation_pdb": "1CLU",
+      "matched_ligands": "MG"
+    },
+    {
+      "protein_class": "Hydrolase",
+      "uniprot_id": "Q94702",
+      "protein": "Intron-encoded endonuclease I-PpoI",
+      "gene": null,
+      "validation_pdb": "1CYQ",
+      "matched_ligands": "MG"
+    },
+    {
+      "protein_class": "Hydrolase",
+      "uniprot_id": "P14418",
+      "protein": "Acidic phospholipase A2",
+      "gene": null,
+      "validation_pdb": "1BK9",
+      "matched_ligands": "CA"
+    },
+    {
+      "protein_class": "Hydrolase",
+      "uniprot_id": "P95493",
+      "protein": "Gingipain R2",
+      "gene": "rgpB",
+      "validation_pdb": "1CVR",
+      "matched_ligands": "CA"
+    },
+    {
+      "protein_class": "Hydrolase",
+      "uniprot_id": "P29957",
+      "protein": "Alpha-amylase",
+      "gene": "amy",
+      "validation_pdb": "1AQH",
+      "matched_ligands": "CA"
+    },
+    {
+      "protein_class": "Hydrolase",
+      "uniprot_id": "D9IEF7",
+      "protein": "Endolysin",
+      "gene": "e",
+      "validation_pdb": "8JWY",
+      "matched_ligands": "CLR"
+    }
+  ]
+}
