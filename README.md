@@ -136,7 +136,7 @@ except Exception as e:
 
 The pipeline generates a structured output directory for each processed protein:
 
-```
+```plaintext
 results/
 ├── Results/
 │   ├── Q8CA95/
@@ -235,7 +235,7 @@ This project is licensed under the [appropriate license]. See LICENSE file for d
 
 If you use FoldFusion in your research, please cite:
 
-```
+```plaintext
 [Citation details to be added]
 ```
 
