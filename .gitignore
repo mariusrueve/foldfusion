@@ -177,3 +177,5 @@ siena_db
 pipeline_output/*
 output/*
 digest.txt
+foldfusion_output/
+benchmark_dataset_meta/
