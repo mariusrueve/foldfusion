@@ -140,7 +140,18 @@ class LigandExtractor(Tool):
             if isinstance(ensemble_path, str):
                 ensemble_path = Path(ensemble_path)
 
-            ligand_ids = self._get_ligand_ids(ensemble_path, chain)
+            # Safely extract ligand IDs for the given alignment; log and skip on error
+            try:
+                ligand_ids = self._get_ligand_ids(ensemble_path, chain)
+            except Exception as e:
+                logger.warning(
+                    "Failed to get ligand IDs for %s (chain %s): %s. "
+                    "Skipping alignment.",
+                    code,
+                    chain,
+                    e,
+                )
+                continue
 
             for id in ligand_ids:
                 commands_list.append(
@@ -157,12 +168,31 @@ class LigandExtractor(Tool):
         return commands_list
 
     def run(self) -> Path:
-        commands = self._get_commands_list()
+        # Build commands list defensively; on failure, continue with empty list
+        try:
+            commands = self._get_commands_list()
+        except Exception as e:
+            logger.error("Failed to build ligand extraction command list: %s", e)
+            commands = []
+        if not commands:
+            logger.warning(
+                "No ligand extraction commands generated. Continuing with "
+                "empty results."
+            )
         ligand_structure = {}
 
         for command in commands:
             self.command = command
-            super().run()
+            # Execute each command independently; on failure, log and continue
+            try:
+                super().run()
+            except Exception as e:
+                logger.error(
+                    "Ligand extraction command failed: %s | Error: %s",
+                    " ".join(map(str, command)),
+                    e,
+                )
+                continue
 
             # Extract ligand information from the command
             pdb_code = command[-1]  # The last element in the command is the pdb_code
@@ -178,7 +208,11 @@ class LigandExtractor(Tool):
                     )
                     continue
             except Exception as e:
-                logger.warning("Failed to parse SDF %s: %s. Skipping.", output_path, e)
+                logger.warning(
+                    "Failed to parse or locate SDF %s: %s. Skipping.",
+                    output_path,
+                    e,
+                )
                 continue
 
             # Organize the structure in a nested dictionary with better structure
