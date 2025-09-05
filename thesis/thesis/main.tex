@@ -1,0 +1,69 @@
+\documentclass[twoside,a4paper]{master}
+\usepackage[kerning,spacing]{microtype}
+\microtypecontext{spacing=nonfrench}
+
+% Helpfull command to put reminders in your work
+\newcommand{\Todo}[1]%
+{\fcolorbox{black}{orange}{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{\textbf{Todo: #1}}}}
+% it uses one argument which is referred to by #1
+
+\newcommand{\Alphabet}{\mathcal{A}\xspace}
+
+% Add bibliography resource
+\addbibresource{references.bib}
+
+\begin{document}
+
+% use roman page numbers before the real document starts.
+\pagenumbering{roman}
+
+%Change the values here to get your title page and assertion page right
+\AdvisorA{Prof. Dr. Matthias Rarey}
+\AdvisorB{Prof. Dr. Andrew Torda}
+\author{Marius R\"uve}
+\MatrikelNo{7657327}
+%\AuthorAdress{Musterstrasse 1}{07770 M\"unchhausen}
+\title{
+  \begin{tabular}{c}
+    \textbf{Ligand Transplantation and Optimization} \\[3mm]
+    \textbf{in Protein Models}
+  \end{tabular}}
+\Maketitle
+
+\addchap*{Abstract}
+\small
+Test text \cite{bellmannTopologicalSimilaritySearch2021}
+
+\normalsize
+
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\pagenumbering{arabic}
+\include{chapters/01_introduction}
+\include{chapters/02_methods}
+\include{chapters/03_results}
+\include{chapters/04_conclusion}
+
+\newpage
+\small
+% Bibliography using biblatex
+\printbibliography[title=References]
+\normalsize
+
+% appendix
+
+\appendix
+\noappendicestocpagenum
+\addappheadtotoc
+
+\Chapter{Some additional method descriptions}
+
+Put Tables of data here, things one doesn't need to read to understand Your
+work, but things one needs to reproduce it!
+
+\Chapter{Some Additional Data}
+
+
+\Assertion
+\end{document}

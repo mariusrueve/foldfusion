@@ -1,0 +1,41 @@
+\Chapter{Introduction}
+\label{chap:introduction}
+\Todo{What are Protein Models}
+
+Proteins are the primary effectors of cellular function, and understanding their three-dimensional (3D) structures is essential for mechanistic insight, target identification, and rational design in biotechnology and drug discovery. For decades, experimental structure determination by X-ray crystallography, nuclear magnetic resonance (NMR) spectroscopy, and cryo-electron microscopy (cryo-EM) has provided atomic-level information, but at significant cost and with notable coverage gaps. Recent breakthroughs in machine learning, most prominently \textit{AlphaFold} and \textit{RoseTTAFold}, have transformed the landscape by enabling accurate in~silico structure prediction directly from amino-acid sequences, dramatically increasing the number of available models across many proteomes \cite{jumperHighlyAccurateProtein2021, baekAccuratePredictionProtein2021,tunyasuvunakoolHighlyAccurateProtein2021}. These advances have catalyzed a shift from ``structure scarcity'' to a new phase in which the central challenges concern structural context, functional annotation, and downstream usability of predicted models.
+
+\section{Motivation}
+Predicted single-chain protein models typically represent the polypeptide backbone and side chains under canonical residue chemistry. However, many proteins only adopt their native fold or functional state in the presence of small molecules: metal ions that stabilize architecture, organic cofactors that mediate catalysis, and physiologically relevant ligands such as ATP, heme, or NAD(P)H. In predicted models, these moieties are absent by design, which complicates functional interpretation, binding-site analysis, and computational follow-ups such as molecular docking or molecular dynamics. Moreover, the conformational state of a predicted model is often not annotated, and flexible regions may be modelled with lower confidence, further widening the gap between prediction and experimental use in structure-guided workflows.
+\Todo{Give Mausi a kissi}
+
+\section{Problem Statement}
+How can we systematically enrich predicted protein structures with plausible, biochemically sensible small molecules and ions to make them more useful for functional reasoning and downstream computation, without requiring de novo quantum mechanics or extensive experimental input for each target? The central idea explored in this thesis is to exploit the wealth of biophysical knowledge already contained in experimentally determined structures deposited in the Protein Data Bank (PDB) \cite{burleyRCSBProteinData2018} by transferring (``transplanting'') ligands and cofactors from suitable homologues into corresponding predicted models.
+
+\section{Prior Work and Opportunity}
+A closely related line of work demonstrates that large-scale ligand transplantation from experimentally solved homologous structures into AlphaFold models is both feasible and useful. For example, the \textit{AlphaFill} resource applies sequence and structure similarity to transplant common ligands, cofactors, and metal ions from curated experimental models, validating quality with metrics such as local RMSD and a transplant-clash score. At scale, AlphaFill reported over twelve million transplants across nearly one million AlphaFold models, exposing binding sites, restoring essential cofactors (e.g., heme, Zn$^{2+}$, Mg$^{2+}$), and enabling hypothesis generation about function \cite{hekkelmanAlphaFillEnrichingAlphaFold2023}. While this demonstrates the promise of homology-driven enrichment, there remains a practical need for open, lightweight, and extensible pipelines that researchers can adapt to bespoke datasets, integrate into modern data/ML workflows, and evaluate end-to-end on specific biological questions.
+
+\section{Thesis Aim}
+This thesis presents \textbf{FoldFusion}, a proof-of-concept pipeline that automates ligand and cofactor transplantation from the PDB into AlphaFold structures to produce \emph{context-enriched} models suitable for exploratory analysis and computational follow-up.\footnote{A public code repository accompanies this work; see Chapter~\ref{chap:methods} for implementation details and reproducibility considerations.} At a high level, FoldFusion (i) identifies homologous donor structures with relevant non-polymer entities, (ii) performs global and local structural alignments to position candidate ligands, (iii) applies simple but effective filters to prioritise biochemically sensible placements, and (iv) emits enriched models and metadata for quality control and downstream use.
+
+\section{Contributions}
+The main contributions of this thesis are:
+\begin{enumerate}
+    \item \textbf{A modular, open pipeline for ligand transplantation.} FoldFusion implements an end-to-end workflow that ingests predicted structures, retrieves homologous experimental entries, and transplants non-polymer entities (ligands, cofactors, metal ions) with provenance tracking and reproducible configuration.
+    \item \textbf{Quality indicators and metadata for downstream trust.} The pipeline annotates each transplant with alignment measures and simple clash checks, enabling users to stratify placements by confidence and decide when refinement is warranted.
+    \item \textbf{Empirical evaluation on representative targets.} We illustrate use cases where enrichment adds value for functional interpretation (e.g., revealing cofactor requirements or likely substrate preferences) and for computation (e.g., seeding docking with realistic binding-site chemistry).%
+    \item \textbf{Engineering for reproducibility and integration.} The codebase is designed for batch execution, scripted analysis, and integration with common structural bioinformatics tools, easing adoption in research settings.
+\end{enumerate}
+
+\section{Research Questions}
+This work is guided by the following questions:
+\begin{itemize}
+    \item \textbf{RQ1:} To what extent can homolog-based ligand transplantation reliably restore biochemically plausible small-molecule context in predicted structures?
+    \item \textbf{RQ2:} Which alignment and filtering criteria most influence transplant quality, and how should they be configured in practice?
+    \item \textbf{RQ3:} How does structural enrichment affect downstream tasks such as docking preparation, site annotation, or hypothesis generation about protein function?
+\end{itemize}
+
+\section{Scope and Limitations}
+FoldFusion focuses on non-polymer ligands and metal ions commonly represented in the PDB. It does not perform full flexible-receptor docking or quantum refinement, and it does not attempt to model post-translational modifications or glycans. As with any homology-based approach, transplant reliability depends on the availability and quality of structurally similar donors, as well as on the conformational compatibility between donor and acceptor. Enriched models should be treated as \emph{qualitative} hypotheses that can guide experiments or more detailed simulations, rather than as final, quantitatively precise holo structures \cite{hekkelmanAlphaFillEnrichingAlphaFold2023}.
+
+\section{Thesis Structure}
+Chapter~\ref{chap:background} reviews background on protein structure prediction, ligand chemistry in proteins, and homology-based transfer. Chapter~\ref{chap:methods} details the FoldFusion design and implementation. Chapter~\ref{chap:results} reports evaluation on diverse targets and discusses quality indicators and failure modes. Chapter~\ref{chap:discussion} synthesises findings, limitations, and implications for computational pipelines. Chapter~\ref{chap:conclusion} concludes and outlines avenues for future work, including refinement protocols and multi-state/complex modelling.

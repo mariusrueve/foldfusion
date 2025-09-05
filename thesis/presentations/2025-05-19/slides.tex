@@ -1,0 +1,132 @@
+\documentclass[aspectratio=169]{beamer}
+%\usetheme{Madrid}
+\usepackage[utf8]{inputenc}
+\title{FoldFusion-PoC: A Ligand Transplantation \\ \& Optimization Pipeline}
+\author{Marius Rueve}
+\date{May 19, 2025}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{Talk Outline}
+    \begin{itemize}
+        \item Background: AlphaFill algorithm
+        \item FoldFusion implementation overview
+        \item Key differences between AlphaFill and FoldFusion
+        \item AlphaFill's scientific evaluation
+        \item FoldFusion's current evaluation approach \& future improvements
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{What the AlphaFill Paper Did}
+    \textbf{Goal:} “Transplant” small molecules \& ions from experimentally determined PDB structures into AlphaFold models to enrich them with biologically relevant ligands.
+    \begin{enumerate}
+        \item BLAST each AlphaFold sequence against PDB-REDO database
+        \item Filter hits by $\geq$25\% identity over $\geq$85 residues
+        \item Perform global (C$\alpha$) and local (backbone within 6~\AA) structural alignments
+        \item Transplant compounds if no duplicate within 3.5~\AA~of centroid
+        \item Record global \& local RMSD and calculate TCS (clash score)
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{AlphaFill's Scientific Evaluation}
+    \begin{itemize}
+        \item \textbf{Validation Set:} 28,619 transplants from 100\%-identity donors.
+        \item \textbf{Quality Metrics:}
+              \begin{itemize}
+                  \item \textbf{LEV score:} All-atom RMSD of ligand + nearby protein atoms within 6~\AA
+                  \item \textbf{Local RMSD:} Proxy for LEV; calculated for every transplant
+                  \item \textbf{TCS:} $\sqrt{\sum (\text{overlap})^2 / N}$, quantifying van der Waals clashes
+              \end{itemize}
+        \item \textbf{Refinement:} Energy-minimize selected complexes in YASARA; evaluate before/after TCS \& LEV
+        \item \textbf{Confidence Annotation:} Statistical cutoffs (IQR + 1.5$\times$IQR) on local RMSD \& TCS to label high/medium/low confidence
+    \end{itemize}
+    \footnotesize{
+        \vspace{0.5em}
+        \textbf{Abbreviations:} RMSD = Root-Mean-Square Deviation; LEV = Local Environment Validation; TCS = Transplant Clash Score; IQR = Interquartile Range
+    }
+\end{frame}
+
+\begin{frame}{What I Did in FoldFusion}
+    \textbf{Pipeline Components:}
+    \begin{enumerate}
+        \item \textbf{AlphaFoldFetcher:} Download AF-DB models
+        \item \textbf{DogSite3:} Detect pockets \& generate EDF files
+        \item \textbf{Siena:} Build ensemble of homolog structures around predicted pocket
+        \item \textbf{LigandExtractor:} Identify \& extract ligands (HETATM) from SIENA PDBs
+        \item \textbf{JamdaScorer:} Optimize \& score each ligand-protein complex
+    \end{enumerate}
+    \textbf{Implementation:} Modular Python package (\texttt{foldfusion/}), TOML config, structured logging
+\end{frame}
+
+\begin{frame}{FoldFusion's Current Scientific Evaluation}
+    \begin{itemize}
+        \item \textbf{Core Metric:} Transplant Clash Score (TCS) via \texttt{clash\_scorer.calculate\_tcs}
+              \begin{itemize}
+                  \item Parses protein (PDB) \& ligand (SDF) atoms
+                  \item Computes van der Waals overlap squared sums within cutoff (4~\AA)
+                  \item Returns $\sqrt{\text{mean overlap}^2}$
+              \end{itemize}
+        \item \textbf{What's Missing:}
+              \begin{itemize}
+                  \item Local RMSD / LEV-style metric for transplant geometry
+                  \item Global RMSD to donor structures
+                  \item Statistical confidence annotations (IQR cutoffs)
+                  \item On-the-fly refinement \& re-scoring akin to YASARA minimization
+              \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Key Differences}
+    \begin{tabular}{|p{2.5cm}|p{5cm}|p{5cm}|}
+        \hline
+        \textbf{Aspect}     & \textbf{AlphaFill}                          & \textbf{FoldFusion}                     \\
+        \hline
+        Homology Search     & Sequence-based BLAST vs. PDB-REDO           & Pocket-centric: DogSite3 + SIENA        \\
+        \hline
+        Transplant Criteria & Seq. identity $\geq$25\%, local/global RMSD & Pocket detection \& ensemble extraction \\
+        \hline
+        Evaluation          & LEV, local RMSD, TCS + refinement           & ?                                       \\
+        \hline
+        Refinement          & YASARA energy minimization                  & JamdaScorer "optimize" flag             \\
+        \hline
+        Confidence          & Statistical cutoffs on metrics              & Not yet implemented                     \\
+        \hline
+    \end{tabular}
+\end{frame}
+
+\begin{frame}{FoldFusion - What Can Be Improved}
+    \begin{enumerate}
+        \item \textbf{Add Local RMSD Calculation:} Use structural alignment of pocket residues (backbone within 6~\AA) to compute local RMSD, mirroring LEV
+        \item \textbf{Record Global RMSD:} After SIENA alignment, compute C$\alpha$-based global RMSD to donor PDB
+        \item \textbf{Implement Confidence Tiers:} Analyze distributions of local RMSD \& TCS; define IQR-based cutoffs for high/med/low confidence
+        \item \textbf{Integrate On-Demand Refinement:} Hook into YASARA or another minimizer; recalculate TCS post-minimization
+        \item \textbf{Visual \& Statistical Reporting:} Summarize per-model transplant quality (histograms, boxplots) for pipeline validation
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Next Steps \& Roadmap}
+    \begin{itemize}
+        \item \textbf{Metric Expansion:} Add LEV-style and global RMSD metrics
+        \item \textbf{Dashboard \& Reports:} Generate per-project quality summaries
+        \item \textbf{Benchmarking:} Compare against AlphaFill on a shared test set
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Summary \& Conclusions}
+    \begin{itemize}
+        \item \textbf{AlphaFill} set the stage with homology-driven ligand transplantation, multi-metric validation, and confidence annotation
+        \item \textbf{FoldFusion} reimagines the workflow around pocket detection (DogSite3) and ensemble extraction (SIENA), with a modular Python framework
+        \item \textbf{Opportunities:} Enrich evaluation with additional metrics, statistical confidence levels, and refinement to match and surpass AlphaFill's rigor
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \centering
+    \Huge{Thank you!}
+\end{frame}
+
+\end{document}
