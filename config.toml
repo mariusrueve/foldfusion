@@ -2,23 +2,14 @@
 log_level = "DEBUG"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
 log_file = "foldfusion_pipeline.log" # Name of the log file
 
-# IO
-#uniprot_ids = [
-#    "Q8CA95",
-#    "Q9QYJ6",
-#    "Q9Y233",
-#    "A0A287B941",
-#    "A0A2R8N4P4",
-#    "A0A3Q1MHJ4",
-#]
 
-uniprot_ids_file = "/home/marius/Code/foldfusion-poc/uniprot_ids.txt"
+uniprot_ids_file = "/home/marius/Code/foldfusion/evaluation/data/benchmark_dataset_uniprots.txt"
 # Path to the output directory
-output_dir = "/home/marius/Code/output" 
+output_dir = "/home/marius/Code/foldfusion/evaluation/data/foldfusion_output" 
 
 # Pipelines
 # Number of UniProt IDs to process in parallel (1 = sequential)
-pipeline_concurrency = 4
+pipeline_concurrency = 1
 
 # dogsite3
 dogsite3_executable = "/home/marius/Data/zbh/dogsite3_1.1.0/dogsite3"
