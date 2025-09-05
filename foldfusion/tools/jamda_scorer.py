@@ -19,7 +19,7 @@ class JamdaScorer(Tool):
         self.ligand_structure = ligand_structure
         self.output_dir = output_dir / "JamdaScorer"
 
-    def run(self):
+    def run(self) -> Path:
         optimized_ligand_structure = {}
         for pdb_code, ligands in self.ligand_structure.items():
             ligand_output_dir = self.output_dir / pdb_code
@@ -39,11 +39,24 @@ class JamdaScorer(Tool):
                     output_sdf,
                     "--optimize",
                 ]
-                super().run()
-                optimized_ligand_structure[pdb_code].append({
-                    "ligand_id": ligand_id,
-                    "path": str(output_sdf.absolute()),
-                    "sdf_file": f"{ligand_id}.sdf",
-                })
+                try:
+                    super().run()
+                except Exception as e:
+                    logger.error(
+                        "JAMDA scoring failed for %s %s: %s",
+                        pdb_code,
+                        ligand_id,
+                        e,
+                    )
+                    continue
+                optimized_ligand_structure[pdb_code].append(
+                    {
+                        "ligand_id": ligand_id,
+                        "path": str(output_sdf.absolute()),
+                        "sdf_file": f"{ligand_id}.sdf",
+                    }
+                )
+
+        # Expose results and return output directory to match base class contract
         self.optimized_ligand_structure = optimized_ligand_structure
-        return optimized_ligand_structure
+        return self.output_dir
