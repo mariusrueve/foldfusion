@@ -1,3 +1,0 @@
-homologues
-AlphaFold
-AlphaFill
