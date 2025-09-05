@@ -314,9 +314,9 @@ class FoldFusion:
                 output_dir,
             )
             ligand_extractor_output = ligand_extractor.run()
-            ligand_structure = ligand_extractor.ligand_structure
+            ligand_structure = getattr(ligand_extractor, "ligand_structure", {})
 
-            logger.info("Ligand extraction completed successfully")
+            logger.info("Ligand extraction completed")
             logger.info(f"Extracted ligands saved to: {output_dir}")
             logger.info(f"Total ligands extracted: {len(ligand_structure)}")
             logger.debug(f"Ligand extractor output: {ligand_extractor_output}")
@@ -325,9 +325,12 @@ class FoldFusion:
             return ligand_structure
 
         except Exception as e:
-            error_msg = f"Ligand extraction failed: {str(e)}"
-            logger.error(error_msg)
-            raise RuntimeError(error_msg) from e
+            # Non-fatal: log the error and continue with empty ligand structure
+            logger.error("Ligand extraction encountered an error: %s", e)
+            logger.warning(
+                "Continuing pipeline without extracted ligands for this protein."
+            )
+            return {}
 
     def _run_jamda_scorer(
         self, af_model_path: Path, ligand_structure: dict, output_dir: Path
@@ -362,6 +365,12 @@ class FoldFusion:
             f" {len(ligand_structure)} PDB groups"
         )
 
+        if not ligand_structure:
+            logger.warning(
+                "No ligands available for JAMDA optimization; skipping this step."
+            )
+            return {}
+
         try:
             jamda_scorer = JamdaScorer(
                 self.config.jamda_scorer_executable,
@@ -369,22 +378,28 @@ class FoldFusion:
                 ligand_structure,
                 output_dir,
             )
-            optimized_ligand_structure = jamda_scorer.run()
+            jamda_output_dir = jamda_scorer.run()
+            optimized_ligand_structure = getattr(
+                jamda_scorer, "optimized_ligand_structure", {}
+            )
 
-            logger.info("JAMDA optimization completed successfully")
+            logger.info("JAMDA optimization completed")
             opt_total = sum(len(v) for v in optimized_ligand_structure.values())
             logger.info(
                 f"Optimized ligands: {opt_total} across"
                 f" {len(optimized_ligand_structure)} PDB groups"
             )
+            logger.debug(f"JAMDA output directory: {jamda_output_dir}")
             logger.debug(f"Optimization results: {optimized_ligand_structure}")
 
             return optimized_ligand_structure
 
         except Exception as e:
-            error_msg = f"JAMDA optimization failed: {str(e)}"
-            logger.error(error_msg)
-            raise RuntimeError(error_msg) from e
+            logger.error("JAMDA optimization encountered an error: %s", e)
+            logger.warning(
+                "Continuing pipeline without optimized ligands for this protein."
+            )
+            return {}
 
     def _evaluate_and_log(
         self,
@@ -486,7 +501,10 @@ class FoldFusion:
             except Exception as e:
                 error_msg = f"Failed to initialize SIENA database: {str(e)}"
                 logger.error(error_msg)
-                raise RuntimeError(error_msg) from e
+                logger.error(
+                    "Aborting pipeline due to SIENA DB initialization failure."
+                )
+                return
 
             # Process UniProt IDs, possibly in parallel
             skipped_uniprot_data: dict[str, str] = {}
@@ -560,6 +578,9 @@ class FoldFusion:
                     logger.warning(f"  - {uniprot_id}: {error_reason}")
             else:
                 logger.info("All UniProt IDs processed successfully")
+        except Exception as e:
+            # Catch-all to avoid hard crash; log and exit gracefully
+            logger.exception("Unhandled error during pipeline execution: %s", e)
         finally:
             _elapsed = time.perf_counter() - _pipeline_start_ts
             logger.info(
