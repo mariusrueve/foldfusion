@@ -1,0 +1,1164 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{jumperHighlyAccurateProtein2021}{article}{}
+      \name{author}{34}{}{%
+        {{hash=10a7a824028a842a17d901b4ec09993d}{%
+           family={Jumper},
+           familyi={J\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+        {{hash=173072a12c87679d6e0aeed7dbfb2abc}{%
+           family={Evans},
+           familyi={E\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+        {{hash=4295e4094c426f01903ac60155866130}{%
+           family={Pritzel},
+           familyi={P\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=3e0f493c1ce741283206bf1f0d3c12f5}{%
+           family={Green},
+           familyi={G\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod}}}%
+        {{hash=79e7b7b6d4522585cad02503c7d5c53c}{%
+           family={Figurnov},
+           familyi={F\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=8e46da9de9e53ea5d37089897d69cdd9}{%
+           family={Ronneberger},
+           familyi={R\bibinitperiod},
+           given={Olaf},
+           giveni={O\bibinitperiod}}}%
+        {{hash=c65f7c717e43948afa4c164334478ff0}{%
+           family={Tunyasuvunakool},
+           familyi={T\bibinitperiod},
+           given={Kathryn},
+           giveni={K\bibinitperiod}}}%
+        {{hash=8fdcc93ec2f81694fe0e05f9515307f0}{%
+           family={Bates},
+           familyi={B\bibinitperiod},
+           given={Russ},
+           giveni={R\bibinitperiod}}}%
+        {{hash=314115f4f8838d7bcb17334f981615d0}{%
+           family={Žídek},
+           familyi={Ž\bibinitperiod},
+           given={Augustin},
+           giveni={A\bibinitperiod}}}%
+        {{hash=4b3acabda3fd87e1abd111ed903b2d51}{%
+           family={Potapenko},
+           familyi={P\bibinitperiod},
+           given={Anna},
+           giveni={A\bibinitperiod}}}%
+        {{hash=9bb6bd16bbcdb2bb998f8bc4038abede}{%
+           family={Bridgland},
+           familyi={B\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+        {{hash=10928a06d1ffe00108ee7f051eef29a6}{%
+           family={Meyer},
+           familyi={M\bibinitperiod},
+           given={Clemens},
+           giveni={C\bibinitperiod}}}%
+        {{hash=c8db325f01e156e511c9a87a5e890d22}{%
+           family={Kohl},
+           familyi={K\bibinitperiod},
+           given={Simon\bibnamedelimb A.\bibnamedelimi A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=8e2b07cf777b4e100518006a0306d430}{%
+           family={Ballard},
+           familyi={B\bibinitperiod},
+           given={Andrew\bibnamedelima J.},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=699f0d8b3b8c59a0bf815183b5a587d1}{%
+           family={Cowie},
+           familyi={C\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+        {{hash=a4ad88ba00428c727fd7a7295f097c6d}{%
+           family={Romera-Paredes},
+           familyi={R\bibinithyphendelim P\bibinitperiod},
+           given={Bernardino},
+           giveni={B\bibinitperiod}}}%
+        {{hash=948ac64053194ba4926e57c400b43dae}{%
+           family={Nikolov},
+           familyi={N\bibinitperiod},
+           given={Stanislav},
+           giveni={S\bibinitperiod}}}%
+        {{hash=e44ef077603c4c2159908f44186dedfa}{%
+           family={Jain},
+           familyi={J\bibinitperiod},
+           given={Rishub},
+           giveni={R\bibinitperiod}}}%
+        {{hash=30e117447522ea5c589b531025c81621}{%
+           family={Adler},
+           familyi={A\bibinitperiod},
+           given={Jonas},
+           giveni={J\bibinitperiod}}}%
+        {{hash=329e447b0059cd0bc92227b1dd08c81e}{%
+           family={Back},
+           familyi={B\bibinitperiod},
+           given={Trevor},
+           giveni={T\bibinitperiod}}}%
+        {{hash=4e381e44037009b1cd834d794735c311}{%
+           family={Petersen},
+           familyi={P\bibinitperiod},
+           given={Stig},
+           giveni={S\bibinitperiod}}}%
+        {{hash=d805812e442bf9b99ef9b60be3389113}{%
+           family={Reiman},
+           familyi={R\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=19819a31d99ee8ba869ec9b7fee14613}{%
+           family={Clancy},
+           familyi={C\bibinitperiod},
+           given={Ellen},
+           giveni={E\bibinitperiod}}}%
+        {{hash=00bb8dcd0d7dc6963e2b9481ce8e7cdf}{%
+           family={Zielinski},
+           familyi={Z\bibinitperiod},
+           given={Michal},
+           giveni={M\bibinitperiod}}}%
+        {{hash=c06ac6a6fdcf2ee2092d61fc58c1f21b}{%
+           family={Steinegger},
+           familyi={S\bibinitperiod},
+           given={Martin},
+           giveni={M\bibinitperiod}}}%
+        {{hash=d33020bce7d227c8dd58677580d8df0f}{%
+           family={Pacholska},
+           familyi={P\bibinitperiod},
+           given={Michalina},
+           giveni={M\bibinitperiod}}}%
+        {{hash=de7e7f4d56e896db85f56c06f77016a4}{%
+           family={Berghammer},
+           familyi={B\bibinitperiod},
+           given={Tamas},
+           giveni={T\bibinitperiod}}}%
+        {{hash=0c0cd2e2fbeb23bb50214e8c94c61b08}{%
+           family={Bodenstein},
+           familyi={B\bibinitperiod},
+           given={Sebastian},
+           giveni={S\bibinitperiod}}}%
+        {{hash=89dbd30410c2085cd059f32c57d4593e}{%
+           family={Silver},
+           familyi={S\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=494b568c5dc85ba8f3f409635f9c5f25}{%
+           family={Vinyals},
+           familyi={V\bibinitperiod},
+           given={Oriol},
+           giveni={O\bibinitperiod}}}%
+        {{hash=211e54ca76df5d8c1de6957d48792545}{%
+           family={Senior},
+           familyi={S\bibinitperiod},
+           given={Andrew\bibnamedelima W.},
+           giveni={A\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=481308b301166b521c74fde6566e97e6}{%
+           family={Kavukcuoglu},
+           familyi={K\bibinitperiod},
+           given={Koray},
+           giveni={K\bibinitperiod}}}%
+        {{hash=d0d21ff02dda6c0a7d09ef7436bd329b}{%
+           family={Kohli},
+           familyi={K\bibinitperiod},
+           given={Pushmeet},
+           giveni={P\bibinitperiod}}}%
+        {{hash=b160026950ebb1e2286dfb40c15482f5}{%
+           family={Hassabis},
+           familyi={H\bibinitperiod},
+           given={Demis},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{385b84ff9ec134408fea9aeba42f4525}
+      \strng{fullhash}{fa5dce0980388f0460da0632f0c9ade1}
+      \strng{bibnamehash}{385b84ff9ec134408fea9aeba42f4525}
+      \strng{authorbibnamehash}{385b84ff9ec134408fea9aeba42f4525}
+      \strng{authornamehash}{385b84ff9ec134408fea9aeba42f4525}
+      \strng{authorfullhash}{fa5dce0980388f0460da0632f0c9ade1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Proteins are essential to life, and understanding their structure can facilitate a mechanistic understanding of their function. Through an enormous experimental effort1–4, the structures of around 100,000 unique proteins have been determined5, but this represents a small fraction of the billions of known protein sequences6,7. Structural coverage is bottlenecked by the months to years of painstaking effort required to determine a single protein structure. Accurate computational approaches are needed to address this gap and to enable large-scale structural bioinformatics. Predicting the three-dimensional structure that a protein will adopt based solely on its amino acid sequence—the structure prediction component of the ‘protein folding problem’8—has been an important open research problem for more than 50~years9. Despite recent progress10–14, existing methods fall far~short of atomic accuracy, especially when no homologous structure is available. Here we provide the first computational method that can regularly predict protein structures with atomic accuracy even in cases in which no similar structure is known. We validated an entirely redesigned version of our neural network-based model, AlphaFold, in the challenging 14th Critical Assessment of protein Structure Prediction (CASP14)15, demonstrating accuracy competitive with experimental structures in a majority of cases and greatly outperforming other methods. Underpinning the latest version of AlphaFold is a novel machine learning approach that incorporates physical and biological knowledge about protein structure, leveraging multi-sequence alignments, into the design of the deep learning algorithm.}
+      \field{issn}{1476-4687}
+      \field{journaltitle}{Nature}
+      \field{langid}{english}
+      \field{month}{8}
+      \field{number}{7873}
+      \field{shorttitle}{{{AlphaFold2}}}
+      \field{title}{Highly Accurate Protein Structure Prediction with {{AlphaFold}}}
+      \field{urlday}{5}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{596}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{583\bibrangedash 589}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1038/s41586-021-03819-2
+      \endverb
+      \verb{file}
+      \verb /home/marius/Zotero/storage/SEILZZDX/Jumper et al. - 2021 - Highly accurate protein structure prediction with AlphaFold.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/s41586-021-03819-2
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/s41586-021-03819-2
+      \endverb
+      \keyw{Computational biophysics,Machine learning,Protein structure predictions,Structural biology}
+    \endentry
+    \entry{baekAccuratePredictionProtein2021}{article}{}
+      \name{author}{32}{}{%
+        {{hash=dee85118721ce6c41db4eb0f370f5e76}{%
+           family={Baek},
+           familyi={B\bibinitperiod},
+           given={Minkyung},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f9f9a0449d05ad7ef605919b7a84c894}{%
+           family={DiMaio},
+           familyi={D\bibinitperiod},
+           given={Frank},
+           giveni={F\bibinitperiod}}}%
+        {{hash=0e40e89ef82f2c487a545745f6793dae}{%
+           family={Anishchenko},
+           familyi={A\bibinitperiod},
+           given={Ivan},
+           giveni={I\bibinitperiod}}}%
+        {{hash=1ff8d86b9f5095f534ebc9be2c6991b7}{%
+           family={Dauparas},
+           familyi={D\bibinitperiod},
+           given={Justas},
+           giveni={J\bibinitperiod}}}%
+        {{hash=d0a238b32f9d6e3c272b8b83f8778a97}{%
+           family={Ovchinnikov},
+           familyi={O\bibinitperiod},
+           given={Sergey},
+           giveni={S\bibinitperiod}}}%
+        {{hash=19d66df95178d516d4324ea1e3160498}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Gyu\bibnamedelima Rie},
+           giveni={G\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=22895eda8b037b0434291a8911f78d18}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Jue},
+           giveni={J\bibinitperiod}}}%
+        {{hash=2d6d2d09a7fccd0e2cf664dde284474f}{%
+           family={Cong},
+           familyi={C\bibinitperiod},
+           given={Qian},
+           giveni={Q\bibinitperiod}}}%
+        {{hash=d55cd5c4f48bb3807b5951e29c6d8da3}{%
+           family={Kinch},
+           familyi={K\bibinitperiod},
+           given={Lisa\bibnamedelima N.},
+           giveni={L\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+        {{hash=727a1d2560da321bc50e714fe9d928b1}{%
+           family={Schaeffer},
+           familyi={S\bibinitperiod},
+           given={R.\bibnamedelimi Dustin},
+           giveni={R\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=35a0724cc803d05836f13eed0443255c}{%
+           family={Millán},
+           familyi={M\bibinitperiod},
+           given={Claudia},
+           giveni={C\bibinitperiod}}}%
+        {{hash=21a77b992a26375ceca5b371bb6c98b8}{%
+           family={Park},
+           familyi={P\bibinitperiod},
+           given={Hahnbeom},
+           giveni={H\bibinitperiod}}}%
+        {{hash=f42a95b540e95baacba2b800b97fd803}{%
+           family={Adams},
+           familyi={A\bibinitperiod},
+           given={Carson},
+           giveni={C\bibinitperiod}}}%
+        {{hash=af9f305776b5e54a453cb7b23a868e90}{%
+           family={Glassman},
+           familyi={G\bibinitperiod},
+           given={Caleb\bibnamedelima R.},
+           giveni={C\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=ad5b57f0a6247cc05dabb2184d47a3b8}{%
+           family={DeGiovanni},
+           familyi={D\bibinitperiod},
+           given={Andy},
+           giveni={A\bibinitperiod}}}%
+        {{hash=9fc16e10d8027981e1c1afe2980bf127}{%
+           family={Pereira},
+           familyi={P\bibinitperiod},
+           given={Jose\bibnamedelima H.},
+           giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=812126bd5eed16d430acea6317ef6172}{%
+           family={Rodrigues},
+           familyi={R\bibinitperiod},
+           given={Andria\bibnamedelima V.},
+           giveni={A\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{useprefix=true,hash=59a1c1f0a17aa0bb19811f865c48c298}{%
+           family={Dijk},
+           familyi={D\bibinitperiod},
+           given={Alberdina\bibnamedelima A.},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
+           prefix={van},
+           prefixi={v\bibinitperiod}}}%
+        {{hash=fb62d64248859d8748abc68aaf88c19b}{%
+           family={Ebrecht},
+           familyi={E\bibinitperiod},
+           given={Ana\bibnamedelima C.},
+           giveni={A\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=d144ded8f070589bf041f110e78a9bcc}{%
+           family={Opperman},
+           familyi={O\bibinitperiod},
+           given={Diederik\bibnamedelima J.},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=65a09882d8be12429e8327c5f233bd37}{%
+           family={Sagmeister},
+           familyi={S\bibinitperiod},
+           given={Theo},
+           giveni={T\bibinitperiod}}}%
+        {{hash=e7a38460390c00b7681af36514316c42}{%
+           family={Buhlheller},
+           familyi={B\bibinitperiod},
+           given={Christoph},
+           giveni={C\bibinitperiod}}}%
+        {{hash=50d75ea0830883f71bbbdc82f29470c4}{%
+           family={Pavkov-Keller},
+           familyi={P\bibinithyphendelim K\bibinitperiod},
+           given={Tea},
+           giveni={T\bibinitperiod}}}%
+        {{hash=7c2444700d13da37ff1e00536b2c1518}{%
+           family={Rathinaswamy},
+           familyi={R\bibinitperiod},
+           given={Manoj\bibnamedelima K.},
+           giveni={M\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=db3366aed58a362de1481d038b861bd8}{%
+           family={Dalwadi},
+           familyi={D\bibinitperiod},
+           given={Udit},
+           giveni={U\bibinitperiod}}}%
+        {{hash=a7d16e2456cb30fd8b4338e5a5a9e3e6}{%
+           family={Yip},
+           familyi={Y\bibinitperiod},
+           given={Calvin\bibnamedelima K.},
+           giveni={C\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=ed4730e27d44a03499148683dbf9f0ae}{%
+           family={Burke},
+           familyi={B\bibinitperiod},
+           given={John\bibnamedelima E.},
+           giveni={J\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=5c3798a86d88e395cc5b5078d4ee9868}{%
+           family={Garcia},
+           familyi={G\bibinitperiod},
+           given={K.\bibnamedelimi Christopher},
+           giveni={K\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=b37c7ad913717cc3b90da102cc89d7ab}{%
+           family={Grishin},
+           familyi={G\bibinitperiod},
+           given={Nick\bibnamedelima V.},
+           giveni={N\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{hash=13262ec3bc77eb0e53c7ed069c3e500a}{%
+           family={Adams},
+           familyi={A\bibinitperiod},
+           given={Paul\bibnamedelima D.},
+           giveni={P\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=1e06b0da6cd7c28b3a8acf6b5d211e67}{%
+           family={Read},
+           familyi={R\bibinitperiod},
+           given={Randy\bibnamedelima J.},
+           giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=db711af07f28528a9ee5cf2922c529a3}{%
+           family={Baker},
+           familyi={B\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Association for the Advancement of Science}%
+      }
+      \strng{namehash}{38bce38198dd30832ac2a9d65b24e35b}
+      \strng{fullhash}{c80bf5f2db7a11486c63a86920f28531}
+      \strng{bibnamehash}{38bce38198dd30832ac2a9d65b24e35b}
+      \strng{authorbibnamehash}{38bce38198dd30832ac2a9d65b24e35b}
+      \strng{authornamehash}{38bce38198dd30832ac2a9d65b24e35b}
+      \strng{authorfullhash}{c80bf5f2db7a11486c63a86920f28531}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{DeepMind presented notably accurate predictions at the recent 14th Critical Assessment of Structure Prediction (CASP14) conference. We explored network architectures that incorporate related ideas and obtained the best performance with a three-track network in which information at the one-dimensional (1D) sequence level, the 2D distance map level, and the 3D coordinate level is successively transformed and integrated. The three-track network produces structure predictions with accuracies approaching those of DeepMind in CASP14, enables the rapid solution of challenging x-ray crystallography and cryo–electron microscopy structure modeling problems, and provides insights into the functions of proteins of currently unknown structure. The network also enables rapid generation of accurate protein-protein complex models from sequence information alone, short-circuiting traditional approaches that require modeling of individual subunits followed by docking. We make the method available to the scientific community to speed biological research.}
+      \field{day}{20}
+      \field{journaltitle}{Science}
+      \field{month}{8}
+      \field{number}{6557}
+      \field{title}{Accurate Prediction of Protein Structures and Interactions Using a Three-Track Neural Network}
+      \field{urlday}{5}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{373}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{871\bibrangedash 876}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1126/science.abj8754
+      \endverb
+      \verb{file}
+      \verb /home/marius/Zotero/storage/CYV2EPIQ/Baek et al. - 2021 - Accurate prediction of protein structures and interactions using a three-track neural network.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.science.org/doi/10.1126/science.abj8754
+      \endverb
+      \verb{url}
+      \verb https://www.science.org/doi/10.1126/science.abj8754
+      \endverb
+    \endentry
+    \entry{tunyasuvunakoolHighlyAccurateProtein2021}{article}{}
+      \name{author}{33}{}{%
+        {{hash=c65f7c717e43948afa4c164334478ff0}{%
+           family={Tunyasuvunakool},
+           familyi={T\bibinitperiod},
+           given={Kathryn},
+           giveni={K\bibinitperiod}}}%
+        {{hash=30e117447522ea5c589b531025c81621}{%
+           family={Adler},
+           familyi={A\bibinitperiod},
+           given={Jonas},
+           giveni={J\bibinitperiod}}}%
+        {{hash=a503a6f5552fd7b1afea682fec094550}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Zachary},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=3e0f493c1ce741283206bf1f0d3c12f5}{%
+           family={Green},
+           familyi={G\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod}}}%
+        {{hash=00bb8dcd0d7dc6963e2b9481ce8e7cdf}{%
+           family={Zielinski},
+           familyi={Z\bibinitperiod},
+           given={Michal},
+           giveni={M\bibinitperiod}}}%
+        {{hash=314115f4f8838d7bcb17334f981615d0}{%
+           family={Žídek},
+           familyi={Ž\bibinitperiod},
+           given={Augustin},
+           giveni={A\bibinitperiod}}}%
+        {{hash=9bb6bd16bbcdb2bb998f8bc4038abede}{%
+           family={Bridgland},
+           familyi={B\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+        {{hash=699f0d8b3b8c59a0bf815183b5a587d1}{%
+           family={Cowie},
+           familyi={C\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+        {{hash=10928a06d1ffe00108ee7f051eef29a6}{%
+           family={Meyer},
+           familyi={M\bibinitperiod},
+           given={Clemens},
+           giveni={C\bibinitperiod}}}%
+        {{hash=a1708c880c1eff3531c658aa123c0b2e}{%
+           family={Laydon},
+           familyi={L\bibinitperiod},
+           given={Agata},
+           giveni={A\bibinitperiod}}}%
+        {{hash=5948a0f363bc737a460541a8b249a51a}{%
+           family={Velankar},
+           familyi={V\bibinitperiod},
+           given={Sameer},
+           giveni={S\bibinitperiod}}}%
+        {{hash=b95061239606e102f2b814f873d442c8}{%
+           family={Kleywegt},
+           familyi={K\bibinitperiod},
+           given={Gerard\bibnamedelima J.},
+           giveni={G\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=1ced5c37e13ed96f4cb024911c267029}{%
+           family={Bateman},
+           familyi={B\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+        {{hash=173072a12c87679d6e0aeed7dbfb2abc}{%
+           family={Evans},
+           familyi={E\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+        {{hash=4295e4094c426f01903ac60155866130}{%
+           family={Pritzel},
+           familyi={P\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=79e7b7b6d4522585cad02503c7d5c53c}{%
+           family={Figurnov},
+           familyi={F\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=8e46da9de9e53ea5d37089897d69cdd9}{%
+           family={Ronneberger},
+           familyi={R\bibinitperiod},
+           given={Olaf},
+           giveni={O\bibinitperiod}}}%
+        {{hash=8fdcc93ec2f81694fe0e05f9515307f0}{%
+           family={Bates},
+           familyi={B\bibinitperiod},
+           given={Russ},
+           giveni={R\bibinitperiod}}}%
+        {{hash=c8db325f01e156e511c9a87a5e890d22}{%
+           family={Kohl},
+           familyi={K\bibinitperiod},
+           given={Simon\bibnamedelimb A.\bibnamedelimi A.},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=4b3acabda3fd87e1abd111ed903b2d51}{%
+           family={Potapenko},
+           familyi={P\bibinitperiod},
+           given={Anna},
+           giveni={A\bibinitperiod}}}%
+        {{hash=8e2b07cf777b4e100518006a0306d430}{%
+           family={Ballard},
+           familyi={B\bibinitperiod},
+           given={Andrew\bibnamedelima J.},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=a4ad88ba00428c727fd7a7295f097c6d}{%
+           family={Romera-Paredes},
+           familyi={R\bibinithyphendelim P\bibinitperiod},
+           given={Bernardino},
+           giveni={B\bibinitperiod}}}%
+        {{hash=948ac64053194ba4926e57c400b43dae}{%
+           family={Nikolov},
+           familyi={N\bibinitperiod},
+           given={Stanislav},
+           giveni={S\bibinitperiod}}}%
+        {{hash=e44ef077603c4c2159908f44186dedfa}{%
+           family={Jain},
+           familyi={J\bibinitperiod},
+           given={Rishub},
+           giveni={R\bibinitperiod}}}%
+        {{hash=19819a31d99ee8ba869ec9b7fee14613}{%
+           family={Clancy},
+           familyi={C\bibinitperiod},
+           given={Ellen},
+           giveni={E\bibinitperiod}}}%
+        {{hash=d805812e442bf9b99ef9b60be3389113}{%
+           family={Reiman},
+           familyi={R\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=4e381e44037009b1cd834d794735c311}{%
+           family={Petersen},
+           familyi={P\bibinitperiod},
+           given={Stig},
+           giveni={S\bibinitperiod}}}%
+        {{hash=211e54ca76df5d8c1de6957d48792545}{%
+           family={Senior},
+           familyi={S\bibinitperiod},
+           given={Andrew\bibnamedelima W.},
+           giveni={A\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=481308b301166b521c74fde6566e97e6}{%
+           family={Kavukcuoglu},
+           familyi={K\bibinitperiod},
+           given={Koray},
+           giveni={K\bibinitperiod}}}%
+        {{hash=00c1e68d68524a9967e8e74c4c1e2931}{%
+           family={Birney},
+           familyi={B\bibinitperiod},
+           given={Ewan},
+           giveni={E\bibinitperiod}}}%
+        {{hash=d0d21ff02dda6c0a7d09ef7436bd329b}{%
+           family={Kohli},
+           familyi={K\bibinitperiod},
+           given={Pushmeet},
+           giveni={P\bibinitperiod}}}%
+        {{hash=10a7a824028a842a17d901b4ec09993d}{%
+           family={Jumper},
+           familyi={J\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+        {{hash=b160026950ebb1e2286dfb40c15482f5}{%
+           family={Hassabis},
+           familyi={H\bibinitperiod},
+           given={Demis},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{8879ea85c2c8e0a9394198b08e227556}
+      \strng{fullhash}{5f099d2e0e7f324f77e507af121f5e69}
+      \strng{bibnamehash}{8879ea85c2c8e0a9394198b08e227556}
+      \strng{authorbibnamehash}{8879ea85c2c8e0a9394198b08e227556}
+      \strng{authornamehash}{8879ea85c2c8e0a9394198b08e227556}
+      \strng{authorfullhash}{5f099d2e0e7f324f77e507af121f5e69}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Protein structures can provide invaluable information, both for reasoning about biological processes and for enabling interventions such as structure-based drug development or targeted mutagenesis. After decades of effort, 17\% of the total residues in human protein sequences are covered by an experimentally determined structure1. Here we markedly expand the structural coverage of the proteome by applying the state-of-the-art machine learning method, AlphaFold2, at a scale that covers almost the entire human proteome (98.5\% of human proteins). The resulting dataset covers 58\% of residues with a confident prediction, of which a subset (36\% of all residues) have very high confidence. We introduce several metrics developed by building on the AlphaFold model and use them to interpret the dataset, identifying strong multi-domain predictions as well as regions that are likely to be disordered. Finally, we provide some case studies to illustrate how high-quality predictions could be used to generate biological hypotheses. We are making our predictions freely available to the community and anticipate that routine large-scale and high-accuracy structure prediction will become an important tool~that will allow new questions to be addressed from a structural perspective.}
+      \field{issn}{1476-4687}
+      \field{journaltitle}{Nature}
+      \field{langid}{english}
+      \field{month}{8}
+      \field{number}{7873}
+      \field{title}{Highly Accurate Protein Structure Prediction for the Human Proteome}
+      \field{urlday}{5}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{596}
+      \field{year}{2021}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{590\bibrangedash 596}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1038/s41586-021-03828-1
+      \endverb
+      \verb{file}
+      \verb /home/marius/Zotero/storage/XSJY47EP/Tunyasuvunakool et al. - 2021 - Highly accurate protein structure prediction for the human proteome.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/s41586-021-03828-1
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/s41586-021-03828-1
+      \endverb
+      \keyw{Machine learning,Protein structure predictions,Proteomic analysis,Structural biology}
+    \endentry
+    \entry{burleyRCSBProteinData2019}{article}{}
+      \name{author}{40}{}{%
+        {{hash=9938c2fda5357764465bd0b86f903151}{%
+           family={Burley},
+           familyi={B\bibinitperiod},
+           given={Stephen\bibnamedelima K},
+           giveni={S\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=491dc46e8fd1d6a4464298562f61a723}{%
+           family={Berman},
+           familyi={B\bibinitperiod},
+           given={Helen\bibnamedelima M},
+           giveni={H\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=f10467fc2d086f57d494b73dfc22f9b4}{%
+           family={Bhikadiya},
+           familyi={B\bibinitperiod},
+           given={Charmi},
+           giveni={C\bibinitperiod}}}%
+        {{hash=71b316d5f4d41b79126992a9a74e3479}{%
+           family={Bi},
+           familyi={B\bibinitperiod},
+           given={Chunxiao},
+           giveni={C\bibinitperiod}}}%
+        {{hash=685d97480ebafb5a158e7c3dfdcb69a8}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Li},
+           giveni={L\bibinitperiod}}}%
+        {{hash=277776d0643285b12cac50dbb7ac2cc1}{%
+           family={Di\bibnamedelima Costanzo},
+           familyi={D\bibinitperiod\bibinitdelim C\bibinitperiod},
+           given={Luigi},
+           giveni={L\bibinitperiod}}}%
+        {{hash=20789fc7aee073c56e29402c5b89cb2d}{%
+           family={Christie},
+           familyi={C\bibinitperiod},
+           given={Cole},
+           giveni={C\bibinitperiod}}}%
+        {{hash=faacd19d76685229471a2b2553bce643}{%
+           family={Dalenberg},
+           familyi={D\bibinitperiod},
+           given={Ken},
+           giveni={K\bibinitperiod}}}%
+        {{hash=a7399b08a4351d7152e68b8fce9782f9}{%
+           family={Duarte},
+           familyi={D\bibinitperiod},
+           given={Jose\bibnamedelima M},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=0afd91575ec13538effec056d9fd6867}{%
+           family={Dutta},
+           familyi={D\bibinitperiod},
+           given={Shuchismita},
+           giveni={S\bibinitperiod}}}%
+        {{hash=3468c1fce34977da673dea11e3fc64b0}{%
+           family={Feng},
+           familyi={F\bibinitperiod},
+           given={Zukang},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=63566b20a9df4cfb714786415c97adf3}{%
+           family={Ghosh},
+           familyi={G\bibinitperiod},
+           given={Sutapa},
+           giveni={S\bibinitperiod}}}%
+        {{hash=59a6a1245ee1edfd5ef4e4eb40ca306c}{%
+           family={Goodsell},
+           familyi={G\bibinitperiod},
+           given={David\bibnamedelima S},
+           giveni={D\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=b7ce21ed1c5bdf8e4cec5fa82ebd29ec}{%
+           family={Green},
+           familyi={G\bibinitperiod},
+           given={Rachel\bibnamedelima K},
+           giveni={R\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=19a9f74fb11370c41a12da1203ad08d5}{%
+           family={Guranović},
+           familyi={G\bibinitperiod},
+           given={Vladimir},
+           giveni={V\bibinitperiod}}}%
+        {{hash=25d2090eb91728790fddb89ba43df793}{%
+           family={Guzenko},
+           familyi={G\bibinitperiod},
+           given={Dmytro},
+           giveni={D\bibinitperiod}}}%
+        {{hash=339448a694cef1c86ef556ab9d033d93}{%
+           family={Hudson},
+           familyi={H\bibinitperiod},
+           given={Brian\bibnamedelima P},
+           giveni={B\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=aeedae36bad042f2c2ce2ad34d9a9fd9}{%
+           family={Kalro},
+           familyi={K\bibinitperiod},
+           given={Tara},
+           giveni={T\bibinitperiod}}}%
+        {{hash=0e03310f96c8cc5b1bc5535276dcb346}{%
+           family={Liang},
+           familyi={L\bibinitperiod},
+           given={Yuhe},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=1fc0a2b2f2bbca26b3422f001f5e66e0}{%
+           family={Lowe},
+           familyi={L\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod}}}%
+        {{hash=adf83e9ed2174950a93774b3c9beef30}{%
+           family={Namkoong},
+           familyi={N\bibinitperiod},
+           given={Harry},
+           giveni={H\bibinitperiod}}}%
+        {{hash=c2cc293119afcc3ef92b717e5a1d7903}{%
+           family={Peisach},
+           familyi={P\bibinitperiod},
+           given={Ezra},
+           giveni={E\bibinitperiod}}}%
+        {{hash=7308023c196ad8410be3c1140065618e}{%
+           family={Periskova},
+           familyi={P\bibinitperiod},
+           given={Irina},
+           giveni={I\bibinitperiod}}}%
+        {{hash=199c7411a1dba8e40bad90e48f824280}{%
+           family={Prlić},
+           familyi={P\bibinitperiod},
+           given={Andreas},
+           giveni={A\bibinitperiod}}}%
+        {{hash=cb8b923c6cd812d2efd45056ee503583}{%
+           family={Randle},
+           familyi={R\bibinitperiod},
+           given={Chris},
+           giveni={C\bibinitperiod}}}%
+        {{hash=d3848a3016b121bc863d91f287a5880c}{%
+           family={Rose},
+           familyi={R\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=11ec1286499372567d36173870e757eb}{%
+           family={Rose},
+           familyi={R\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod}}}%
+        {{hash=61d54a49fef6335da7e773aab6062605}{%
+           family={Sala},
+           familyi={S\bibinitperiod},
+           given={Raul},
+           giveni={R\bibinitperiod}}}%
+        {{hash=072da8404766c50aa0ab511ac808d95b}{%
+           family={Sekharan},
+           familyi={S\bibinitperiod},
+           given={Monica},
+           giveni={M\bibinitperiod}}}%
+        {{hash=dbd1c78d7621a81f67e9bee3e5e9dd57}{%
+           family={Shao},
+           familyi={S\bibinitperiod},
+           given={Chenghua},
+           giveni={C\bibinitperiod}}}%
+        {{hash=4467f6f0e64ef70e673bcb5190a90cd8}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={Lihua},
+           giveni={L\bibinitperiod}}}%
+        {{hash=519ec79cb51e2cbeb4fbeb73f163609e}{%
+           family={Tao},
+           familyi={T\bibinitperiod},
+           given={Yi-Ping},
+           giveni={Y\bibinithyphendelim P\bibinitperiod}}}%
+        {{hash=963ba6105e3dca2033334a5a95923db0}{%
+           family={Valasatava},
+           familyi={V\bibinitperiod},
+           given={Yana},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=ce397b8a19035ab41f7300aebe502ef6}{%
+           family={Voigt},
+           familyi={V\bibinitperiod},
+           given={Maria},
+           giveni={M\bibinitperiod}}}%
+        {{hash=cafb3691e83b5fe5369b6ddfbd7c7fec}{%
+           family={Westbrook},
+           familyi={W\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+        {{hash=e4aab1209102b091f1a71f6267e89a51}{%
+           family={Woo},
+           familyi={W\bibinitperiod},
+           given={Jesse},
+           giveni={J\bibinitperiod}}}%
+        {{hash=6047293f7c457b9001a2516a8f6013f8}{%
+           family={Yang},
+           familyi={Y\bibinitperiod},
+           given={Huanwang},
+           giveni={H\bibinitperiod}}}%
+        {{hash=10de34d653972d94a6a0256bb17528fe}{%
+           family={Young},
+           familyi={Y\bibinitperiod},
+           given={Jasmine},
+           giveni={J\bibinitperiod}}}%
+        {{hash=b5c97fe0822e1ab096b21d400bcb4ac9}{%
+           family={Zhuravleva},
+           familyi={Z\bibinitperiod},
+           given={Marina},
+           giveni={M\bibinitperiod}}}%
+        {{hash=a5262279692910df3c19a45b7a30b9bd}{%
+           family={Zardecki},
+           familyi={Z\bibinitperiod},
+           given={Christine},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{55f8d3e453bdca3ae520445a374d25af}
+      \strng{fullhash}{8ad2cb432840e55797f9855f93ecb69d}
+      \strng{bibnamehash}{55f8d3e453bdca3ae520445a374d25af}
+      \strng{authorbibnamehash}{55f8d3e453bdca3ae520445a374d25af}
+      \strng{authornamehash}{55f8d3e453bdca3ae520445a374d25af}
+      \strng{authorfullhash}{8ad2cb432840e55797f9855f93ecb69d}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{The Research Collaboratory for Structural Bioinformatics Protein Data Bank (RCSB PDB, rcsb.org), the US data center for the global PDB archive, serves thousands of Data Depositors in the Americas and Oceania and makes 3D macromolecular structure data available at no charge and without usage restrictions to more than 1 million rcsb.org Users worldwide and 600 000 pdb101.rcsb.org education-focused Users around the globe. PDB Data Depositors include structural biologists using macromolecular crystallography, nuclear magnetic resonance spectroscopy and 3D electron microscopy. PDB Data Consumers include researchers, educators and students studying Fundamental Biology, Biomedicine, Biotechnology and Energy. Recent reorganization of RCSB PDB activities into four integrated, interdependent services is described in detail, together with tools and resources added over the past 2~years to RCSB PDB web portals in support of a ‘Structural View of Biology.’}
+      \field{day}{8}
+      \field{issn}{0305-1048}
+      \field{journaltitle}{Nucleic Acids Research}
+      \field{month}{1}
+      \field{number}{D1}
+      \field{shortjournal}{Nucleic Acids Res}
+      \field{shorttitle}{{{RCSB PDB}}}
+      \field{title}{{{RCSB Protein Data Bank}}: Biological Macromolecular Structures Enabling Research and Education in Fundamental Biology, Biomedicine, Biotechnology and Energy}
+      \field{urlday}{5}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{47}
+      \field{year}{2019}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{D464\bibrangedash D474}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1093/nar/gky1004
+      \endverb
+      \verb{file}
+      \verb /home/marius/Zotero/storage/F8GASBEQ/Burley et al. - 2019 - RCSB Protein Data Bank biological macromolecular structures enabling research and education in fund.pdf;/home/marius/Zotero/storage/7BTELKW8/gky1004.html
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1093/nar/gky1004
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1093/nar/gky1004
+      \endverb
+    \endentry
+    \entry{hekkelmanAlphaFillEnrichingAlphaFold2023}{article}{}
+      \name{author}{4}{}{%
+        {{hash=1e08ce76740a01f4bf3c51383ed9ed3d}{%
+           family={Hekkelman},
+           familyi={H\bibinitperiod},
+           given={Maarten\bibnamedelima L.},
+           giveni={M\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{useprefix=true,hash=c47848b195fd57f30e71efb1fb7c02bf}{%
+           family={Vries},
+           familyi={V\bibinitperiod},
+           given={Ida},
+           giveni={I\bibinitperiod},
+           prefix={de},
+           prefixi={d\bibinitperiod}}}%
+        {{hash=60a38e04219467a49626c3bade3fffe4}{%
+           family={Joosten},
+           familyi={J\bibinitperiod},
+           given={Robbie\bibnamedelima P.},
+           giveni={R\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=13cd02bb3c58a76714d1c05d5907f5d1}{%
+           family={Perrakis},
+           familyi={P\bibinitperiod},
+           given={Anastassis},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{b8c4461f8316ce94602c4337c56976ce}
+      \strng{fullhash}{4500ce9ef5ae45fa34f888fd487be87c}
+      \strng{bibnamehash}{b8c4461f8316ce94602c4337c56976ce}
+      \strng{authorbibnamehash}{b8c4461f8316ce94602c4337c56976ce}
+      \strng{authornamehash}{b8c4461f8316ce94602c4337c56976ce}
+      \strng{authorfullhash}{4500ce9ef5ae45fa34f888fd487be87c}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Artificial intelligence-based protein structure prediction approaches have had a transformative effect on biomolecular sciences. The predicted protein models in the AlphaFold protein structure database, however, all lack coordinates for small molecules, essential for molecular structure or function: hemoglobin lacks bound heme; zinc-finger motifs lack zinc ions essential for structural integrity and metalloproteases lack metal ions needed for catalysis. Ligands important for biological function are absent too; no ADP or ATP is bound to any of the ATPases or kinases. Here we present AlphaFill, an algorithm that uses sequence and structure similarity to ‘transplant’ such ‘missing’ small molecules and ions from experimentally determined structures to predicted protein models. The algorithm was successfully validated against experimental structures. A total of 12,029,789 transplants were performed on 995,411 AlphaFold models and are available together with associated validation metrics in the alphafill.eu databank, a resource to help scientists make new hypotheses and design targeted experiments.}
+      \field{issn}{1548-7105}
+      \field{journaltitle}{Nature Methods}
+      \field{langid}{english}
+      \field{month}{2}
+      \field{number}{2}
+      \field{shortjournal}{Nat Methods}
+      \field{shorttitle}{{{AlphaFill}}}
+      \field{title}{{{AlphaFill}}: Enriching {{AlphaFold}} Models with Ligands and Cofactors}
+      \field{urlday}{5}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{20}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{205\bibrangedash 213}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1038/s41592-022-01685-y
+      \endverb
+      \verb{file}
+      \verb /home/marius/Zotero/storage/GCJTCPGM/Hekkelman et al. - 2023 - AlphaFill enriching AlphaFold models with ligands and cofactors.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/s41592-022-01685-y
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/s41592-022-01685-y
+      \endverb
+      \keyw{Protein databases,Protein structure predictions}
+    \endentry
+    \entry{graefBindingSiteDetection2023}{article}{}
+      \name{author}{3}{}{%
+        {{hash=07443dda7ccf99402ced4a1eb71ed959}{%
+           family={Graef},
+           familyi={G\bibinitperiod},
+           given={Joel},
+           giveni={J\bibinitperiod}}}%
+        {{hash=b3721c7a2f0ba82b0bb380ee5ba8c6ec}{%
+           family={Ehrt},
+           familyi={E\bibinitperiod},
+           given={Christiane},
+           giveni={C\bibinitperiod}}}%
+        {{hash=3f75acc2c1dd637578817bce878cfbf9}{%
+           family={Rarey},
+           familyi={R\bibinitperiod},
+           given={Matthias},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Chemical Society}%
+      }
+      \strng{namehash}{b83c769abf86df4396c7c4494fe53534}
+      \strng{fullhash}{b83c769abf86df4396c7c4494fe53534}
+      \strng{bibnamehash}{b83c769abf86df4396c7c4494fe53534}
+      \strng{authorbibnamehash}{b83c769abf86df4396c7c4494fe53534}
+      \strng{authornamehash}{b83c769abf86df4396c7c4494fe53534}
+      \strng{authorfullhash}{b83c769abf86df4396c7c4494fe53534}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Binding site prediction on protein structures is a crucial step in early phase drug discovery whenever experimental or predicted structure models are involved. DoGSite belongs to the widely used tools for this task. It is a grid-based method that uses a Difference-of-Gaussian filter to detect cavities on the protein surface. We recently reimplemented the first version of this method, released in 2010, focusing on improved binding site detection in the presence of ligands and optimized parameters for more robust, reliable, and fast predictions and binding site descriptor calculations. Here, we introduce the new version, DoGSite3, compare it to its predecessor, and re-evaluate DoGSite on published data sets for a large-scale comparative performance evaluation.}
+      \field{day}{22}
+      \field{issn}{1549-9596}
+      \field{journaltitle}{Journal of Chemical Information and Modeling}
+      \field{month}{5}
+      \field{number}{10}
+      \field{shortjournal}{J. Chem. Inf. Model.}
+      \field{shorttitle}{{{DoGSite3}}}
+      \field{title}{Binding {{Site Detection Remastered}}: {{Enabling Fast}}, {{Robust}}, and {{Reliable Binding Site Detection}} and {{Descriptor Calculation}} with {{DoGSite3}}}
+      \field{urlday}{5}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{63}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{3128\bibrangedash 3137}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1021/acs.jcim.3c00336
+      \endverb
+      \verb{file}
+      \verb /home/marius/Zotero/storage/PI3IZ3PI/Graef et al. - 2023 - Binding Site Detection Remastered Enabling Fast, Robust, and Reliable Binding Site Detection and De.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1021/acs.jcim.3c00336
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1021/acs.jcim.3c00336
+      \endverb
+    \endentry
+    \entry{bietzSIENAEfficientCompilation2016}{article}{}
+      \name{author}{2}{}{%
+        {{hash=e1b21a6bcc3b32fa630730af1a9c9ee2}{%
+           family={Bietz},
+           familyi={B\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=3f75acc2c1dd637578817bce878cfbf9}{%
+           family={Rarey},
+           familyi={R\bibinitperiod},
+           given={Matthias},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Chemical Society}%
+      }
+      \strng{namehash}{07524433235539c5aa67e575ee349b17}
+      \strng{fullhash}{07524433235539c5aa67e575ee349b17}
+      \strng{bibnamehash}{07524433235539c5aa67e575ee349b17}
+      \strng{authorbibnamehash}{07524433235539c5aa67e575ee349b17}
+      \strng{authornamehash}{07524433235539c5aa67e575ee349b17}
+      \strng{authorfullhash}{07524433235539c5aa67e575ee349b17}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Structural flexibility of proteins has an important influence on molecular recognition and enzymatic function. In modeling, structure ensembles are therefore often applied as a valuable source of alternative protein conformations. However, their usage is often complicated by structural artifacts and inconsistent data annotation. Here, we present SIENA, a new computational approach for the automated assembly and preprocessing of protein binding site ensembles. Starting with an arbitrarily defined binding site in a single protein structure, SIENA searches for alternative conformations of the same or sequentially closely related binding sites. The method is based on an indexed database for identifying perfect k-mer matches and a recently published algorithm for the alignment of protein binding site conformations. Furthermore, SIENA provides a new algorithm for the interaction-based selection of binding site conformations which aims at covering all known ligand-binding geometries. Various experiments highlight that SIENA is able to generate comprehensive and well selected binding site ensembles improving the compatibility to both known and unconsidered ligand molecules. Starting with the whole PDB as data source, the computation time of the whole ensemble generation takes only a few seconds. SIENA is available via a Web service at www.zbh.uni-hamburg.de/siena.}
+      \field{day}{25}
+      \field{issn}{1549-9596}
+      \field{journaltitle}{Journal of Chemical Information and Modeling}
+      \field{month}{1}
+      \field{number}{1}
+      \field{shortjournal}{J. Chem. Inf. Model.}
+      \field{shorttitle}{{{SIENA}}}
+      \field{title}{{{SIENA}}: {{Efficient Compilation}} of {{Selective Protein Binding Site Ensembles}}}
+      \field{urlday}{5}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{56}
+      \field{year}{2016}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{248\bibrangedash 259}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1021/acs.jcim.5b00588
+      \endverb
+      \verb{file}
+      \verb /home/marius/Zotero/storage/GNVW737N/Bietz and Rarey - 2016 - SIENA Efficient Compilation of Selective Protein Binding Site Ensembles.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1021/acs.jcim.5b00588
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1021/acs.jcim.5b00588
+      \endverb
+    \endentry
+    \entry{flachsenbergConsistentSchemeGradientBased2020}{article}{}
+      \name{author}{5}{}{%
+        {{hash=724c8634765f563a279a2f4840985fc7}{%
+           family={Flachsenberg},
+           familyi={F\bibinitperiod},
+           given={Florian},
+           giveni={F\bibinitperiod}}}%
+        {{hash=fc51a667be9434e0fa71a470459b02a5}{%
+           family={Meyder},
+           familyi={M\bibinitperiod},
+           given={Agnes},
+           giveni={A\bibinitperiod}}}%
+        {{hash=05311a72f98493e92a961723c5e22b63}{%
+           family={Sommer},
+           familyi={S\bibinitperiod},
+           given={Kai},
+           giveni={K\bibinitperiod}}}%
+        {{hash=ec4104a67aaeebce64233c85da96635b}{%
+           family={Penner},
+           familyi={P\bibinitperiod},
+           given={Patrick},
+           giveni={P\bibinitperiod}}}%
+        {{hash=3f75acc2c1dd637578817bce878cfbf9}{%
+           family={Rarey},
+           familyi={R\bibinitperiod},
+           given={Matthias},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Chemical Society}%
+      }
+      \strng{namehash}{ced648c7a55d43b66def732d452ccc5d}
+      \strng{fullhash}{a98f6e2be88723cf51f3b0800e104ea5}
+      \strng{bibnamehash}{ced648c7a55d43b66def732d452ccc5d}
+      \strng{authorbibnamehash}{ced648c7a55d43b66def732d452ccc5d}
+      \strng{authornamehash}{ced648c7a55d43b66def732d452ccc5d}
+      \strng{authorfullhash}{a98f6e2be88723cf51f3b0800e104ea5}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{Scoring and numerical optimization of protein–ligand poses is an integral part of docking tools. Although many scoring functions exist, many of them are not continuously differentiable and they are rarely explicitly analyzed with respect to their numerical optimization behavior. Here, we present a consistent scheme for pose scoring and gradient-based pose optimization. It consists of a novel variant of the BFGS algorithm enabling step-length control, named LSL-BFGS (limited step length BFGS), and the empirical JAMDA scoring function designed for pose prediction and good numerical optimizability. The JAMDA scoring function shows a high pose prediction performance in the CASF-2016 docking power benchmark, top-ranking a pose with an RMSD of ≤2 Å in about 89\% of the cases. The combination of JAMDA scoring with the LSL-BFGS algorithm shows a significantly higher optimization locality (i.e., no excessive movement of poses) than with the classical BFGS algorithm while retaining the characteristically low number of scoring function evaluations. The JAMDA scoring and optimization scheme is freely available for noncommercial use and academic research.}
+      \field{day}{28}
+      \field{issn}{1549-9596}
+      \field{journaltitle}{Journal of Chemical Information and Modeling}
+      \field{month}{12}
+      \field{number}{12}
+      \field{shortjournal}{J. Chem. Inf. Model.}
+      \field{shorttitle}{{{JamdaScorer}}}
+      \field{title}{A {{Consistent Scheme}} for {{Gradient-Based Optimization}} of {{Protein}}–{{Ligand Poses}}}
+      \field{urlday}{5}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{60}
+      \field{year}{2020}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{6502\bibrangedash 6522}
+      \range{pages}{21}
+      \verb{doi}
+      \verb 10.1021/acs.jcim.0c01095
+      \endverb
+      \verb{file}
+      \verb /home/marius/Zotero/storage/MPKZVF4B/Flachsenberg et al. - 2020 - A Consistent Scheme for Gradient-Based Optimization of Protein–Ligand Poses.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1021/acs.jcim.0c01095
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1021/acs.jcim.0c01095
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

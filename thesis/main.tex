@@ -1,0 +1,80 @@
+\documentclass[twoside,a4paper]{master}
+\usepackage[kerning,spacing]{microtype}
+\microtypecontext{spacing=nonfrench}
+
+% Helpfull command to put reminders in your work
+\newcommand{\Todo}[1]%
+{\fcolorbox{black}{orange}{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{\textbf{Todo: #1}}}}
+% it uses one argument which is referred to by #1
+
+\newcommand{\Alphabet}{\mathcal{A}\xspace}
+
+% Add bibliography resource
+\addbibresource{references.bib}
+
+\begin{document}
+
+% use roman page numbers before the real document starts.
+\pagenumbering{roman}
+
+%Change the values here to get your title page and assertion page right
+\AdvisorA{Prof. Dr. Matthias Rarey}
+\AdvisorB{Prof. Dr. Andrew Torda}
+\author{Marius R\"uve}
+\MatrikelNo{7657327}
+%\AuthorAdress{Musterstrasse 1}{07770 M\"unchhausen}
+\title{
+  \begin{tabular}{c}
+    \textbf{Ligand Transplantation and Optimization} \\[3mm]
+    \textbf{in Protein Models}
+  \end{tabular}}
+\Maketitle
+
+\addchap*{Abstract}
+\small
+% High-priority thesis TODOs
+\Todo{Fill a 200--250 word abstract summarizing problem, method (FoldFusion), key results (quantitative), limitations, and contributions.}
+\Todo{Ensure advisor names/titles and matriculation number are correct and match university records.}
+\Todo{Decide on final chapter structure: currently Introduction, Methods, Results, Conclusion. Remove references to non-existent chapters (Background, Discussion) or add those chapters.}
+\Todo{Move final figures into thesis/figures as PDF/SVG (preferred) or 300 DPI PNG; reference them in Methods/Results.}
+\Todo{Add an Appendix section with exact reproducibility details: environment (Python version, key packages), commands to run pipeline, git commit hash, dataset versions, and config.toml snapshot.}
+\Todo{Run full LaTeX compile and resolve all warnings: no undefined refs/citations, consistent figure/table numbering, proper hyphenation.}
+% TODO: Replace placeholder with final abstract
+% Suggested structure: 1) Context & gap, 2) FoldFusion approach, 3) Core results (n targets, transplant success metrics), 4) Implications/limitations.
+Test text
+
+\normalsize
+
+\setcounter{tocdepth}{1}
+\tableofcontents
+
+\pagenumbering{arabic}
+\include{chapters/01_introduction}
+\include{chapters/02_methods}
+\include{chapters/03_results}
+\include{chapters/04_conclusion}
+
+\newpage
+\small
+% Bibliography using biblatex
+\printbibliography[title=References]
+\normalsize
+
+% appendix
+
+\appendix
+\noappendicestocpagenum
+\addappheadtotoc
+
+\Chapter{Reproducibility Details}
+\Todo{Insert environment details: OS, Python version, key packages with versions, hardware.}
+\Todo{Insert exact commands (Makefile targets or CLI) used to generate results and figures.}
+\Todo{Record git commit hash and config snapshot used for final evaluation.}
+
+\Chapter{Supplementary Tables and Figures}
+\Todo{Add tables summarizing dataset proteins, donors, ligands, and transplant success by category.}
+\Todo{Include any extended figures not in the main text.}
+
+
+\Assertion
+\end{document}

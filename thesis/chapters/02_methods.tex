@@ -1,0 +1,31 @@
+\Chapter{Methods}
+\label{chap:methods}
+
+\section{Overview}
+\Todo{Write a 1–2 paragraph overview of the FoldFusion pipeline: inputs, main stages (donor retrieval, alignment, transplant, filtering/scoring), and outputs. Add a high-level flow diagram.}
+
+\section{Data and Inputs}
+\Todo{Describe the input protein models (AlphaFold/UniProt IDs), how they are fetched, and the benchmark dataset in evaluation/data (size, selection criteria). Include table summarizing proteins used.}
+\Todo{Specify configuration via config.toml: key parameters (alignment thresholds, filters), seeds, and runtime knobs.}
+
+\section{Components and Tools}
+\subsection{AlphaFold Fetcher}
+\Todo{Explain how predicted structures are obtained (versions, sources), caching, and any preprocessing.}
+\subsection{Homologue and Ligand Source (e.g., SIENA/UniProt/PDB)}
+\Todo{Detail how donor structures and ligands are selected (sequence/structure similarity; thresholds). Include citations and database versions.}
+\subsection{Alignment}
+\Todo{Describe global/local alignment methods used; define RMSD/score variants and parameters.}
+\subsection{Transplantation}
+\Todo{Explain coordinate mapping, handling of alternate locations, protonation states, and chain/residue mapping.}
+\subsection{Filtering and Scoring}
+\Todo{Define clash checks, distance cutoffs, and quality indicators; justify chosen thresholds.}
+
+\section{Implementation Details}
+\Todo{Summarize code structure (packages in foldfusion/), logging, CLI entry points, and dependency management (pyproject/uv.lock).}
+\Todo{Discuss error handling and retries for external resources; note offline/cached mode.}
+
+\section{Reproducibility}
+\Todo{Document exact environment (Python version, key packages), compute hardware, and commands to reproduce results. Reference Appendix for full config and commit hash.}
+
+\section{Ethical and Licensing Considerations}
+\Todo{Note database/tool licenses and usage restrictions; acknowledge limitations of homology-based inference.}
