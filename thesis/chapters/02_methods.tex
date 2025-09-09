@@ -27,15 +27,37 @@ Evaluation utilities quantify improvement and reliability through metrics such a
 
 \section{Components and Tools}
 \subsection{AlphaFold Fetcher}
-\Todo{Explain how predicted structures are obtained (versions, sources), caching, and any preprocessing.}
-\subsection{Homologue and Ligand Source (e.g., SIENA/UniProt/PDB)}
-\Todo{Detail how donor structures and ligands are selected (sequence/structure similarity; thresholds). Include citations and database versions.}
+\Todo{Explain how predicted structures are obtained: AlphaFold DB URLs, version fallback v4\textrightarrow{}v3, file formats (PDB), and caching/normalization strategy.}
+\Todo{Detail preprocessing: pLDDT-based trimming of unreliable segments (\ensuremath{\ge}5 consecutive residues with pLDDT $<$ 50) as implemented in the pipeline; justify threshold and segment-based approach versus per-residue masking.}
+\Todo{Note chain indexing/altloc handling from AlphaFold PDBs, and any renaming or path conventions used in the output directory structure (\texttt{AlphaFold/}).}
+
+\subsection{Binding Site Prediction (DoGSite3)}
+\Todo{Summarize DoGSite3's purpose (pocket detection via Difference of Gaussian on protein surface; physicochemical descriptors). Include citation and tool version.}
+\Todo{Describe invocation used in the pipeline: \texttt{--writeSiteResiduesEDF}, input PDB from AlphaFold, output directory structure (\texttt{Dogsite3/}).}
+\Todo{State selection of the top-ranked pocket EDF (\texttt{output\_P\_1\_res.edf}) and the REFERENCE fix-up to the absolute input PDB path performed post-run.}
+\Todo{List key pocket features exported in EDF that downstream tools (SIENA) consume.}
+
+\subsection{Donor Databases and Retrieval (PDB/UniProt/SIENA DB)}
+\Todo{Detail sources of donor structures and ligands: PDB (version/date), UniProt mapping, and SIENA database preparation path. Include database versions and citations.}
+\Todo{Explain how the SIENA database is generated/initialized once per run (input PDB directory, format), where it is stored, and when regeneration is skipped.}
+\Todo{State any filtering on donors prior to alignment (resolution, polymer type, ligand presence).}
+
+\subsection{Binding-Site Similarity Search and Alignment (SIENA)}
+\Todo{Describe inputs (EDF pocket from DoGSite3) and the SIENA search/alignment workflow; include citation and tool version.}
+\Todo{Document command parameters used: \texttt{--edf}, \texttt{--database}, \texttt{--output .}, identity cutoff (\texttt{--identity 0.85}); justify chosen thresholds.}
+\Todo{Explain result parsing: reading \texttt{resultStatistic.csv} (semicolon separated), column cleanup, sorting primarily by Active site identity (desc), then Backbone and All-atom RMSD (asc).}
+\Todo{Clarify use of \texttt{ensemble/\*.pdb} files for downstream ligand extraction/transplantation and how many top alignments are retained (configurable \texttt{siena\_max\_alignments}).}
+
+\subsection{Ligand Optimization and Scoring (JAMDA)}
+\Todo{Summarize JAMDA's role: energy-based pose optimization/scoring of transplanted ligands; include citation and tool version.}
+\Todo{Describe invocation pattern per ligand: inputs (AlphaFold PDB, ligand SDF), outputs (optimized SDF), and flags used (\texttt{--optimize}); output organization (\texttt{JamdaScorer/<PDB>/ligand\_id.sdf}).}
+\Todo{State what scores/outputs are captured and how they inform filtering (e.g., clash reduction, score improvements). Cross-reference concrete thresholds in Filtering and Scoring.}
 \subsection{Alignment}
 \Todo{Describe global/local alignment methods used; define RMSD/score variants and parameters.}
 \subsection{Transplantation}
 \Todo{Explain coordinate mapping, handling of alternate locations, protonation states, and chain/residue mapping.}
 \subsection{Filtering and Scoring}
-\Todo{Define clash checks, distance cutoffs, and quality indicators; justify chosen thresholds.}
+\Todo{Define clash checks, distance cutoffs, and quality indicators; justify chosen thresholds. Reference how SIENA metrics (identity, RMSDs) and JAMDA outputs contribute to accept/reject decisions.}
 
 \section{Implementation Details}
 \Todo{Summarize code structure (packages in foldfusion/), logging, CLI entry points, and dependency management (pyproject/uv.lock).}

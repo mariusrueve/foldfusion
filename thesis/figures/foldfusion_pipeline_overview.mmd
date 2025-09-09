@@ -1,0 +1,34 @@
+%% FoldFusion High-Level Pipeline Overview
+%% Simplified flowchart (parser-safe) showing major stages.
+%%{init: {"flowchart": {"defaultRenderer": "elk", "htmlLabels": false}} }%%
+flowchart TB
+	START((Start)) --> INIT[Load Config & Setup Logging]
+	INIT --> SIENA_DB[Prepare SIENA DB]
+	SIENA_DB --> EACH{{Each UniProt ID}}
+
+	subgraph PER_PROTEIN[Per-Protein Pipeline]
+		AF[AlphaFold Model Retrieval]
+		DOG[Binding Site Prediction]
+		ALIGN[Binding Site Alignment]
+		LEXT[Ligand Extraction]
+		EVAL1[Evaluation Pre Optimization]
+		DEC{Ligands?}
+		JAMDA[Ligand Optimization]
+		EVAL2[Evaluation Post Optimization]
+		STORE[Store Results]
+
+		AF --> DOG --> ALIGN --> LEXT --> EVAL1 --> DEC
+		DEC -->|Yes| JAMDA --> EVAL2 --> STORE
+		DEC -->|No| STORE
+	end
+
+	EACH --> PER_PROTEIN --> SUMMARY[Aggregate Logs & Summary]
+	SUMMARY --> END((End))
+
+%% Styling removed for compatibility
+
+	%% Notes:
+	%% - SIENA DB built once, reused by all proteins.
+	%% - Per-protein pipelines may run concurrently.
+	%% - Two evaluation checkpoints: before and after optimization.
+
