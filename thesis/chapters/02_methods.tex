@@ -2,7 +2,24 @@
 \label{chap:methods}
 
 \section{Overview}
-\Todo{Write a 1–2 paragraph overview of the FoldFusion pipeline: inputs, main stages (donor retrieval, alignment, transplant, filtering/scoring), and outputs. Add a high-level flow diagram.}
+The framework implements a modular pipeline for systematic augmentation and assessment of predicted protein structures using experimentally resolved homologous complexes and associated ligands. The architecture consists of (i)
+
+The framework implements a modular pipeline for systematic augmentation and assessment of predicted protein structures using experimentally resolved homologous complexes and associated ligands. Its architecture comprises (i) structured acquisition of target and donor structural data, (ii) detection and characterization of binding environments, (iii) sequence/structure alignment and geometric mapping, (iv) ligand and pocket feature transplantation with conflict resolution, (v) multi-criteria filtering and scoring, and (vi) standardized evaluation and visualization of resulting models and annotations. This layered decomposition promotes separation of concerns, controlled extensibility, and reproducible execution.
+
+Inputs consist of one or more target protein identifiers (e.g., UniProt accessions) whose corresponding predicted three-dimensional models are retrieved (or validated if cached) and normalized. Donor candidates are gathered from curated structural repositories and homolog databases according to configurable similarity, coverage, and quality constraints. Auxiliary metadata (ligands, binding site residues, cavity descriptors, and experimental provenance) are harvested through dedicated tool adapters. Each external data source is encapsulated behind a dedicated integration component to isolate protocol specifics from core orchestration logic.
+
+Alignment and transplantation proceed via staged refinement: coarse-grained sequence or domain-level correspondence, optional structural superposition, residue-level mapping, and coordinate transfer for ligand entities and binding site annotations. Conflict handling addresses steric clashes, incomplete residue definitions, alternate conformers, and chain indexing inconsistencies. A filtering and scoring layer then applies geometric, physicochemical, and provenance-derived criteria (e.g., clash metrics, distance thresholds, ligand completeness, resolution provenance proxies) to retain only high-confidence transplanted assemblies. Scoring outputs are structured to permit downstream comparative analyses across targets, donors, and parameter settings.
+
+Evaluation utilities quantify improvement and reliability through metrics such as structural alignment quality, pocket conservation, ligand retention integrity, and scoring distribution profiles. Visualization components generate comparative plots and summary artifacts to support interpretability and methodological diagnosis. Configuration management and structured logging ensure parameter traceability, deterministic re-runs, and auditability of intermediate decisions. The overall design facilitates insertion of new data sources, scoring strategies, or analytical endpoints with minimal impact on existing workflow stages.
+
+\begin{figure}[H]
+    \centering
+    % Placeholder: replace with actual pipeline diagram (e.g., TikZ or imported PDF)
+    \fbox{\rule[0pt]{0pt}{4cm} Pipeline flow diagram placeholder}
+    \caption{High-level pipeline stages: data acquisition; binding site and ligand characterization; alignment and geometric mapping; transplantation; filtering and scoring; evaluation and visualization.}
+    \label{fig:pipeline_overview}
+\end{figure}
+
 
 \section{Data and Inputs}
 \Todo{Describe the input protein models (AlphaFold/UniProt IDs), how they are fetched, and the benchmark dataset in evaluation/data (size, selection criteria). Include table summarizing proteins used.}
