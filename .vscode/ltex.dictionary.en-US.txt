@@ -1,3 +1,9 @@
 homologues
 AlphaFold
 AlphaFill
+homolog
+UniProt
+pLDDT
+parameterisable
+protonation
+parameterizable
