@@ -4,6 +4,5 @@ AlphaFill
 homolog
 UniProt
 pLDDT
-parameterisable
 protonation
 parameterizable
