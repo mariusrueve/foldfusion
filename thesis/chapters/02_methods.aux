@@ -9,20 +9,33 @@
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:pipeline_overview}{{2.1}{10}{High-level pipeline stages: data acquisition; binding site and ligand characterization; alignment and geometric mapping; transplantation; filtering and scoring; evaluation and visualization}{figure.caption.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.2}Data and Inputs}{10}{section.2.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Components and Tools}{11}{section.2.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}AlphaFold Fetcher}{11}{subsection.2.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Binding Site Prediction (DoGSite3)}{11}{subsection.2.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Donor Databases and Retrieval (PDB/UniProt/SIENA DB)}{11}{subsection.2.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.4}Binding-Site Similarity Search and Alignment (SIENA)}{12}{subsection.2.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.5}Ligand Optimization and Scoring (JAMDA)}{12}{subsection.2.3.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.6}Alignment}{12}{subsection.2.3.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.7}Transplantation}{12}{subsection.2.3.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.8}Filtering and Scoring}{13}{subsection.2.3.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}Implementation Details}{13}{section.2.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.5}Reproducibility}{13}{section.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2.6}Ethical and Licensing Considerations}{13}{section.2.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Components and Tools}{10}{section.2.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}AlphaFold Fetcher}{10}{subsection.2.3.1}\protected@file@percent }
+\newlabel{subsec:alphafold_fetcher}{{2.3.1}{10}{AlphaFold Fetcher}{subsection.2.3.1}{}}
+\@writefile{toc}{\contentsline {paragraph}{\nonumberline Confidence-Guided Segment Trimming.}{11}{paragraph*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\nonumberline Normalization and Structural Assumptions.}{12}{paragraph*.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\nonumberline Error Handling and Logging.}{12}{paragraph*.9}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\nonumberline Limitations and Future Extensions.}{12}{paragraph*.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Binding Site Prediction (DoGSite3)}{12}{subsection.2.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\nonumberline Invocation and Output Layout.}{13}{paragraph*.13}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\nonumberline Pocket Selection and EDF Normalization.}{13}{paragraph*.15}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\nonumberline Extracted Features Consumed Downstream.}{13}{paragraph*.17}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Donor Databases and Retrieval (PDB/UniProt/SIENA DB)}{14}{subsection.2.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\nonumberline Regeneration and Validity Checks.}{15}{paragraph*.19}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\nonumberline Directory Layout and Provenance.}{16}{paragraph*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\nonumberline Donor Structure Filtering.}{16}{paragraph*.23}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\nonumberline Ligand Data.}{16}{paragraph*.25}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{\nonumberline Versioning and Snapshot Notation.}{17}{paragraph*.27}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.4}Binding-Site Similarity Search and Alignment (SIENA)}{17}{subsection.2.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.5}Ligand Optimization and Scoring (JAMDA)}{17}{subsection.2.3.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.6}Alignment}{18}{subsection.2.3.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.7}Transplantation}{18}{subsection.2.3.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.8}Filtering and Scoring}{18}{subsection.2.3.8}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Implementation Details}{18}{section.2.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}Reproducibility}{18}{section.2.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.6}Ethical and Licensing Considerations}{18}{section.2.6}\protected@file@percent }
 \@setckpt{chapters/02_methods}{
-\setcounter{page}{14}
+\setcounter{page}{19}
 \setcounter{equation}{0}
 \setcounter{enumi}{4}
 \setcounter{enumii}{0}
@@ -57,7 +70,7 @@
 \setcounter{citetotal}{0}
 \setcounter{multicitecount}{0}
 \setcounter{multicitetotal}{0}
-\setcounter{instcount}{14}
+\setcounter{instcount}{25}
 \setcounter{maxnames}{3}
 \setcounter{minnames}{1}
 \setcounter{maxitems}{3}

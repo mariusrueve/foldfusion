@@ -19,6 +19,79 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global}
+    \entry{monteirodasilvaHighthroughputPredictionProtein2024}{article}{}
+      \name{author}{5}{}{%
+        {{hash=ee9b37e92c542ce3bc3ae46f69a51b16}{%
+           family={Monteiro\bibnamedelimb da\bibnamedelima Silva},
+           familyi={M\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim S\bibinitperiod},
+           given={Gabriel},
+           giveni={G\bibinitperiod}}}%
+        {{hash=fc02959f303ee7dfedb6e3938222b13b}{%
+           family={Cui},
+           familyi={C\bibinitperiod},
+           given={Jennifer\bibnamedelima Y.},
+           giveni={J\bibinitperiod\bibinitdelim Y\bibinitperiod}}}%
+        {{hash=e8fc0c2930454ed840cbad8f2353e2d9}{%
+           family={Dalgarno},
+           familyi={D\bibinitperiod},
+           given={David\bibnamedelima C.},
+           giveni={D\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=91e1f1ae986cda9e69eedd6685bc951b}{%
+           family={Lisi},
+           familyi={L\bibinitperiod},
+           given={George\bibnamedelima P.},
+           giveni={G\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=40fad08e86abaa599953cfc6a3662ca6}{%
+           family={Rubenstein},
+           familyi={R\bibinitperiod},
+           given={Brenda\bibnamedelima M.},
+           giveni={B\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{3e9019947da4c4f973846b764b2de96f}
+      \strng{fullhash}{9dbe0bcb99ef1db88c8af1443b402994}
+      \strng{bibnamehash}{3e9019947da4c4f973846b764b2de96f}
+      \strng{authorbibnamehash}{3e9019947da4c4f973846b764b2de96f}
+      \strng{authornamehash}{3e9019947da4c4f973846b764b2de96f}
+      \strng{authorfullhash}{9dbe0bcb99ef1db88c8af1443b402994}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{This paper presents an innovative approach for predicting the relative populations of protein conformations using AlphaFold 2, an AI-powered method that has revolutionized biology by enabling the accurate prediction of protein structures. While AlphaFold 2 has shown exceptional accuracy and speed, it is designed to predict proteins’ ground state conformations and is limited in its ability to predict conformational landscapes. Here, we demonstrate how AlphaFold 2 can directly predict the relative populations of different protein conformations by subsampling multiple sequence alignments. We tested our method against nuclear magnetic resonance experiments on two proteins with drastically different amounts of available sequence data, Abl1 kinase and the granulocyte-macrophage colony-stimulating factor, and predicted changes in their relative state populations with more than 80\% accuracy. Our subsampling approach worked best when used to qualitatively predict the effects of mutations or evolution on the conformational landscape and well-populated states of proteins. It thus offers a fast and cost-effective way to predict the relative populations of protein conformations at even single-point mutation resolution, making it a useful tool for pharmacology, analysis of experimental results, and predicting evolution.}
+      \field{day}{27}
+      \field{issn}{2041-1723}
+      \field{journaltitle}{Nature Communications}
+      \field{langid}{english}
+      \field{month}{3}
+      \field{number}{1}
+      \field{shortjournal}{Nat Commun}
+      \field{title}{High-Throughput Prediction of Protein Conformational Distributions with Subsampled {{AlphaFold2}}}
+      \field{urlday}{13}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{15}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{2464}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1038/s41467-024-46715-9
+      \endverb
+      \verb{file}
+      \verb /home/marius/Zotero/storage/7L9GW26J/Monteiro da Silva et al. - 2024 - High-throughput prediction of protein conformational distributions with subsampled AlphaFold2.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/s41467-024-46715-9
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/s41467-024-46715-9
+      \endverb
+      \keyw{Computational biophysics,Molecular conformation,Protein structure predictions}
+    \endentry
     \entry{jumperHighlyAccurateProtein2021}{article}{}
       \name{author}{34}{}{%
         {{hash=10a7a824028a842a17d901b4ec09993d}{%
@@ -201,8 +274,8 @@
       \strng{authorbibnamehash}{385b84ff9ec134408fea9aeba42f4525}
       \strng{authornamehash}{385b84ff9ec134408fea9aeba42f4525}
       \strng{authorfullhash}{fa5dce0980388f0460da0632f0c9ade1}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
       \field{abstract}{Proteins are essential to life, and understanding their structure can facilitate a mechanistic understanding of their function. Through an enormous experimental effort1–4, the structures of around 100,000 unique proteins have been determined5, but this represents a small fraction of the billions of known protein sequences6,7. Structural coverage is bottlenecked by the months to years of painstaking effort required to determine a single protein structure. Accurate computational approaches are needed to address this gap and to enable large-scale structural bioinformatics. Predicting the three-dimensional structure that a protein will adopt based solely on its amino acid sequence—the structure prediction component of the ‘protein folding problem’8—has been an important open research problem for more than 50~years9. Despite recent progress10–14, existing methods fall far~short of atomic accuracy, especially when no homologous structure is available. Here we provide the first computational method that can regularly predict protein structures with atomic accuracy even in cases in which no similar structure is known. We validated an entirely redesigned version of our neural network-based model, AlphaFold, in the challenging 14th Critical Assessment of protein Structure Prediction (CASP14)15, demonstrating accuracy competitive with experimental structures in a majority of cases and greatly outperforming other methods. Underpinning the latest version of AlphaFold is a novel machine learning approach that incorporates physical and biological knowledge about protein structure, leveraging multi-sequence alignments, into the design of the deep learning algorithm.}
@@ -410,15 +483,16 @@
       \strng{authorbibnamehash}{38bce38198dd30832ac2a9d65b24e35b}
       \strng{authornamehash}{38bce38198dd30832ac2a9d65b24e35b}
       \strng{authorfullhash}{c80bf5f2db7a11486c63a86920f28531}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
+      \field{labeltitlesource}{shorttitle}
       \field{abstract}{DeepMind presented notably accurate predictions at the recent 14th Critical Assessment of Structure Prediction (CASP14) conference. We explored network architectures that incorporate related ideas and obtained the best performance with a three-track network in which information at the one-dimensional (1D) sequence level, the 2D distance map level, and the 3D coordinate level is successively transformed and integrated. The three-track network produces structure predictions with accuracies approaching those of DeepMind in CASP14, enables the rapid solution of challenging x-ray crystallography and cryo–electron microscopy structure modeling problems, and provides insights into the functions of proteins of currently unknown structure. The network also enables rapid generation of accurate protein-protein complex models from sequence information alone, short-circuiting traditional approaches that require modeling of individual subunits followed by docking. We make the method available to the scientific community to speed biological research.}
       \field{day}{20}
       \field{journaltitle}{Science}
       \field{month}{8}
       \field{number}{6557}
+      \field{shorttitle}{{{RoseTTAFold}}}
       \field{title}{Accurate Prediction of Protein Structures and Interactions Using a Three-Track Neural Network}
       \field{urlday}{5}
       \field{urlmonth}{9}
@@ -619,8 +693,8 @@
       \strng{authorbibnamehash}{8879ea85c2c8e0a9394198b08e227556}
       \strng{authornamehash}{8879ea85c2c8e0a9394198b08e227556}
       \strng{authorfullhash}{5f099d2e0e7f324f77e507af121f5e69}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Protein structures can provide invaluable information, both for reasoning about biological processes and for enabling interventions such as structure-based drug development or targeted mutagenesis. After decades of effort, 17\% of the total residues in human protein sequences are covered by an experimentally determined structure1. Here we markedly expand the structural coverage of the proteome by applying the state-of-the-art machine learning method, AlphaFold2, at a scale that covers almost the entire human proteome (98.5\% of human proteins). The resulting dataset covers 58\% of residues with a confident prediction, of which a subset (36\% of all residues) have very high confidence. We introduce several metrics developed by building on the AlphaFold model and use them to interpret the dataset, identifying strong multi-domain predictions as well as regions that are likely to be disordered. Finally, we provide some case studies to illustrate how high-quality predictions could be used to generate biological hypotheses. We are making our predictions freely available to the community and anticipate that routine large-scale and high-accuracy structure prediction will become an important tool~that will allow new questions to be addressed from a structural perspective.}
@@ -652,6 +726,74 @@
       \verb https://www.nature.com/articles/s41586-021-03828-1
       \endverb
       \keyw{Machine learning,Protein structure predictions,Proteomic analysis,Structural biology}
+    \endentry
+    \entry{porta-pardoStructuralCoverageHuman2022}{article}{}
+      \name{author}{4}{}{%
+        {{hash=4eeda4d1464ef74f63ca89ba16508ac5}{%
+           family={Porta-Pardo},
+           familyi={P\bibinithyphendelim P\bibinitperiod},
+           given={Eduard},
+           giveni={E\bibinitperiod}}}%
+        {{hash=0d5e23ff5a72876690277443fee53a22}{%
+           family={Ruiz-Serra},
+           familyi={R\bibinithyphendelim S\bibinitperiod},
+           given={Victoria},
+           giveni={V\bibinitperiod}}}%
+        {{hash=e04e30409b321d60a175ce8340a5b99d}{%
+           family={Valentini},
+           familyi={V\bibinitperiod},
+           given={Samuel},
+           giveni={S\bibinitperiod}}}%
+        {{hash=fe9d891995eb21aa72bc9563c2d70575}{%
+           family={Valencia},
+           familyi={V\bibinitperiod},
+           given={Alfonso},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Public Library of Science}%
+      }
+      \strng{namehash}{d5163cf50b37b075ad45f0a1782da318}
+      \strng{fullhash}{6135d76658977ccf43bc785568d3e37a}
+      \strng{bibnamehash}{d5163cf50b37b075ad45f0a1782da318}
+      \strng{authorbibnamehash}{d5163cf50b37b075ad45f0a1782da318}
+      \strng{authornamehash}{d5163cf50b37b075ad45f0a1782da318}
+      \strng{authorfullhash}{6135d76658977ccf43bc785568d3e37a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The protein structure field is experiencing a revolution. From the increased throughput of techniques to determine experimental structures, to developments such as cryo-EM that allow us to find the structures of large protein complexes or, more recently, the development of artificial intelligence tools, such as AlphaFold, that can predict with high accuracy the folding of proteins for which the availability of homology templates is limited. Here we quantify the effect of the recently released AlphaFold database of protein structural models in our knowledge on human proteins. Our results indicate that our current baseline for structural coverage of 48\%, considering experimentally-derived or template-based homology models, elevates up to 76\% when including AlphaFold predictions. At the same time the fraction of dark proteome is reduced from 26\% to just 10\% when AlphaFold models are considered. Furthermore, although the coverage of disease-associated genes and mutations was near complete before AlphaFold release (69\% of Clinvar pathogenic mutations and 88\% of oncogenic mutations), AlphaFold models still provide an additional coverage of 3\% to 13\% of these critically important sets of biomedical genes and mutations. Finally, we show how the contribution of AlphaFold models to the structural coverage of non-human organisms, including important pathogenic bacteria, is significantly larger than that of the human proteome. Overall, our results show that the sequence-structure gap of human proteins has almost disappeared, an outstanding success of direct consequences for the knowledge on the human genome and the derived medical applications.}
+      \field{day}{24}
+      \field{issn}{1553-7358}
+      \field{journaltitle}{PLOS Computational Biology}
+      \field{langid}{english}
+      \field{month}{1}
+      \field{number}{1}
+      \field{shortjournal}{PLOS Computational Biology}
+      \field{title}{The Structural Coverage of the Human Proteome before and after {{AlphaFold}}}
+      \field{urlday}{13}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{18}
+      \field{year}{2022}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{e1009818}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1371/journal.pcbi.1009818
+      \endverb
+      \verb{file}
+      \verb /home/marius/Zotero/storage/R47XN97L/Porta-Pardo et al. - 2022 - The structural coverage of the human proteome before and after AlphaFold.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009818
+      \endverb
+      \verb{url}
+      \verb https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009818
+      \endverb
+      \keyw{Carcinogenesis,Protein domains,Protein structure,Protein structure databases,Protein structure prediction,Proteomes,Proteomic databases,Structural proteins}
     \endentry
     \entry{burleyRCSBProteinData2019}{article}{}
       \name{author}{40}{}{%
@@ -862,8 +1004,8 @@
       \strng{authorbibnamehash}{55f8d3e453bdca3ae520445a374d25af}
       \strng{authornamehash}{55f8d3e453bdca3ae520445a374d25af}
       \strng{authorfullhash}{8ad2cb432840e55797f9855f93ecb69d}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
       \field{abstract}{The Research Collaboratory for Structural Bioinformatics Protein Data Bank (RCSB PDB, rcsb.org), the US data center for the global PDB archive, serves thousands of Data Depositors in the Americas and Oceania and makes 3D macromolecular structure data available at no charge and without usage restrictions to more than 1 million rcsb.org Users worldwide and 600 000 pdb101.rcsb.org education-focused Users around the globe. PDB Data Depositors include structural biologists using macromolecular crystallography, nuclear magnetic resonance spectroscopy and 3D electron microscopy. PDB Data Consumers include researchers, educators and students studying Fundamental Biology, Biomedicine, Biotechnology and Energy. Recent reorganization of RCSB PDB activities into four integrated, interdependent services is described in detail, together with tools and resources added over the past 2~years to RCSB PDB web portals in support of a ‘Structural View of Biology.’}
@@ -931,8 +1073,8 @@
       \strng{authorbibnamehash}{b8c4461f8316ce94602c4337c56976ce}
       \strng{authornamehash}{b8c4461f8316ce94602c4337c56976ce}
       \strng{authorfullhash}{4500ce9ef5ae45fa34f888fd487be87c}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
       \field{abstract}{Artificial intelligence-based protein structure prediction approaches have had a transformative effect on biomolecular sciences. The predicted protein models in the AlphaFold protein structure database, however, all lack coordinates for small molecules, essential for molecular structure or function: hemoglobin lacks bound heme; zinc-finger motifs lack zinc ions essential for structural integrity and metalloproteases lack metal ions needed for catalysis. Ligands important for biological function are absent too; no ADP or ATP is bound to any of the ATPases or kinases. Here we present AlphaFill, an algorithm that uses sequence and structure similarity to ‘transplant’ such ‘missing’ small molecules and ions from experimentally determined structures to predicted protein models. The algorithm was successfully validated against experimental structures. A total of 12,029,789 transplants were performed on 995,411 AlphaFold models and are available together with associated validation metrics in the alphafill.eu databank, a resource to help scientists make new hypotheses and design targeted experiments.}
@@ -967,6 +1109,447 @@
       \endverb
       \keyw{Protein databases,Protein structure predictions}
     \endentry
+    \entry{AlphaFoldServer}{online}{}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labeltitlesource}{shorttitle}
+      \field{shorttitle}{{{AlphaFoldServer}}}
+      \field{title}{{{AlphaFold Server}}}
+      \field{urlday}{13}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb /home/marius/Zotero/storage/FIW7LAZS/faq.html
+      \endverb
+      \verb{urlraw}
+      \verb https://alphafoldserver.com/faq#what-is-the-difference-between-alphafold-server-and-the-alphafold-database
+      \endverb
+      \verb{url}
+      \verb https://alphafoldserver.com/faq#what-is-the-difference-between-alphafold-server-and-the-alphafold-database
+      \endverb
+    \endentry
+    \entry{tangCharacterizationCofactorInducedFolding2009}{article}{}
+      \name{author}{4}{}{%
+        {{hash=76de76cd4efad7dbb3d03cb234186879}{%
+           family={Tang},
+           familyi={T\bibinitperiod},
+           given={Jia},
+           giveni={J\bibinitperiod}}}%
+        {{hash=672ebea50279331a46e7ff0f751108bf}{%
+           family={Kang},
+           familyi={K\bibinitperiod},
+           given={Seung-Gu},
+           giveni={S\bibinithyphendelim G\bibinitperiod}}}%
+        {{hash=ce54ab140aea79036bacd8d829c05308}{%
+           family={Saven},
+           familyi={S\bibinitperiod},
+           given={Jeffery\bibnamedelima G.},
+           giveni={J\bibinitperiod\bibinitdelim G\bibinitperiod}}}%
+        {{hash=429119c2e7199759f5e646b463011dfa}{%
+           family={Gai},
+           familyi={G\bibinitperiod},
+           given={Feng},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{ed9152ac2df9f846f43be9edcb86a1e8}
+      \strng{fullhash}{b01cddc9c3db69985fac6bbec6456f10}
+      \strng{bibnamehash}{ed9152ac2df9f846f43be9edcb86a1e8}
+      \strng{authorbibnamehash}{ed9152ac2df9f846f43be9edcb86a1e8}
+      \strng{authornamehash}{ed9152ac2df9f846f43be9edcb86a1e8}
+      \strng{authorfullhash}{b01cddc9c3db69985fac6bbec6456f10}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Metals are the most commonly encountered protein cofactors, and they play important structural and functional roles in biology. In many cases, metal-binding provides a major driving force for a polypeptide chain to fold. While there are many studies on the structure, stability, and function of metal-binding proteins, there are few studies focusing on the understanding of the kinetic mechanism of metal-induced folding. Herein, the Zn2+-induced folding kinetics of a small zinc-binding protein are studied; the CH11 peptide is derived from the first cysteine/histidine-rich region (CH1 domain) of protein interaction domains of the transcriptional coregulator CBP. Computational design is used to introduce tryptophan and histidine mutations that are structurally consistent with CH11; these mutants are studied using stopped-flow tryptophan fluorescence experiments. The Zn2+-induced CH11 folding kinetics are consistent with two parallel pathways, where the initial binding of Zn2+ occurs at two sites. However, the initially formed Zn2+-bound complexes can proceed either directly to the folded state where zinc adopts a tetrahedral coordination or to an off-pathway, misligated intermediate. While elimination of those ligands responsible for misligation simplifies the folding kinetics, it also leads to a decrease in the zinc binding constant. Therefore, these results suggest why these non-native zinc ligands in the CH11 domain are conserved in several distantly related organisms and that the requirement for function can lead to kinetic frustration in folding. In addition, the loop closure rate of the CH11 peptide is determined based on the proposed model and temperature dependent kinetic measurements.}
+      \field{day}{29}
+      \field{eprinttype}{pubmed}
+      \field{issn}{0022-2836}
+      \field{journaltitle}{Journal of molecular biology}
+      \field{month}{5}
+      \field{number}{1}
+      \field{shortjournal}{J Mol Biol}
+      \field{title}{Characterization of {{Cofactor-Induced Folding Mechanism}} of a {{Zinc Binding Peptide Using Computationally Designed Mutants}}}
+      \field{urlday}{13}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{389}
+      \field{year}{2009}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{90\bibrangedash 102}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1016/j.jmb.2009.03.074
+      \endverb
+      \verb{eprint}
+      \verb 19361525
+      \endverb
+      \verb{file}
+      \verb /home/marius/Zotero/storage/DMIY67LV/Tang et al. - 2009 - Characterization of Cofactor-Induced Folding Mechanism of a Zinc Binding Peptide Using Computational.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2792901/
+      \endverb
+      \verb{url}
+      \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2792901/
+      \endverb
+    \endentry
+    \entry{xiaoNADHNADPHRedox2018}{article}{}
+      \name{author}{4}{}{%
+        {{hash=a62aa94c9a824a75cc9f9c425991651e}{%
+           family={Xiao},
+           familyi={X\bibinitperiod},
+           given={Wusheng},
+           giveni={W\bibinitperiod}}}%
+        {{hash=afcd42474d7f1ebcbc629a56013b27e5}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Rui-Sheng},
+           giveni={R\bibinithyphendelim S\bibinitperiod}}}%
+        {{hash=5693e690e2f90ff27d8fb285daf05b40}{%
+           family={Handy},
+           familyi={H\bibinitperiod},
+           given={Diane\bibnamedelima E.},
+           giveni={D\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+        {{hash=06fd74ff3c02dbfb3396463ad1d8c9a0}{%
+           family={Loscalzo},
+           familyi={L\bibinitperiod},
+           given={Joseph},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{6138cabdc1b2a4fb1ba1f4d604d18226}
+      \strng{fullhash}{b9581d8a55b7b341a28072ad16c16104}
+      \strng{bibnamehash}{6138cabdc1b2a4fb1ba1f4d604d18226}
+      \strng{authorbibnamehash}{6138cabdc1b2a4fb1ba1f4d604d18226}
+      \strng{authornamehash}{6138cabdc1b2a4fb1ba1f4d604d18226}
+      \strng{authorfullhash}{b9581d8a55b7b341a28072ad16c16104}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{Significance: The nicotinamide adenine dinucleotide (NAD+)/reduced NAD+ (NADH) and NADP+/reduced NADP+ (NADPH) redox couples are essential for maintaining cellular redox homeostasis and for modulating numerous biological events, including cellular metabolism. Deficiency or imbalance of these two redox couples has been associated with many pathological disorders., Recent Advances: Newly identified biosynthetic enzymes and newly developed genetically encoded biosensors enable us to understand better how cells maintain compartmentalized NAD(H) and NADP(H) pools. The concept of redox stress (oxidative and reductive stress) reflected by changes in NAD(H)/NADP(H) has increasingly gained attention. The emerging roles of NAD+-consuming proteins in regulating cellular redox and metabolic homeostasis are active research topics., Critical Issues: The biosynthesis and distribution of cellular NAD(H) and NADP(H) are highly compartmentalized. It is critical to understand how cells maintain the steady levels of these redox couple pools to ensure their normal functions and simultaneously avoid inducing redox stress. In addition, it is essential to understand how NAD(H)- and NADP(H)-utilizing enzymes interact with other signaling pathways, such as those regulated by hypoxia-inducible factor, to maintain cellular redox homeostasis and energy metabolism., Future Directions: Additional studies are needed to investigate the inter-relationships among compartmentalized NAD(H)/NADP(H) pools and how these two dinucleotide redox couples collaboratively regulate cellular redox states and cellular metabolism under normal and pathological conditions. Furthermore, recent studies suggest the utility of using pharmacological interventions or nutrient-based bioactive NAD+ precursors as therapeutic interventions for metabolic diseases. Thus, a better understanding of the cellular functions of NAD(H) and NADP(H) may facilitate efforts to address a host of pathological disorders effectively. Antioxid. Redox Signal. 28, 251–272.}
+      \field{day}{20}
+      \field{eprinttype}{pubmed}
+      \field{issn}{1523-0864}
+      \field{journaltitle}{Antioxidants \& Redox Signaling}
+      \field{month}{1}
+      \field{number}{3}
+      \field{shortjournal}{Antioxid Redox Signal}
+      \field{title}{{{NAD}}({{H}}) and {{NADP}}({{H}}) {{Redox Couples}} and {{Cellular Energy Metabolism}}}
+      \field{urlday}{13}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{28}
+      \field{year}{2018}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{251\bibrangedash 272}
+      \range{pages}{22}
+      \verb{doi}
+      \verb 10.1089/ars.2017.7216
+      \endverb
+      \verb{eprint}
+      \verb 28648096
+      \endverb
+      \verb{file}
+      \verb /home/marius/Zotero/storage/KNMU3JPN/Xiao et al. - 2018 - NAD(H) and NADP(H) Redox Couples and Cellular Energy Metabolism.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5737637/
+      \endverb
+      \verb{url}
+      \verb https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5737637/
+      \endverb
+    \endentry
+    \entry{abramsonAccurateStructurePrediction2024}{article}{}
+      \name{author}{48}{}{%
+        {{hash=350cd5879ed29790450e47962cd4fa47}{%
+           family={Abramson},
+           familyi={A\bibinitperiod},
+           given={Josh},
+           giveni={J\bibinitperiod}}}%
+        {{hash=30e117447522ea5c589b531025c81621}{%
+           family={Adler},
+           familyi={A\bibinitperiod},
+           given={Jonas},
+           giveni={J\bibinitperiod}}}%
+        {{hash=955e38e575514a2bdb783a4e5ed3275f}{%
+           family={Dunger},
+           familyi={D\bibinitperiod},
+           given={Jack},
+           giveni={J\bibinitperiod}}}%
+        {{hash=173072a12c87679d6e0aeed7dbfb2abc}{%
+           family={Evans},
+           familyi={E\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod}}}%
+        {{hash=3e0f493c1ce741283206bf1f0d3c12f5}{%
+           family={Green},
+           familyi={G\bibinitperiod},
+           given={Tim},
+           giveni={T\bibinitperiod}}}%
+        {{hash=4295e4094c426f01903ac60155866130}{%
+           family={Pritzel},
+           familyi={P\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod}}}%
+        {{hash=8e46da9de9e53ea5d37089897d69cdd9}{%
+           family={Ronneberger},
+           familyi={R\bibinitperiod},
+           given={Olaf},
+           giveni={O\bibinitperiod}}}%
+        {{hash=986f2dfe43c769a05f09f5de0c73d52e}{%
+           family={Willmore},
+           familyi={W\bibinitperiod},
+           given={Lindsay},
+           giveni={L\bibinitperiod}}}%
+        {{hash=8e2b07cf777b4e100518006a0306d430}{%
+           family={Ballard},
+           familyi={B\bibinitperiod},
+           given={Andrew\bibnamedelima J.},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=9eed7a40d0a72ab9b4515e9d52c2e394}{%
+           family={Bambrick},
+           familyi={B\bibinitperiod},
+           given={Joshua},
+           giveni={J\bibinitperiod}}}%
+        {{hash=9a18bf798244aad86bfae8dbf7a83a80}{%
+           family={Bodenstein},
+           familyi={B\bibinitperiod},
+           given={Sebastian\bibnamedelima W.},
+           giveni={S\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=56bb189748ed5eb9e94f4a35bf3e6097}{%
+           family={Evans},
+           familyi={E\bibinitperiod},
+           given={David\bibnamedelima A.},
+           giveni={D\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=be89a95fddc9f1d4b15acfc495dee765}{%
+           family={Hung},
+           familyi={H\bibinitperiod},
+           given={Chia-Chun},
+           giveni={C\bibinithyphendelim C\bibinitperiod}}}%
+        {{hash=d7a16e5a99d0675e26beeb210adba0b0}{%
+           family={O’Neill},
+           familyi={O\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=d805812e442bf9b99ef9b60be3389113}{%
+           family={Reiman},
+           familyi={R\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+        {{hash=c65f7c717e43948afa4c164334478ff0}{%
+           family={Tunyasuvunakool},
+           familyi={T\bibinitperiod},
+           given={Kathryn},
+           giveni={K\bibinitperiod}}}%
+        {{hash=a503a6f5552fd7b1afea682fec094550}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Zachary},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=ef10cada9939d85aee9991fa618a39d5}{%
+           family={Žemgulytė},
+           familyi={Ž\bibinitperiod},
+           given={Akvilė},
+           giveni={A\bibinitperiod}}}%
+        {{hash=80d8c0d816712b16dc7d7273946070ad}{%
+           family={Arvaniti},
+           familyi={A\bibinitperiod},
+           given={Eirini},
+           giveni={E\bibinitperiod}}}%
+        {{hash=03cf4f0976cc27112d267a8916a2d169}{%
+           family={Beattie},
+           familyi={B\bibinitperiod},
+           given={Charles},
+           giveni={C\bibinitperiod}}}%
+        {{hash=f36ed239d94e2a32547fbb13fd60d65d}{%
+           family={Bertolli},
+           familyi={B\bibinitperiod},
+           given={Ottavia},
+           giveni={O\bibinitperiod}}}%
+        {{hash=9bb6bd16bbcdb2bb998f8bc4038abede}{%
+           family={Bridgland},
+           familyi={B\bibinitperiod},
+           given={Alex},
+           giveni={A\bibinitperiod}}}%
+        {{hash=ce1254a0b39b3ee426544d0abf1358d2}{%
+           family={Cherepanov},
+           familyi={C\bibinitperiod},
+           given={Alexey},
+           giveni={A\bibinitperiod}}}%
+        {{hash=ace35eaf18d5f6dd67d01556b5103898}{%
+           family={Congreve},
+           familyi={C\bibinitperiod},
+           given={Miles},
+           giveni={M\bibinitperiod}}}%
+        {{hash=23397649f5effe944d9396310158253b}{%
+           family={Cowen-Rivers},
+           familyi={C\bibinithyphendelim R\bibinitperiod},
+           given={Alexander\bibnamedelima I.},
+           giveni={A\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+        {{hash=699f0d8b3b8c59a0bf815183b5a587d1}{%
+           family={Cowie},
+           familyi={C\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+        {{hash=79e7b7b6d4522585cad02503c7d5c53c}{%
+           family={Figurnov},
+           familyi={F\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+        {{hash=f7f4144a06bbad41defc28c41b854505}{%
+           family={Fuchs},
+           familyi={F\bibinitperiod},
+           given={Fabian\bibnamedelima B.},
+           giveni={F\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=2fb513016910c344881e9e59ba1f889c}{%
+           family={Gladman},
+           familyi={G\bibinitperiod},
+           given={Hannah},
+           giveni={H\bibinitperiod}}}%
+        {{hash=e44ef077603c4c2159908f44186dedfa}{%
+           family={Jain},
+           familyi={J\bibinitperiod},
+           given={Rishub},
+           giveni={R\bibinitperiod}}}%
+        {{hash=1994f282ee5a17c33d6a47a65580f607}{%
+           family={Khan},
+           familyi={K\bibinitperiod},
+           given={Yousuf\bibnamedelima A.},
+           giveni={Y\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=110f6be531ea600b3b68591304e118f1}{%
+           family={Low},
+           familyi={L\bibinitperiod},
+           given={Caroline\bibnamedelimb M.\bibnamedelimi R.},
+           giveni={C\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=4a3c9eb1eeac4553564f9c6e52ee6664}{%
+           family={Perlin},
+           familyi={P\bibinitperiod},
+           given={Kuba},
+           giveni={K\bibinitperiod}}}%
+        {{hash=4b3acabda3fd87e1abd111ed903b2d51}{%
+           family={Potapenko},
+           familyi={P\bibinitperiod},
+           given={Anna},
+           giveni={A\bibinitperiod}}}%
+        {{hash=0c64f5d53e923e6f4e950c4cba8388db}{%
+           family={Savy},
+           familyi={S\bibinitperiod},
+           given={Pascal},
+           giveni={P\bibinitperiod}}}%
+        {{hash=f233644469afa8acb51ab75b9ceab783}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Sukhdeep},
+           giveni={S\bibinitperiod}}}%
+        {{hash=dbae3ce778e8a6d68980d2ca177658f1}{%
+           family={Stecula},
+           familyi={S\bibinitperiod},
+           given={Adrian},
+           giveni={A\bibinitperiod}}}%
+        {{hash=446a6264fed2e03fc20c8b4d8127cc23}{%
+           family={Thillaisundaram},
+           familyi={T\bibinitperiod},
+           given={Ashok},
+           giveni={A\bibinitperiod}}}%
+        {{hash=383e8419a54c5311ff6e019e91961351}{%
+           family={Tong},
+           familyi={T\bibinitperiod},
+           given={Catherine},
+           giveni={C\bibinitperiod}}}%
+        {{hash=b35314da99a67dd5eccf5c5fea21a0a0}{%
+           family={Yakneen},
+           familyi={Y\bibinitperiod},
+           given={Sergei},
+           giveni={S\bibinitperiod}}}%
+        {{hash=00ed87e00fb7f3134992bdf1963537b4}{%
+           family={Zhong},
+           familyi={Z\bibinitperiod},
+           given={Ellen\bibnamedelima D.},
+           giveni={E\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=00bb8dcd0d7dc6963e2b9481ce8e7cdf}{%
+           family={Zielinski},
+           familyi={Z\bibinitperiod},
+           given={Michal},
+           giveni={M\bibinitperiod}}}%
+        {{hash=314115f4f8838d7bcb17334f981615d0}{%
+           family={Žídek},
+           familyi={Ž\bibinitperiod},
+           given={Augustin},
+           giveni={A\bibinitperiod}}}%
+        {{hash=8158ca9415b0eb10ee17c8a8ae663bb3}{%
+           family={Bapst},
+           familyi={B\bibinitperiod},
+           given={Victor},
+           giveni={V\bibinitperiod}}}%
+        {{hash=d0d21ff02dda6c0a7d09ef7436bd329b}{%
+           family={Kohli},
+           familyi={K\bibinitperiod},
+           given={Pushmeet},
+           giveni={P\bibinitperiod}}}%
+        {{hash=7dc1446dea7ff50b2b02fb83780cc9c6}{%
+           family={Jaderberg},
+           familyi={J\bibinitperiod},
+           given={Max},
+           giveni={M\bibinitperiod}}}%
+        {{hash=b160026950ebb1e2286dfb40c15482f5}{%
+           family={Hassabis},
+           familyi={H\bibinitperiod},
+           given={Demis},
+           giveni={D\bibinitperiod}}}%
+        {{hash=67604236ac1a76dd7a9c326443f5d103}{%
+           family={Jumper},
+           familyi={J\bibinitperiod},
+           given={John\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{e1c92ac23b9a4d06b866ef849c24ff0a}
+      \strng{fullhash}{b54fb5be3218cc0171644f27e1219736}
+      \strng{bibnamehash}{e1c92ac23b9a4d06b866ef849c24ff0a}
+      \strng{authorbibnamehash}{e1c92ac23b9a4d06b866ef849c24ff0a}
+      \strng{authornamehash}{e1c92ac23b9a4d06b866ef849c24ff0a}
+      \strng{authorfullhash}{b54fb5be3218cc0171644f27e1219736}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{abstract}{The introduction of AlphaFold\,21 has spurred a revolution in modelling the structure of proteins and their interactions, enabling a huge range of applications in protein modelling and design2–6. Here we describe our AlphaFold\,3 model with a substantially updated diffusion-based architecture that is capable of predicting the joint structure of complexes including proteins, nucleic acids, small molecules, ions and modified residues. The new AlphaFold model demonstrates substantially improved accuracy over many previous specialized tools: far greater accuracy for protein–ligand interactions compared with state-of-the-art docking tools, much higher accuracy for protein–nucleic acid interactions compared with nucleic-acid-specific predictors and substantially higher antibody–antigen prediction accuracy compared with AlphaFold-Multimer v.2.37,8. Together, these results show that high-accuracy modelling across biomolecular space is possible within a single unified deep-learning framework.}
+      \field{issn}{1476-4687}
+      \field{journaltitle}{Nature}
+      \field{langid}{english}
+      \field{month}{6}
+      \field{number}{8016}
+      \field{shorttitle}{{{AlphaFold3}}}
+      \field{title}{Accurate Structure Prediction of Biomolecular Interactions with {{AlphaFold}} 3}
+      \field{urlday}{5}
+      \field{urlmonth}{9}
+      \field{urlyear}{2025}
+      \field{volume}{630}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \field{pages}{493\bibrangedash 500}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1038/s41586-024-07487-w
+      \endverb
+      \verb{file}
+      \verb /home/marius/Zotero/storage/ZFHVGGU4/Abramson et al. - 2024 - Accurate structure prediction of biomolecular interactions with AlphaFold 3.pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://www.nature.com/articles/s41586-024-07487-w
+      \endverb
+      \verb{url}
+      \verb https://www.nature.com/articles/s41586-024-07487-w
+      \endverb
+      \keyw{Drug discovery,Machine learning,Protein structure predictions,Structural biology}
+    \endentry
     \entry{graefBindingSiteDetection2023}{article}{}
       \name{author}{3}{}{%
         {{hash=07443dda7ccf99402ced4a1eb71ed959}{%
@@ -994,8 +1577,8 @@
       \strng{authorbibnamehash}{b83c769abf86df4396c7c4494fe53534}
       \strng{authornamehash}{b83c769abf86df4396c7c4494fe53534}
       \strng{authorfullhash}{b83c769abf86df4396c7c4494fe53534}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
       \field{abstract}{Binding site prediction on protein structures is a crucial step in early phase drug discovery whenever experimental or predicted structure models are involved. DoGSite belongs to the widely used tools for this task. It is a grid-based method that uses a Difference-of-Gaussian filter to detect cavities on the protein surface. We recently reimplemented the first version of this method, released in 2010, focusing on improved binding site detection in the presence of ligands and optimized parameters for more robust, reliable, and fast predictions and binding site descriptor calculations. Here, we introduce the new version, DoGSite3, compare it to its predecessor, and re-evaluate DoGSite on published data sets for a large-scale comparative performance evaluation.}
@@ -1051,8 +1634,8 @@
       \strng{authorbibnamehash}{07524433235539c5aa67e575ee349b17}
       \strng{authornamehash}{07524433235539c5aa67e575ee349b17}
       \strng{authorfullhash}{07524433235539c5aa67e575ee349b17}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
       \field{abstract}{Structural flexibility of proteins has an important influence on molecular recognition and enzymatic function. In modeling, structure ensembles are therefore often applied as a valuable source of alternative protein conformations. However, their usage is often complicated by structural artifacts and inconsistent data annotation. Here, we present SIENA, a new computational approach for the automated assembly and preprocessing of protein binding site ensembles. Starting with an arbitrarily defined binding site in a single protein structure, SIENA searches for alternative conformations of the same or sequentially closely related binding sites. The method is based on an indexed database for identifying perfect k-mer matches and a recently published algorithm for the alignment of protein binding site conformations. Furthermore, SIENA provides a new algorithm for the interaction-based selection of binding site conformations which aims at covering all known ligand-binding geometries. Various experiments highlight that SIENA is able to generate comprehensive and well selected binding site ensembles improving the compatibility to both known and unconsidered ligand molecules. Starting with the whole PDB as data source, the computation time of the whole ensemble generation takes only a few seconds. SIENA is available via a Web service at www.zbh.uni-hamburg.de/siena.}
@@ -1123,8 +1706,8 @@
       \strng{authorbibnamehash}{ced648c7a55d43b66def732d452ccc5d}
       \strng{authornamehash}{ced648c7a55d43b66def732d452ccc5d}
       \strng{authorfullhash}{a98f6e2be88723cf51f3b0800e104ea5}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{shorttitle}
       \field{abstract}{Scoring and numerical optimization of protein–ligand poses is an integral part of docking tools. Although many scoring functions exist, many of them are not continuously differentiable and they are rarely explicitly analyzed with respect to their numerical optimization behavior. Here, we present a consistent scheme for pose scoring and gradient-based pose optimization. It consists of a novel variant of the BFGS algorithm enabling step-length control, named LSL-BFGS (limited step length BFGS), and the empirical JAMDA scoring function designed for pose prediction and good numerical optimizability. The JAMDA scoring function shows a high pose prediction performance in the CASF-2016 docking power benchmark, top-ranking a pose with an RMSD of ≤2 Å in about 89\% of the cases. The combination of JAMDA scoring with the LSL-BFGS algorithm shows a significantly higher optimization locality (i.e., no excessive movement of poses) than with the classical BFGS algorithm while retaining the characteristically low number of scoring function evaluations. The JAMDA scoring and optimization scheme is freely available for noncommercial use and academic research.}
