@@ -98,7 +98,7 @@ where \texttt{<f>} is \texttt{1} for plain \texttt{.pdb} files (current configur
 \end{itemize}
 At this stage, filtering is conservative to preserve conformational breadth; more stringent quality and conflict assessments occur after pocket-level alignment and ligand transplantation.
 
-\paragraph{Ligand Data.} Ligands are leveraged directly from donor PDB HETATM records; no external ligand database normalisation is imposed in this stage. Retained hetero groups exclude water and common crystallization additives (handled via a configurable exclusion list, future explicit parameterization). Ligand identifiers and residue numbering propagate unchanged, enabling traceable mapping during transplantation and optimisation (JAMDA stage).
+\paragraph{Ligand Data.} Ligands are leveraged directly from donor PDB HETATM records; no external ligand database normalization is imposed in this stage. Retained hetero groups exclude water and common crystallization additives (handled via a configurable exclusion list, future explicit parameterization). Ligand identifiers and residue numbering propagate unchanged, enabling traceable mapping during transplantation and optimization (JAMDA stage).
 
 \paragraph{Versioning and Snapshot Notation.} Each results set (alignments, transplanted ligands, scores) references: (i) PDB snapshot date, (ii) SIENA database file checksum (future extension), and (iii) AlphaFold model version for the target. This triad forms the minimal provenance key required to reproduce donor retrieval decisions. Inclusion of exact rsync command options (logged verbatim from \texttt{rsyncPBD.sh}) further aids auditability.
 
