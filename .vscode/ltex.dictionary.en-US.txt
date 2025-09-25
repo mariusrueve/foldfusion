@@ -1,0 +1,8 @@
+homologues
+AlphaFold
+AlphaFill
+homolog
+UniProt
+pLDDT
+protonation
+parameterizable

@@ -1,0 +1,2 @@
+python scripts/build_benchmark_dataset.py 300 analysis/data/dataset.json --alphafill-dir /home/marius/Dat
+a/alphafill/ --rows-per-chem 1500

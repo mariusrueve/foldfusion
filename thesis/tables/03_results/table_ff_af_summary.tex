@@ -1,0 +1,15 @@
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{llrrrrr}
+        \toprule
+        Pipeline  & Metric                      & N    & Mean  & Median & Q25   & Q75   \\
+        \midrule
+        This work & Local RMSD (\si{\angstrom}) & 1372 & 0.670 & 0.400  & 0.251 & 0.726 \\
+        This work & TCS                         & 1372 & 0.218 & 0.265  & 0.000 & 0.345 \\
+        AlphaFill & Local RMSD (\si{\angstrom}) & 1372 & 0.387 & 0.277  & 0.182 & 0.425 \\
+        AlphaFill & TCS                         & 1372 & 0.153 & 0.127  & 0.065 & 0.205 \\
+        \bottomrule
+    \end{tabular}
+    \caption[Pipeline vs. AlphaFill summary statistics]{Summary statistics for metrics shared between this pipeline and AlphaFill on the \num{1372} overlapping placements where both Local \gls{rmsd} and \gls{tcs} are defined.}
+    \label{tab:ff-af-summary}
+\end{table}

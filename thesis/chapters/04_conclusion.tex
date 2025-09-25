@@ -1,0 +1,32 @@
+\chapter{Conclusion}
+\label{chap:conclusion}
+
+\section{Conclusion}
+This thesis evaluates a site-centric pipeline that transplants ligands into AlphaFold monomers by combining DoGSite3 pocket detection, SIENA pocket alignment, ligand extraction and placement, optional JAMDAscorer refinement, and three complementary indicators of placement quality: Local \gls{rmsd}, the \gls{tcs}, and the \gls{lev}.
+
+\subsection*{Answers to the Research Questions}
+\paragraph{RQ1: What placement quality and coverage does the pipeline achieve on AlphaFold monomers?} Across \num{2370} configured targets, \num{1840} monomers yield at least one ligand placement for a total of \num{6658} post-refinement hypotheses. Applying the joint success gate (local \gls{rmsd} $\leq$ \SI{1.0}{\angstrom} and \gls{tcs} $\leq 0.35$) retains \num{3592} placements across \num{1457} proteins, equal to \SI{54.0}{\percent} of the refined set (Table~\ref{tab:attrition-funnel}, Table~\ref{tab:overall-summary}, and Table~\ref{tab:internal-success}). Median post-refinement scores are \SI{0.386}{\angstrom} for local \gls{rmsd} and 0.263 for \gls{tcs}, highlighting that near-native poses dominate the retained cohort (Table~\ref{tab:global-quality-stats}). \gls{lev} is defined for \num{6004} placements overall (\num{5860} organic) and augments the clash metric by tracing local backbone deviations (Section~\ref{sec:results-quality}).
+
+\paragraph{RQ2: Which configuration choices are supported by the ablations?} Identity sweeps indicate that a SIENA site-identity threshold near $0.85$ preserves yield while suppressing clear outliers; tightening the cutoff beyond this value yields diminishing returns (Section~\ref{sec:results-ablations}). Excluding monoatomic ions from the \gls{tcs} calculation reduces false clashes without materially altering the joint pass rate. JAMDAscorer systematically lowers \gls{tcs} with negligible pose movement (median $\Delta$Local RMSD $\approx$ \SI{0.00}{\angstrom}), confirming its role as a geometry clean-up stage rather than a re-docking surrogate (Section~\ref{sec:results-optimization} and Table~\ref{tab:jamda-deltas}). The recommended defaults are: SIENA identity $\approx 0.85$; success gate local \gls{rmsd} $\leq$ \SI{1.0}{\angstrom} and \gls{tcs} $\leq 0.35$; and ions excluded from the \gls{tcs} tally.
+
+\paragraph{RQ3: How does the pipeline compare with AlphaFill on the matched cohort?} The benchmarking identified \num{2496} overlapping placements. Among the \num{1372} pairs where both local \gls{rmsd} and \gls{tcs} were defined, AlphaFill achieves lower medians and a higher joint pass rate (\SI{88.9}{\percent}, \num{1220}/\num{1372}, 95\%\,CI: 87.2--90.5) than this pipeline (\SI{62.9}{\percent}, \num{863}/\num{1372}). Cross-pipeline correlations remain moderate, suggesting that donor selection and refinement strategies drive the observed differences (Section~\ref{sec:results-external}, Table~\ref{tab:ff-af-success}, and Table~\ref{tab:ff-af-corr}).
+
+\subsection*{Implications}
+Large-scale ligand enrichment of AlphaFold monomers is feasible at single-digit seconds per target while preserving measurable quality under the strict geometric-and-clash gate. The orthogonal error modes captured by local \gls{rmsd}, \gls{tcs}, and \gls{lev} reinforce the value of the joint gate for reporting: Figure~\ref{fig:cross-metric} shows limited cross-metric correlation, and Figures~\ref{fig:failure_modes_case_studies:success},~\ref{fig:failure_modes_case_studies:collapsed}, and~\ref{fig:failure_modes_case_studies:metal} (Appendix~\ref{app:supp-figs}) highlight the complementary failure signatures. Together, these results motivate publishing placement sets with all three metrics to guide downstream interpretation.
+
+\subsection*{Limitations}
+The workflow deliberately targets non-polymer ligands and metal ions commonly represented in the \gls{rcsbpdb}. It does not perform full flexible-receptor docking or quantum refinement, nor does it attempt to model post-translational modifications or glycans. As with any homology-based approach, transplant reliability depends on the availability and quality of structurally similar donors and their conformational compatibility with the AlphaFold receptor. The enriched models should therefore be interpreted as \emph{qualitative} hypotheses that can prioritize experiments or heavier simulations rather than as quantitatively precise holo structures \cite{hekkelmanAlphaFillEnrichingAlphaFold2023}.
+
+Primary failure modes include pocket-state mismatches between donors and receptors, metal-site mis-coordination, and low-identity alignments that still clear the threshold yet distort local geometry (Section~\ref{sec:results-failure-modes}). \gls{lev} requires a suitable donor reference, rendering it unavailable for a subset of placements, and the current clash evaluation omits hydrogen bonding, electrostatics, and protonation mismatches that may matter for detailed modelling. Runtime estimates also exclude the cost of donor curation and external data refreshes.
+
+\subsection*{Recommendations and Future Work}
+\begin{itemize}
+    \item Adopt the recommended defaults from RQ2 and report both single-metric and joint-gate outcomes to maintain alignment with prior analyses.
+    \item Add metal-aware handling and rotameric sampling for coordinating residues to address the dominant clash-heavy failure class observed in Section~\ref{sec:results-failure-modes}.
+    \item Expand donor selection with multi-template consensus and sequence-environment weighting to suppress outliers that stem from marginal alignments.
+    \item Incorporate pocket-state classification and, where available, AlphaFold model ensembles to mitigate state mismatches for flexible sites.
+    \item Re-evaluate the workflow against updated structure predictors and external enrichment resources as they emerge to track field-level progress.
+\end{itemize}
+
+\section{Concluding Remarks}
+Homology-guided ligand transplantation, combined with lightweight JAMDAscorer refinement and orthogonal quality checks, provides a practical route to convert apo AlphaFold models into context-rich hypotheses at scale. The workflow is robust enough to support downstream design while signalling when placements warrant caution, charting clear directions for targeted refinements and broader dissemination.

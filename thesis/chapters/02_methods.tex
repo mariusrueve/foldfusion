@@ -1,0 +1,183 @@
+% !TEX root = ../main.tex
+\chapter{Methods}
+\label{chap:methods}
+
+\section{Overview}
+This work implements a modular pipeline that augments AlphaFold monomers with ligands from experimentally resolved homologues and quantifies the resulting placements. The architecture is implemented as following: (i) target AlphaFold models and SIENA donor databases are acquired and prepared, (ii) DoGSite3 detects and ranks binding pockets, (iii) SIENA aligns donor sites to the predicted pocket, (iv) ligands are transplanted and optionally refined with JAMDAscorer to relieve clashes, (v) the evaluator records local \gls{rmsd}, \gls{tcs}, \gls{lev}, and alignment metadata, and (vi) results are written to structured reports for downstream analysis. A high-level overview is shown in Figure \ref{fig:pipeline_overview}. The class-level overview of the coordinating components appears in Figure~\ref{fig:pipeline_overview_uml} (Appendix~\ref{app:supp-figs}) and highlights the external integrations that anchor each processing stage.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\linewidth]{figures/pipeline_overview_detail.drawio.pdf}
+    \caption[Pipeline stages]{High-level pipeline stages cover data acquisition, binding-site characterization, donor identification, ligand transplantation, evaluation, and reporting. \emph{FoldFusion} refers to the pipeline from this work, see \ref{fig:pipeline_overview_uml} for more details.}
+    \label{fig:pipeline_overview}
+\end{figure}
+
+Inputs consist of target protein identifiers (\gls{uniprot} accessions) whose predicted models are downloaded, trimmed by pLDDT-derived heuristics, and cached per target. Donor candidates arrive via the SIENA search that queries a local \gls{pdb} mirror with configurable active-site identity thresholds and alignment limits. The DoGSite3 EDF pocket descriptions, SIENA alignment tables, ligand SDF files, and Jamda-refined poses are emitted into stage-specific subdirectories, providing the metadata needed for subsequent analysis without coupling those formats directly into the orchestrator.
+
+Evaluation utilities quantify placement quality through local \gls{rmsd}, clash-sensitive \gls{tcs}, optional \gls{lev}, and the donor alignment scores carried forward from SIENA. The shared tool base class captures command lines, timing, and logs for every external binary. Centralized configuration and structured logging therefore preserve parameter traceability and enable deterministic reruns, and the modular tool adapters allow additional metrics or processing stages to be inserted with minimal changes to existing code.
+
+\section{Data and Inputs}\label{sec:data-and-inputs}
+Targets are specified as \gls{uniprot} accessions in the configuration file (Section~\ref{subsec:configuration}). The experiments sampled \num{2370} accessions assembled through a stratified procedure that covers nine ligand-chemistry bins (\gls{atp}/\gls{adp}, flavins, \gls{nad}/NADP, \gls{plp}, heme, Zn$^{2+}$, Ca$^{2+}$/Mg$^{2+}$, sterols, miscellaneous) and enforces AlphaFill coverage together with at least one high-quality experimental donor. For each accession, the pipeline retrieves the corresponding AlphaFold monomer model in \gls{pdb} format from the AlphaFold Protein Structure Database \cite{varadiAlphaFoldProteinStructure2022} using the \gls{api} \cite{AlphaFoldProteinStructurea}. The fetcher applies light normalization through confidence-guided segment trimming (Section~\ref{subsec:alphafold_fetcher}) and stores both raw and processed outputs in a per-target workspace. Donor candidates are sourced indirectly via SIENA \cite{bietzSIENAEfficientCompilation2016}. SIENA searches a prepared database of \gls{rcsbpdb} \cite{burleyRCSBProteinData2019} entries for binding site conformations similar to the predicted pocket seeded by DoGSite3 \cite{graefBindingSiteDetection2023}.
+
+The ligand-balanced benchmark set is curated through an automated workflow that defines bins using ligand identifiers from the \gls{rcsbpdb} \gls{ccd}, queries the \gls{rcsbpdb} Search/Data \gls{api} for experimental structures in each bin that satisfy resolution and method constraints, and collates the associated \gls{uniprot} accessions. Candidate proteins are sampled evenly across bins with a fixed random seed (1337) while discarding accessions that lack the required validation data. For each accepted \gls{uniprot} accession the workflow resolves descriptive metadata (protein name, gene, \gls{ec} numbers, keywords) from the \gls{uniprot} \gls{rest}~\gls{api} and, when available, archives the AlphaFill transplant summary via the AlphaFill \gls{api}. The final deliverables are a \gls{json} manifest with per-target metadata, a plain-text list of unique \gls{uniprot} accessions, and cached source \gls{json} files to guarantee reproducibility of the roster used in this work.
+
+For offline experiments, a local \gls{pdb} mirror is used to build the SIENA database (paths and format configurable). Unless stated otherwise, all results reported in this thesis were generated from these locally prepared inputs. A tabular summary of targets and donor statistics is provided in the Results chapter \ref{chap:results}.
+
+Key inputs and outputs are organized under a single user-configurable root with per-target directories and stage-specific subfolders. This deterministic layout enables post~hoc auditing and re-computation without exposing implementation-specific file names.
+
+\section{Components and Tools}
+\subsection{AlphaFold Fetcher}\label{subsec:alphafold_fetcher}
+
+Predicted target structures are sourced from the public AlphaFold Protein Structure Database \cite{varadiAlphaFoldProteinStructure2022} via its \gls{api} \cite{AlphaFoldProteinStructurea}. For each \gls{uniprot} accession, the fetcher requests the most recent single-chain model available from the latest monomer release and, if unavailable, automatically falls back to the preceding release. Requests are logged with accession identifiers, attempted versions, release metadata, and outcomes to support reproducibility checks, and the resulting downloads are cached deterministically for reuse across downstream stages.
+
+\paragraph{Version policy.} All experiments reported here use the latest AlphaFold monomer release (v4 at the time of writing) with the controlled fallback described above. Retrieval metadata and the resolved version are recorded alongside each cached structure so that the exact inputs can be reconstructed without relying on implementation-specific file names.
+
+\paragraph{Confidence-Guided Segment Trimming.} AlphaFold supplies per-residue \gls{plddt} scores encoded in the B-factor column of each ATOM record. Rather than discarding individual residues below a threshold (which can produce fragmented backbones and complicate pocket computations), the fetcher applies a conservative \emph{segment-based} pruning strategy: any contiguous stretch of $\ge 5$ residues where \gls{plddt} $\le 50$ for all members is removed in its entirety. The threshold of 50 aligns with AlphaFold's published qualitative confidence bands (``low'' confidence boundary) and has been widely adopted to demarcate regions likely to be disordered or spuriously modeled \cite{varadiAlphaFoldProteinStructure2022}. Requiring a minimal run length of five suppresses noise from isolated low-scoring residues embedded in otherwise reliable context. This approach preferentially excises flexible termini or unresolved loops while preserving internal residues that might transiently dip below the cutoff.
+
+The parser performs two passes over the PDB text: (i) extraction of an ordered residue identifier and associated \gls{plddt} stream (residue identity is defined by concatenated residue name, chain identifier, and sequence number parsed from columns 18--26), and (ii) identification and marking of qualifying low-confidence segments. A second traversal writes out all ATOM/HETATM lines not belonging to flagged segments. Non-coordinate records (HEADER, REMARK, etc.) are retained verbatim to preserve provenance metadata. The processed companion file is emitted alongside the raw download, enabling deterministic downstream referencing without exposing specific file-system conventions.
+
+\paragraph{Normalization and Structural Assumptions.} AlphaFold monomer models are emitted as a single chain (commonly the first chain identifier). Alternative location indicators and insertion codes are not expected and are therefore passed through without modification if present. No coordinate re-numbering or chain renaming is performed, preserving direct comparability with original residue numbering and external annotations (e.g., \gls{uniprot} feature mappings). Because trimming physically removes ATOM records, residue numbering may exhibit gaps. Downstream components treat numbering symbolically and do not require continuity. The fetcher does not currently remap sequence indices nor generate masks.
+
+\paragraph{Error Handling and Logging.} Each retrieval attempt logs: (i) target accession and version, (ii) \gls{url}, (iii) success or specific failure classification (404 vs. other \gls{http} vs. network). Processing anomalies (file read/write errors, malformed ATOM records) are captured and surfaced with contextual messages while falling back to the unprocessed file if trimming cannot be completed safely. This defensive design prevents a single malformed record from aborting an otherwise usable structure.
+
+\paragraph{Limitations and Future Extensions.} The current segment detection logic infers residue boundaries from repeating per-atom records and assumes uniform \gls{plddt} within a residue (fulfilled in AlphaFold outputs). Multichain assemblies (e.g., AlphaFold multimer) and partial models are out of scope but could be supported by iterating per chain. Optional future enhancements include: checksum-based cache validation to avoid redundant downloads, configurable \gls{plddt} thresholds and minimal segment length, generation of a residue-level confidence mask, and integration of model confidence metrics (PAE matrices) for region-aware downstream weighting.
+
+Overall, this module provides a reproducible, transparent acquisition and normalization layer that supplies structurally cleaner models to pocket detection and alignment stages while retaining provenance and enabling straightforward parameterization.
+
+\subsection{Binding-Site Detection (DoGSite3)}\label{subsec:dogsite}
+Binding pocket detection on the optionally confidence-trimmed AlphaFold target model is performed with DoGSite3. The detector follows the Difference-of-Gaussians concept on a three-dimensional occupancy grid of the solvent-accessible macromolecular envelope. Two Gaussian-smoothed occupancy fields are computed at distinct spatial scales $\sigma_1 < \sigma_2$, their voxel-wise difference accentuates locally concave regions, and connected-component growing with subsequent cleanup yields pocket volumes and subpockets. Descriptor calculation then summarizes geometry and composition for each pocket. The ranked pocket list acts as a proxy for ligandable microenvironments and seeds the donor-site alignment stage. For historical context on DoG-based pocketing and druggability scoring, see DoGSiteScorer \cite{volkamerDoGSiteScorerWebServer2012}.
+
+\paragraph{Pipeline configuration.}
+DoGSite3 is executed once per target with vendor defaults, and an \gls{edf} is requested to expose residue membership together with geometric and composition summaries.
+
+\paragraph{Extracted features consumed downstream.}
+Only a stable subset of EDF descriptors enters the downstream decision functions and reports, the remainder is archived to preserve forward compatibility. The geometric block contributes pocket volume, surface area, effective radius or diameter, and asphericity, which support size and shape comparisons and help rationalize ligand accommodation during donor transfer. The physicochemical block contributes hydrophobic and polar surface fractions, hydrogen-bond donor and acceptor counts, and an aromatic-residue count, which inform plausibility of basic ligand complementarity. The accessibility block contributes mouth-opening area and enclosure metrics, which are referenced when interpreting steric-clash scores. The native pocket ranking is retained for provenance, yet is not used for gating. The residue membership list, consisting of chain identifiers and residue numbers, is projected onto alignment results to compute overlap and to guide clash resolution.
+
+\paragraph{Design choices and alternatives.}
+A grid-based DoG detector is used because it is fast, deterministic, and insensitive to minor coordinate noise, properties that are advantageous for high-throughput processing and for side-chain variability in predicted structures. Alternative strategies remain relevant and are considered during method selection. P2Rank provides learned scoring of surface points that cluster into binding sites and is accessible through the PrankWeb web server \cite{krivakP2RankMachineLearning2018,jendelePrankWebWebServer2019}, with a recent server update that adds modular post-processing and improved exports \cite{polakPrankWeb4Modular2025,polakPrankWeb4Modular2025a}. fpocket offers very fast Voronoi-based cavity detection and associated druggability estimation \cite{leguillouxFpocketOpenSource2009,schmidtkeUnderstandingPredictingDruggability2010}. Comparative evaluations report differing strengths across datasets, with modern machine learning predictors leading some metrics and classical methods remaining competitive in speed and robustness \cite{utgesComparativeEvaluationMethods2024,jiaComprehensiveReviewProteincentric2024}. The present pipeline prioritizes residue membership consistency and stable cavity geometry over a specific external druggability score, which favors a DoG-style detector for this stage.
+
+\paragraph{Practical considerations and limitations.}
+Pocket calls depend on the conformation, therefore low-confidence segments in AlphaFold models are optionally trimmed prior to pocketing to reduce spurious cavities in flexible loops. Experimental additives or non-biological ligands can bias detected mouths, therefore downstream overlap checks and clash scoring gate transplanted poses when the target side chains differ from donor coordination. All results are tied to explicit versions of executables and inputs, which constrains variability and supports reproducible analysis.
+
+\paragraph{Outcome.}
+This stage converts each target structure into a normalized pocket list and residue-environment bundle with explicit provenance. The bundle propagates binding-site context into alignment and ligand-transfer stages in a reproducible manner.
+
+\subsection{Binding-Site Similarity Search and Alignment (SIENA)}\label{subsec:siena}
+Binding-site similarity search is performed with SIENA \cite{bietzSIENAEfficientCompilation2016a}. SIENA compiles ensembles of binding-site conformations by querying a locally mirrored \gls{pdb} snapshot and aligning candidate sites to a user-defined reference. Candidate sites are located by exact residue $k$-mer matches in the binding-site neighborhood. Conformations are superposed with a pocket-focused alignment and selected by interaction-aware criteria to cover distinct ligand-binding geometries. In this pipeline the DoGSite3 pocket provides the reference site, and the retrieved donors supply compatible environments for ligand transfer. Methodological details on the binding-site superposition are described in ASCONA \cite{bietzASCONARapidDetection2015}.
+
+\paragraph{Search-space preparation.}
+A mirror of the PDB dated 2025-09-18 serves as the data source. From this mirror a SienaDB index is derived, which encodes binding-site residue $k$-mers together with minimal metadata for reconstruction. Index building is performed lazily if no valid cache is present. Existence and size guards prevent usage of stale or truncated databases, therefore repeated runs over an unchanged mirror reuse identical identifiers and yield deterministic retrieval.
+
+\paragraph{Alignment configuration.}
+The SIENA search uses the extended descriptor file produced by DoGSite3 together with the compiled database. Alignments are requested with an active-site identity cutoff of $0.85$ and retain at most $N$ hits, with $N=1$ by default. Results are ordered by descending active-site identity, then by increasing backbone RMSD and all-atom RMSD. Each accepted hit is returned as a donor ensemble embedded in the target frame, together with alignment metrics.
+
+\paragraph{Pre-alignment metadata and heuristics.}
+SIENA is invoked with the configured active-site identity cutoff, which is the only automated gate applied before alignment. Additional quality signals—experimental resolution, polymer type, ligand presence, model completeness, and redundancy cues—are harvested alongside the donor metadata to aid later reporting and manual review, but they do not remove entries during execution.
+
+\paragraph{Ligand context.}
+Ligands are extracted directly from donor heteroatom records without additional normalization. Crystallographic waters and common additives are excluded. Monoatomic ions and small inorganic cofactors are retained and tagged so that downstream scoring can stratify their influence. Ligand identifiers and residue numbering propagate unchanged, which enables traceable mapping during transplantation and subsequent scoring.
+
+\paragraph{Post-processing.}
+For each accepted alignment the pipeline records donor identifiers, SIENA metrics, and references to the aligned ensembles in a structured summary that is utilized by ligand extraction and later evaluation. No additional gating is applied beyond the identity threshold.
+
+\paragraph{Design choices and limitations.}
+SIENA targets ensembles of sequentially related sites, therefore it is effective when the goal is to harvest conformational diversity for a known pocket \cite{bietzSIENAEfficientCompilation2016a,bietzASCONARapidDetection2015}. Alternative binding-site comparison tools emphasize broader fold or pocket similarity and may be preferable for cross-family searches, as summarized by ProSPECCTs \cite{ehrtBenchmarkDrivenGuide2018}. The present pipeline favors SIENA because downstream stages require residue-level correspondence and stable pocket frames for ligand transplantation. Sensitivity to the reference conformation remains a limitation, therefore the upstream trimming of low-confidence regions and the downstream clash and local RMSD scores are critical diagnostics.
+
+\subsection{Ligand Extraction and Transplantation}\label{subsec:ligand}
+Given the aligned donor ensemble, ligands are enumerated from the donor chain
+using \gls{het} records and extracted as individual \glspl{sdf} with a dedicated
+extraction tool. For each donor alignment, ligand identifiers comprising component ID, chain, and residue sequence number are collected and structures are grouped per target and donor within the experiment workspace. The SIENA
+transform places the donor ensemble into the AlphaFold coordinate frame. Ligand
+coordinates are therefore already positioned in the target model. For
+evaluation, both the current transplanted structure and, when
+available, a reference donor pose are retained to enable
+local environment comparisons.
+
+\paragraph{Extractor behavior and edge cases.} Ligand harvesting is performed with the LigandExtractor tool configured with default heuristics that discard polymeric fragments, alternate conformers not matching the highest-occupancy label, and crystallographic waters. Monoatomic ions and small inorganic cofactors (e.g., Zn$^{2+}$, Cl$^{-}$) are retained but tagged for later stratification. The adapter emits warnings when chain identifiers reported by SIENA contain residue indices (a common occurrence for multimer ensembles). These identifiers are normalized prior to downstream use, ensuring ligand identifiers remain stable across reruns.
+
+\subsection{Scoring Metrics}\label{subsec:metrics}
+
+\paragraph{Local RMSD (environmental).} The Kabsch RMSD~\cite{kabschSolutionBestRotation1976a, kabschDiscussionSolutionBest1978} between AlphaFold and donor backbone atoms (N, CA, C, O, OXT) that lie within 6~\AA{}
+of the ligand. Atom correspondences are established by Hungarian assignment~\cite{kuhnHungarianMethodAssignment1955c,munkresAlgorithmsAssignmentTransportation1957} on pairwise distances. Let
+\(\{\mathbf{x}_k\}_{k=1}^{n}\) and \(\{\mathbf{y}_k\}_{k=1}^{n}\)
+denote the matchedAlphaFold and donor backbone coordinates, and let \(R^*\) be the optimal rotation from the Kabsch solve. With centroids \(\bar{\mathbf{x}}\) and \(\bar{\mathbf{y}}\), the reported score is
+
+\begin{equation}
+    \mathrm{local\ RMSD} = \sqrt{\frac{1}{n} \sum_{k=1}^{n} \left\| R^*\bigl(\mathbf{x}_k - \bar{\mathbf{x}}\bigr) + \bar{\mathbf{y}} - \mathbf{y}_k \right\|_2^2 }.
+\end{equation}
+The neighborhood definition matches AlphaFill, yet the correspondence phase is adapted because the SIENA summaries provide residue alignments but no deterministic atom identifiers; gaps, alternate locations, or symmetry-equivalent atoms (e.g., TYR/PHE ring swaps) remain unresolved. Backbone atoms within the 6~\AA{} sphere are therefore re-paired dynamically via the Hungarian assignment on Cartesian distances, and an optional 10\% trimming step removes the largest residuals to attenuate loop-state discrepancies. These adjustments preserve the interpretability of AlphaFill's local RMSD while keeping the computation robust for heterogeneous donor ensembles.
+
+\paragraph{LEV (Local Environment Validation).} The RMSD
+computed over the heavy atoms of the ligand and the heavy protein atoms within
+6~\AA{} of the ligand in both AlphaFold and donor structures. Like
+AlphaFill's \nolinkurl{local_environment_rmsd}, the concatenated
+sets (protein neighbors + ligand) are superposed using the Kabsch algorithm~\cite{kabschSolutionBestRotation1976a,kabschDiscussionSolutionBest1978}. Because the SIENA alignment output again lacks deterministic atom identifiers, ligand atoms are first matched by name and, if a one-to-one correspondence cannot be inferred, a Hungarian assignment on pairwise distances is applied to recover a bijection before superposition. The neighboring protein atoms are treated analogously when their counts differ. Denote the combined matched environment coordinates by
+\(\{\mathbf{u}_k\}_{k=1}^{m}\) for AlphaFold and \(\{\mathbf{v}_k\}_{k=1}^{m}\) for the donor, with
+optimal rotation \(R^*_\mathrm{LEV}\). The metric is
+\begin{equation}
+    \mathrm{LEV} = \sqrt{\frac{1}{m} \sum_{k=1}^{m} \left\| R^*_\mathrm{LEV}\bigl(\mathbf{u}_k - \bar{\mathbf{u}}\bigr) + \bar{\mathbf{v}} - \mathbf{v}_k \right\|_2^2 }.
+\end{equation}
+The current implementation only evaluates LEV when a donor reference \gls{sdf} is available and SIENA reports an active-site identity of 1.0. Otherwise, the field is left undefined.
+
+\paragraph{TCS(Transplant Clash Score).} A polymer-only steric overlap
+score. Protein–ligand atom pairs within 4.0~\AA{} are considered and
+the positive \gls{vdw} overlaps are accumulated using element-specific
+radii, and TCS is the root-mean-square of these positive overlaps. Monoatomic
+ions are excluded from the ligand set by default to avoid spurious clashes and to enable the ion-versus-organic reporting used in Section~\ref{sec:results-setup} and Appendix~\ref{app:reproducibility}. Coordinating ions frequently reside inside the nominal van-der-Waals envelopes of nearby protein atoms, so the overlap score would mark chemically valid contacts as clashes; excluding them keeps the metric focused on organic ligands while the ion counts are reported separately. Reporting therefore surfaces each metric twice, once over all placements and once over the organic-only subset, with the latter aligning with the filtered computations used in the aggregate analyses. With \gls{vdw} radii \(r_i\) (protein) and \(r_j\) (ligand), interatomic distances \(d_{ij}\), and contact set
+\(\mathcal{C} = \{(i,j) : d_{ij} \leq 4.0\,\text{\AA}\}\), the subset
+\(\mathcal{C}_+ = \{(i,j) \in \mathcal{C} : r_i + r_j > d_{ij}\}\) is formed and TCS is computed as
+\begin{equation}
+    \mathrm{TCS} =
+    \begin{cases}
+        \sqrt{\dfrac{1}{|\mathcal{C}_+|} \sum\limits_{(i,j) \in \mathcal{C}_+} \bigl(r_i + r_j - d_{ij}\bigr)^2}, & |\mathcal{C}_+| > 0, \\
+        0,                                                                                                        & \text{otherwise.}
+    \end{cases}
+\end{equation}
+Local \gls{rmsd}, \gls{lev} and \gls{tcs} follow the definitions used by AlphaFill \cite{hekkelmanAlphaFillEnrichingAlphaFold2023}, enabling comparison against that resource.
+No automated gating is applied at this stage. Instead, the evaluation \gls{json} preserves pre- and post-optimization metrics so that downstream tooling can select high-confidence placements as needed.
+
+\subsection{Alignment and Assignment}
+Atomic correspondences between the transplanted ligand and the reference are computed with the Hungarian method for the linear assignment problem~\cite{kuhnHungarianMethodAssignment1955c,munkresAlgorithmsAssignmentTransportation1957}. The cost matrix contains squared interatomic distances after rigid-body alignment. The rigid-body superposition is obtained with the Kabsch algorithm~\cite{kabschSolutionBestRotation1976a,kabschDiscussionSolutionBest1978}. The rotation is constrained to $\det(R)=+1$ to avoid reflections. RMSD is computed after assignment.
+
+\subsection{Statistical Procedures}
+Proportions are reported with Wilson score 95\% confidence intervals~\cite{wilsonProbableInferenceLaw1927a}. Medians are reported with nonparametric bootstrap 95\% confidence intervals using 10\,000 resamples~\cite{efronBootstrapMethodsAnother1979,efronIntroductionBootstrap1998}. Resampling is stratified by target when applicable. Random seed set to 1337.
+
+\subsection{Pose Optimization (JAMDAscorer)}\label{subsec:jamda}
+Pose-only refinement is performed with JAMDAscorer \cite{flachsenbergConsistentSchemeGradientBased2020b,JAMDAscorer}. The optimizer minimizes the continuously differentiable JAMDA scoring function with a step-length controlled \gls{bfgs} variant, which improves local sterics and hydrogen-bond geometry while preserving the SIENA-transplanted pose \cite{flachsenbergConsistentSchemeGradientBased2020b}. The protein remains fixed, the ligand is adjusted by small rigid-body and torsional moves until first-order convergence. The method performs no stochastic search or redocking, therefore attribution between alignment and local relaxation remains clear.
+
+\paragraph{Mode of operation.}
+For each transplanted ligand, JAMDAscorer runs a single deterministic gradient-based minimization with internal step control based on \gls{lslbfgs} \cite{flachsenbergLSLOptOpensourceImplementation2021}. Alternate locations and crystallographic waters are ignored, monoatomic ions are treated as single centers with element-specific parameters. The run emits pre- and post-optimization coordinates, the total JAMDA score, and per-term contributions, which supports audit and later analysis.
+
+\paragraph{Configuration.}
+All experiments use the optimization mode with vendor defaults for iteration limits and convergence tolerances \cite{flachsenbergConsistentSchemeGradientBased2020b}. Because the procedure is local and deterministic, identical inputs yield identical outputs.
+
+\paragraph{Utilized metrics.}
+Downstream evaluation reuses the same indicators computed before refinement. The post-optimization pose is assessed by the clash-focused \gls{tcs}, by local \gls{rmsd} in the binding site, and by any ligand-environment metrics already in place. Improvements are typically observed as a lower \gls{tcs}, with occasional reductions in local \gls{rmsd} when minor rigid-body corrections are warranted.
+
+\paragraph{Design choices and limitations.}
+A differentiable scoring function combined with step-length control enables stable clean-up of steric and directional terms at low cost \cite{flachsenbergConsistentSchemeGradientBased2020b,flachsenbergLSLOptOpensourceImplementation2021}. The choice avoids redocking, which would increase variance and confound attribution. Limitations follow from the locality of the method. Large misplacements, mismatched protonation or tautomer states, and side-chain clashes originating from the fixed protein cannot be resolved. These cases are surfaced by the reported metrics and, where needed, by manual inspection.
+
+\paragraph{Outcome.}
+This stage produces pose-refined complexes with matched pre and post metrics. In practice, the procedure lowers \gls{tcs} for a substantial fraction of placements, while leaving local \gls{rmsd} largely unchanged, which is consistent with conservative energy minimization rather than exploratory search.
+
+Per-target execution covers AlphaFold retrieval and preprocessing, DoGSite3 pocket detection, SIENA search with alignment, ligand extraction with evaluation, and JAMDAscorer optimization followed by re-evaluation. Multi-target runs can execute sequentially or with configurable thread-level parallelism. All external tools write into dedicated subdirectories under each target's folder to keep artifacts isolated and traceable.
+
+\subsection{Logging and Reproducibility Mechanisms}
+All external tool executions are logged with command-line details, working directories, execution timing, and captured stdout/stderr streams to enable exact reproduction of results. The base tool infrastructure standardizes subprocess execution across DoGSite3, SIENA, LigandExtractor, and JAMDAscorer, ensuring consistent metadata capture. Tool-specific configuration parameters, executable paths, and version information are recorded alongside run artifacts to support auditability and debugging.
+
+The pipeline implements robust crash recovery through a marker-file system. Each target writes a completion marker upon successful processing or a failure marker upon encountering errors. Subsequent runs configured for resumption skip completed targets, while failure-aware processing bypasses previously failed targets, enabling efficient re-execution of large batches after addressing specific failures. This mechanism permits incremental progress on extensive protein sets and facilitates debugging of individual target failures without reprocessing successful cases.
+
+Error handling is defensive throughout the pipeline. AlphaFold retrieval retries across database versions and classifies HTTP errors. SIENA database generation is skipped when an existing file passes basic validity checks. Ligand extraction and JAMDAscorer optimization catch and log per-ligand failures and continue. The orchestrator summarizes successes and skipped targets with detailed reasons for failures.
+
+\section{Reproducibility}
+Experiments were executed on a Linux workstation using a Python-based orchestration layer together with locally installed DoGSite3, SIENA, LigandExtractor, and JAMDAscorer binaries. Runtime control is consolidated in a single TOML configuration that specifies targets, numerical thresholds, external tool locations, and logging preferences. The pipeline records all parameter choices, preserves intermediate artifacts, and supports deterministic re-runs of every analysis stage. Full operational details, configuration, and exact commands are documented separately.
+
+\subsection{Configuration Summary}\label{subsec:configuration}
+Configuration is specified in a single TOML file whose sections cover target inputs, output management, executable locations, database preparation options, alignment limits, and runtime or logging preferences. Unless otherwise noted, default values were used where the configuration allowed.
+
+\section{Ethical and Licensing Considerations}
+The \gls{rcsbpdb} \cite{burleyRCSBProteinData2019} is mirrored under the \gls{wwpdb} Data Use and Disclaimers policy. Redistribution of the mirrored archive is prohibited, and downstream publications must acknowledge the data resource. AlphaFold DB content is released under Creative Commons Attribution 4.0. Enriched models generated here inherit that license in addition to any restrictions imposed by the experimental donor structures they incorporate.
+
+All external binaries remain subject to their vendor licenses. DoGSite3 and SIENA are provided for non-commercial academic research by the ZBH/University of Hamburg. The pipeline only calls them locally and requires users to obtain their own licenses. JAMDAscorer is distributed for research use under the JAMDAscorer end-user license, so enriched coordinate files produced after its optimization step cannot be redistributed together with the binary without explicit permission. Detailed license identifiers and acquisition channels are recorded in the accompanying documentation.
+
+Homology-based transplantation can propagate experimental artifacts and contextual mismatches (e.g., differing protonation states, missing cofactors, alternate oligomerization). Consequently, all generated placements are presented as hypotheses requiring orthogonal validation (biochemical assays, high-resolution structure determination) before use in downstream decision-making.

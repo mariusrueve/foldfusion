@@ -1,0 +1,16 @@
+\begin{table}[ht]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrllll}
+\toprule
+Subset & Placements & Median TCS & Median Local RMSD (\si{\angstrom}) & TCS pass rate (\%) & Joint pass rate (\%) \\
+\midrule
+Placements with Local RMSD defined & 6218 & 0.272 & 0.386 & 72.8\% & 58.2\% \\
+Organic only & 6093 & 0.271 & 0.387 & 73.7\% & 59.0\% \\
+Monoatomic ions & 125 & 0.614 & 0.301 & 28.0\% & 21.6\% \\
+\bottomrule
+\end{tabular}
+}
+\caption[Ion exclusion TCS summary]{Effect of excluding monoatomic ions on TCS success metrics (post-JAMDA).}
+\label{tab:ion-exclusion}
+\end{table}

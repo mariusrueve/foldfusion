@@ -1,0 +1,409 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{graphicx}
+
+\definecolor{codebg}{RGB}{245,245,245}
+\definecolor{codeframe}{RGB}{200,200,200}
+
+\lstdefinestyle{commandline}{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{codebg},
+  frame=single,
+  rulecolor=\color{codeframe},
+  breaklines=true,
+  columns=flexible,
+  keepspaces=true
+}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue
+}
+
+\title{FoldFusion User Manual}
+\author{FoldFusion Development Team}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+      FoldFusion automates ligand transplantation by combining AlphaFold structures
+      with experimental donor complexes. This manual explains how to install,
+      configure, and operate the pipeline; how the processing stages interact; how to
+      inspect results; and how to troubleshoot common issues. It provides a
+      self-contained reference for researchers and engineers deploying FoldFusion on
+      local workstations or compute clusters.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Quick Start}
+Use these steps to execute FoldFusion exactly as shipped for the submission
+deadline.
+
+\begin{enumerate}[noitemsep]
+      \item \textbf{Activate the project environment}
+            \begin{lstlisting}[style=commandline]
+            make venv
+            source .venv/bin/activate
+            make install-dev
+            \end{lstlisting}
+      \item \textbf{Verify configuration}: The submitted \texttt{config.toml}
+            points to the analysis dataset and external binaries used for the
+            final run. Confirm those paths exist on your system or adjust them
+            before continuing.
+      \item \textbf{Run the pipeline}: Execute the default target, which
+            processes the UniProt IDs defined in \texttt{config.toml}.
+            \begin{lstlisting}[style=commandline]
+            make run
+            # or equivalently
+            foldfusion config.toml
+            \end{lstlisting}
+      \item \textbf{Inspect results}: Outputs are written under
+            \texttt{analysis/data/foldfusion\_output}. Review
+            \texttt{foldfusion\_pipeline.log} for detailed progress and
+            \texttt{Evaluation/evaluation.json} for metrics.
+      \item \textbf{Rebuild supporting artifacts (optional)}: Regenerate the
+            analysis notebooks and figures if you need refreshed reports.
+            \begin{lstlisting}[style=commandline]
+            make analysis
+            \end{lstlisting}
+\end{enumerate}
+
+\section{Introduction}
+FoldFusion enriches AlphaFold models with experimentally observed ligands. The
+pipeline stitches together external tools---DoGSite3 for pocket detection,
+SIENA for structural alignment, LigandExtractor for ligand transfer, and JAMDA
+for energetic refinement---and evaluates outcomes with bespoke metrics. The
+project ships as a Python package with command line entry points and a managed
+configuration file.
+
+This document targets users who want to run the end-to-end workflow, adapt the
+configuration, and interpret outputs. Developers extending the system will also
+find an overview of its structure and testing approach.
+
+\section{System Requirements}
+\subsection{Hardware}
+\begin{itemize}[noitemsep]
+      \item 4 CPU cores recommended; the pipeline runs on a single core by default
+            but benefits from additional concurrency.
+      \item At least 16~GB RAM to accommodate SIENA database generation and JAMDA.
+      \item 50~GB free storage for AlphaFold downloads, SIENA ensembles, and
+            intermediate ligand files.
+\end{itemize}
+
+\subsection{Software}
+\begin{itemize}[noitemsep]
+      \item Linux or macOS with Python~3.12.
+      \item GNU Make for the provided build targets.
+      \item External binaries:
+            \begin{itemize}[noitemsep]
+                  \item DoGSite3 (DoGSiteScorer)
+                  \item SIENA and the SIENA database generator
+                  \item LigandExtractor
+                  \item JAMDA scorer
+            \end{itemize}
+      \item Network access to the AlphaFold database if AlphaFold models are not
+            cached locally.
+\end{itemize}
+
+\section{Repository Layout}
+The repository is organised to keep pipeline code, tooling wrappers, and helper
+scripts discoverable:
+\begin{itemize}[noitemsep]
+      \item \texttt{foldfusion/} --- Core package modules, including the
+            orchestrator (\texttt{foldfusion.py}) and wrappers in
+            \texttt{foldfusion/tools/}.
+      \item \texttt{main.py} and \texttt{foldfusion/\_\_main\_\_.py} --- Entry
+            points for running the pipeline via Python or console script.
+      \item \texttt{config.toml} --- Central configuration file; every run reads
+            from this location unless a different path is supplied.
+      \item \texttt{tests/} --- Pytest-based regression and unit tests mirroring the
+            package layout.
+      \item \texttt{docs/}, \texttt{analysis/}, \texttt{scripts/} --- Reporting
+            material, exploratory notebooks, and workflow helpers.
+\end{itemize}
+
+\section{Initial Setup}
+\subsection{Environment Creation}
+The project uses a virtual environment located in \texttt{.venv/}. Run:
+
+\begin{lstlisting}[style=commandline]
+make venv
+source .venv/bin/activate
+make install-dev
+\end{lstlisting}
+
+\noindent\textbf{Notes}
+\begin{itemize}[noitemsep]
+      \item \texttt{make install-dev} installs FoldFusion with developer extras,
+            including Ruff, MyPy, and pytest.
+      \item When deploying on shared systems, replicate the above steps inside a
+            module or container that provides Python~3.12.
+\end{itemize}
+
+\subsection{External Tooling}
+FoldFusion delegates heavy lifting to specialized binaries. Ensure each tool is
+installed and reachable:
+\begin{itemize}[noitemsep]
+      \item Configure DoGSite3, SIENA, LigandExtractor, JAMDA, and (optionally) the
+            SIENA database generator.
+      \item Record absolute paths to these executables in \texttt{config.toml}.
+      \item Verify each binary runs without interactive prompts.
+\end{itemize}
+
+\section{Configuration Reference}
+The pipeline reads \texttt{config.toml} via the \texttt{Config} helper. The list
+below summarises the top-level options. All paths may be absolute or relative to
+the project root.
+
+\begin{itemize}[noitemsep,leftmargin=*,labelsep=0.5em]
+      \item \texttt{log\_level}: Logging verbosity (\texttt{DEBUG}, \texttt{INFO},
+            \texttt{WARNING}, \texttt{ERROR}, \texttt{CRITICAL}).
+      \item \texttt{log\_file}: Relative or absolute path to the log file written
+            during pipeline execution.
+      \item \texttt{uniprot\_ids}: Inline list of UniProt accessions to process;
+            mutually exclusive with \texttt{uniprot\_ids\_file}.
+      \item \texttt{uniprot\_ids\_file}: Path to a text file containing one
+            UniProt ID per line.
+      \item \texttt{output\_dir}: Base directory for results, logs, and
+            evaluation artifacts.
+      \item \texttt{pipeline\_concurrency}: Number of UniProt IDs processed in
+            parallel (set to \texttt{1} for sequential execution).
+      \item \texttt{resume}: When \texttt{true}, skip UniProt IDs that already
+            produced a \texttt{\_SUCCESS} marker.
+      \item \texttt{skip\_failed\_ids}: Skip UniProt IDs marked with
+            \texttt{\_FAILED} to avoid repeating known failures.
+      \item \texttt{dogsite3\_executable}: Path to the DoGSite3 binary.
+      \item \texttt{dogsite3\_timeout\_seconds}: Optional timeout (seconds)
+            applied to DoGSite3 runs.
+      \item \texttt{dogsite3\_memory\_mb}: Optional memory ceiling in megabytes
+            for DoGSite3.
+      \item \texttt{siena\_db\_executable}: Path to the SIENA database builder.
+      \item \texttt{siena\_db\_database\_path}: Path to an existing SIENA
+            database.
+      \item \texttt{pdb\_directory}: Directory holding the experimental PDB
+            structures referenced by SIENA.
+      \item \texttt{pdb\_format}: PDB file format flag expected by SIENA
+            (\texttt{0} for \texttt{.ent.gz}, \texttt{1} for \texttt{.pdb}).
+      \item \texttt{siena\_executable}: Path to the SIENA alignment executable.
+      \item \texttt{siena\_max\_alignments}: Maximum number of alignments
+            collected per UniProt ID.
+      \item \texttt{siena\_identity}: Active-site identity threshold (0.0--1.0)
+            for SIENA hits.
+      \item \texttt{siena\_timeout\_seconds}, \texttt{siena\_memory\_mb}:
+            Optional limits applied to SIENA executions.
+      \item \texttt{siena\_db\_timeout\_seconds}, \texttt{siena\_db\_memory\_mb}:
+            Controls for the database generator.
+      \item \texttt{ligand\_extractor\_executable}: Path to the
+            LigandExtractor binary.
+      \item \texttt{ligand\_extractor\_timeout\_seconds},
+            \texttt{ligand\_extractor\_memory\_mb}: Execution limits for ligand
+            extraction.
+      \item \texttt{jamda\_scorer\_executable}: Path to the JAMDA CLI.
+      \item \texttt{jamda\_timeout\_seconds}, \texttt{jamda\_memory\_mb}:
+            Optional limits for JAMDA optimisation.
+\end{itemize}
+
+\subsection{Managing UniProt Inputs}
+Choose exactly one of \texttt{uniprot\_ids} or \texttt{uniprot\_ids\_file}. The
+configuration loader raises a \texttt{ValueError} if both are set. For batch
+processing, prefer the file-based option to keep \texttt{config.toml} stable.
+
+\begin{lstlisting}[style=commandline]
+# Example snippet: inline UniProt list
+uniprot_ids = ["Q8CA95", "Q9QYJ6", "P12345"]
+# output_dir adjusts where Results/, Logs/, and Evaluation/ are created
+output_dir = "/data/foldfusion/runs/run_2025_05_01"
+\end{lstlisting}
+
+\subsection{External Tool Paths}
+Record absolute paths when possible to avoid ambiguity. When sharing
+configuration files across machines, document machine-specific changes in
+project notes instead of committing them.
+
+\section{Running the Pipeline}
+\subsection{Make Targets}
+Convenience targets coordinate common tasks:
+\begin{itemize}[noitemsep]
+      \item \texttt{make run} --- Executes the pipeline using \texttt{config.toml}.
+      \item \texttt{make test} --- Runs the pytest suite with coverage reporting.
+      \item \texttt{make lint} --- Executes Ruff linting and MyPy type checking.
+      \item \texttt{make format} / \texttt{make format-fix} --- Apply Ruff
+            formatting (with optional autofix).
+      \item \texttt{make analysis} --- Rebuild analysis notebooks, tables, and
+            figures under \texttt{analysis/}.
+      \item \texttt{make docs} or \texttt{make thesis} --- Build LaTeX outputs in
+            \texttt{docs/} or \texttt{thesis/} respectively.
+      \item \texttt{make docs-clean} --- Remove previously generated LaTeX
+            artefacts (e.g. \texttt{*.aux}, \texttt{*.log}, \texttt{*.toc}) before
+            rebuilding documentation targets.
+\end{itemize}
+
+\subsection{Command Line Interfaces}
+The package exposes two equivalent CLI entry points:
+\begin{itemize}[noitemsep]
+      \item \texttt{python main.py} --- Runs FoldFusion with \texttt{config.toml} in
+            the project root.
+      \item \texttt{foldfusion [CONFIG]} --- Console script installed by
+            \texttt{pip}. The configuration path is optional and defaults to
+            \texttt{config.toml} in the current directory.
+\end{itemize}
+
+\begin{lstlisting}[style=commandline]
+# Run with explicit configuration file
+foldfusion /path/to/custom_config.toml
+\end{lstlisting}
+
+FoldFusion writes progress logs to the configured file and mirrors key events to
+stdout. Long-running steps (notably SIENA database generation) emit periodic
+messages so you can monitor progress.
+
+\section{Pipeline Workflow}
+Each UniProt accession flows through six stages handled by dedicated helper
+classes inside \texttt{foldfusion/tools/}:
+\begin{enumerate}[noitemsep]
+      \item \textbf{AlphaFold retrieval} --- \texttt{AlphaFoldFetcher} downloads the
+            latest model (preferring v4) and trims segments with low pLDDT scores.
+      \item \textbf{Pocket detection} --- \texttt{Dogsite3} runs DoGSiteScorer to
+            identify the highest-scoring binding site. The resulting EDF file becomes
+            the template for structural alignment.
+      \item \textbf{Structural alignment} --- \texttt{Siena} aligns the pocket
+            against experimental complexes in the SIENA database and ranks hits by
+            active-site identity and RMSD.
+      \item \textbf{Ligand transplantation} --- \texttt{LigandExtractor} copies
+            ligands from the SIENA ensembles into the AlphaFold frame, emitting SDF
+            files organised by donor PDB code.
+      \item \textbf{Refinement} --- \texttt{JamdaScorer} optimizes each transplanted
+            ligand using energy minimisation and records both the refined structure
+            and the donor reference.
+      \item \textbf{Evaluation} --- \texttt{Evaluator} calculates local RMSD,
+            Transplant Clash Score (TCS), and Ligand Environment Verification (LEV)
+            metrics for pre- and post-JAMDA stages.
+\end{enumerate}
+
+The orchestrator coordinates these components, tracks duration, handles error
+recovery, and writes stage-specific logs for traceability.
+
+\section{Output Structure}
+FoldFusion mirrors outputs under the configured \texttt{output\_dir}.
+\begin{itemize}[noitemsep]
+      \item \texttt{Results/\textless UniProt\textgreater/AlphaFold/} --- Downloaded
+            and processed AlphaFold PDB files.
+      \item \texttt{Results/\textless UniProt\textgreater/Dogsite3/} --- EDF pocket
+            descriptors from DoGSite3.
+      \item \texttt{Results/\textless UniProt\textgreater/Siena/} --- SIENA log
+            files, \texttt{resultStatistic.csv}, and \texttt{ensemble/} PDBs for
+            each alignment.
+      \item \texttt{Results/\textless UniProt\textgreater/LigandExtractor/} --- SDF
+            ligands grouped by donor PDB code plus \texttt{ligand\_structure.json}.
+      \item \texttt{Results/\textless UniProt\textgreater/JamdaScorer/} --- Refined
+            ligand SDFs that preserve a \texttt{ref\_path} back to the donor file.
+      \item \texttt{Results/\textless UniProt\textgreater/\_SUCCESS} or
+            \texttt{\_FAILED} --- Markers controlling resume logic.
+      \item \texttt{Evaluation/evaluation.json} --- Aggregated metrics keyed by
+            UniProt ID, donor PDB code, ligand identifier, and pipeline stage.
+      \item \texttt{foldfusion\_pipeline.log} --- Log file reflecting the level
+            specified in \texttt{config.toml}.
+\end{itemize}
+
+\section{Monitoring and Logging}
+\begin{itemize}[noitemsep]
+      \item Logs capture timestamps, stage transitions, command invocations, and
+            error details. Adjust \texttt{log\_level} to control verbosity.
+      \item Each tool wrapper records the exact command line before execution; use
+            these entries to rerun failing commands manually.
+      \item Errors triggered by optional steps (e.g., ligand extraction) are logged
+            and skipped so downstream tasks can proceed where possible.
+\end{itemize}
+
+\section{Testing and Quality Assurance}
+\begin{itemize}[noitemsep]
+      \item \texttt{pytest} suites live under \texttt{tests/}. Run
+            \lstinline[style=commandline]|pytest --cov=foldfusion --cov-report=term-missing|
+            to inspect coverage.
+      \item Mock external binaries in tests to keep them deterministic and fast.
+      \item Type hints cover all new code; verify with \texttt{mypy foldfusion/}.
+      \item Before submitting changes, execute \texttt{make lint} and
+            \texttt{make test} and record the outcomes.
+\end{itemize}
+
+\section{Operational Tips}
+\subsection{Managing Concurrency}
+Increase \texttt{pipeline\_concurrency} once external tools and the filesystem
+can handle parallel workloads. Monitor memory usage when running multiple SIENA
+jobs simultaneously.
+
+\subsection{Caching Resources}
+\begin{itemize}[noitemsep]
+      \item AlphaFold models download per UniProt ID; reuse the generated
+            \texttt{AlphaFold/} directories to avoid repeated transfers.
+      \item The SIENA database generator writes the database into the directory
+            defined by \texttt{siena\_db\_database\_path}. Rebuild only when the
+            source PDB archive changes.
+\end{itemize}
+
+\subsection{Extending the Pipeline}
+\begin{itemize}[noitemsep]
+      \item New stages should follow the pattern established by existing tool
+            wrappers: inherit from \texttt{Tool}, expose a \texttt{run()} method, and
+            persist outputs in a dedicated subdirectory.
+      \item Update \texttt{foldfusion/foldfusion.py} to insert additional stages and
+            extend the evaluation hooks if new metrics are required.
+\end{itemize}
+
+\section{Troubleshooting}
+\subsection{Common Issues}
+\begin{itemize}[noitemsep]
+      \item \textbf{AlphaFold download failures}: Verify network connectivity and
+            confirm the UniProt accession exists in the AlphaFold database. The
+            fetcher falls back from model v4 to v3 automatically.
+      \item \textbf{Missing EDF files}: DoGSite3 must complete successfully before
+            SIENA runs. Check \texttt{Dogsite3/} for error messages.
+      \item \textbf{SIENA database errors}: Ensure the database path exists or that
+            the generator binary has write permission to the target directory.
+      \item \textbf{Ligand extraction skips}: Warnings about missing SDF files often
+            indicate that the donor PDB lacks ligands for the selected chain. Review
+            \texttt{ligand\_structure.json} for details.
+      \item \textbf{JAMDA crashes}: Large ligands may exceed memory limits. Increase
+            \texttt{jamda\_memory\_mb} or disable the limit temporarily.
+      \item \textbf{Evaluation gaps}: If evaluations show \texttt{null} metrics,
+            confirm that both the ensemble path and ligand path were produced. The
+            evaluator skips metrics when prerequisites are missing.
+\end{itemize}
+
+\subsection{Resume and Recovery}
+When \texttt{resume = true}, FoldFusion looks for \texttt{\_SUCCESS} markers in
+per-UniProt result directories. Delete the marker to force a rerun for that
+protein. Failures leave a \texttt{\_FAILED} file containing the captured error
+message; adjust configuration and remove the file to retry the affected ID.
+
+\section{Glossary}
+\begin{itemize}[noitemsep]
+      \item \textbf{AlphaFold model}: Predicted protein structure used as the host
+            for ligand transplantation.
+      \item \textbf{EDF (Pocket Description File)}: Output from DoGSite3 describing
+            binding pocket geometry.
+      \item \textbf{Ensemble}: SIENA-generated PDB file aligning the donor complex
+            to the AlphaFold structure.
+      \item \textbf{Local RMSD}: RMSD computed over residues within 6~\AA\ of the
+            ligand position after alignment.
+      \item \textbf{TCS (Transplant Clash Score)}: FoldFusion metric assessing steric
+            clashes between transplanted ligand and the receptor.
+      \item \textbf{LEV (Ligand Environment Verification)}: Optional comparison of
+            ligand environments when donor and target share perfect active-site
+            identity.
+\end{itemize}
+
+\end{document}

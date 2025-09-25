@@ -1,0 +1,139 @@
+\documentclass[twoside,a4paper]{master}
+\usepackage[kerning,spacing]{microtype}
+\usepackage{float}
+\usepackage{booktabs}
+% Math support (provides \text and other commands used in formulas)
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{makecell}
+\DeclareSIUnit{\angstrom}{\text{\AA}}
+\usepackage{subcaption}
+% Relax line breaking to avoid overfull boxes from long code/paths
+\emergencystretch=2em
+% Quiet certain deprecated KOMA-Script interface warnings
+\usepackage{scrhack}
+% Acronyms & glossary (no external makeglossaries needed)
+\usepackage[acronym]{glossaries}
+\hypersetup{hidelinks}
+
+
+\microtypecontext{spacing=nonfrench}
+
+% Helpfull command to put reminders in your work
+\newcommand{\Todo}[1]%
+{\fcolorbox{black}{orange}{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule}{\textbf{Todo: #1}}}}
+% it uses one argument which is referred to by #1
+
+\newcommand{\Alphabet}{\mathcal{A}\xspace}
+
+% Add bibliography resource
+\addbibresource{references.bib}
+
+\makenoidxglossaries
+
+\newacronym{lev}{LEV}{local environment validation}
+\newacronym{tcs}{TCS}{transplant clash score}
+\newacronym{rmsd}{RMSD}{root-mean-square deviation}
+\newacronym{pdb}{PDB}{Protein Data Bank}
+\newacronym{rcsbpdb}{RCSB PDB}{Research Collaboratory for Structural Bioinformatics Protein Data Bank}
+\newacronym{api}{API}{application programming interface}
+\newacronym{atp}{ATP}{adenosine triphosphate}
+\newacronym{adp}{ADP}{adenosine diphosphate}
+\newacronym{fad}{FAD}{flavin adenine dinucleotide}
+\newacronym{fmn}{FMN}{flavin mononucleotide}
+\newacronym{nad}{NAD}{nicotinamide adenine dinucleotide}
+\newacronym{nadh}{NADH}{nicotinamide adenine dinucleotide (reduced)}
+\newacronym{nadph}{NADPH}{nicotinamide adenine dinucleotide phosphate (reduced)}
+\newacronym{plp}{PLP}{pyridoxal 5'-phosphate}
+\newacronym{nmr}{NMR}{nuclear magnetic resonance}
+\newacronym{cryoem}{cryo-EM}{cryogenic electron microscopy}
+\newacronym{http}{HTTP}{hypertext transfer protocol}
+\newacronym{url}{URL}{uniform resource locator}
+\newacronym{json}{JSON}{JavaScript Object Notation}
+\newacronym{html}{HTML}{HyperText Markup Language}
+\newacronym{pdf}{PDF}{Portable Document Format}
+\newacronym{sdf}{SDF}{structure data file}
+\newacronym{edf}{EDF}{extended descriptor file}
+\newacronym{xml}{XML}{eXtensible Markup Language}
+\newacronym{peg}{PEG}{polyethylene glycol}
+\newacronym{mpd}{MPD}{2-methyl-2,4-pentanediol}
+\newacronym{gol}{GOL}{glycerol}
+\newacronym{edo}{EDO}{1,2-ethanediol}
+\newacronym{sam}{SAM}{S-adenosyl methionine}
+\newacronym{sah}{SAH}{S-adenosyl homocysteine}
+\newacronym{ec}{EC}{Enzyme Commission}
+\newacronym{ccd}{CCD}{Chemical Component Dictionary}
+\newacronym{wwpdb}{wwPDB}{worldwide Protein Data Bank}
+\newacronym{uml}{UML}{Unified Modeling Language}
+\newacronym{ci}{CI}{confidence interval}
+\newacronym{vdw}{vdW}{van der Waals}
+\newacronym{plddt}{pLDDT}{predicted local distance difference test}
+\newacronym{cc}{CC}{Creative Commons}
+\newacronym{het}{HET}{heteroatom}
+\newacronym{dog}{DoG}{difference of Gaussians}
+\newacronym{uniprot}{UniProt}{Universal Protein Resource}
+\newacronym{rest}{REST}{Representational State Transfer}
+\newacronym{bfgs}{BFGS}{Broyden-Fletcher-Goldfarb-Shanno}
+\newacronym{lslbfgs}{LSL-BFGS}{Line-Search Limited-memory Broyden-Fletcher-Goldfarb-Shanno}
+
+\begin{document}
+
+% use roman page numbers before the real document starts.
+\pagenumbering{roman}
+
+%Change the values here to get your title page and assertion page right
+\AdvisorA{Prof. Dr. Matthias Rarey}
+\AdvisorB{Prof. Dr. Andrew Torda}
+\author{Marius R\"uve}
+\MatrikelNo{7657327}
+%\AuthorAdress{Musterstrasse 1}{07770 M\"unchhausen}
+\title{
+  \begin{tabular}{c}
+    \textbf{Ligand Transplantation and Optimization} \\[3mm]
+    \textbf{in Protein Models}
+  \end{tabular}}
+\Maketitle
+
+\include{chapters/00_abstract}
+
+\setcounter{tocdepth}{1}
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\listoftables
+\clearpage
+\printnoidxglossary[type=\acronymtype]
+\clearpage
+
+% List of acronyms
+\pagenumbering{arabic}
+
+\include{chapters/01_introduction}
+\include{chapters/02_methods}
+\include{chapters/03_results}
+\include{chapters/04_conclusion}
+
+\newpage
+\small
+% Bibliography using biblatex
+\printbibliography[title=References]
+\normalsize
+
+% appendix
+
+\appendix
+\noappendicestocpagenum
+\addappheadtotoc
+
+\include{chapters/05_appendix_reproducibility}
+\include{chapters/06_appendix_supplementary_figures}
+
+\chapter{Acknowledgements}
+My deepest gratitude goes to Prof. Dr. Matthias Rarey for his trust, feedback, and for setting a research environment that encouraged me. In addition I want to thank Prof. Dr. Andrew Torda for taking on the second reviewers position.
+I am equally grateful to my supervisor Tim Kuhrt, for his patience, technical guidance, and constructive (and occasional long off-topic) discussions.
+I also want to thank my partner for her encouragement, honest perspectives, and for reminding me to stay balanced throughout the thesis journey.
+Furthermore, I also acknowledge the use of generative AI tools (OpenAI's ChatGPT) to assist with translations, summarization, ideation, and clarifying background concepts during the preparation of this thesis. All interpretations, analyses, and conclusions presented here remain my own responsibility.
+
+\Assertion
+\end{document}

@@ -1,0 +1,19 @@
+\begin{table}[ht]
+    \centering
+    \resizebox{\linewidth}{!}{%
+        \begin{tabular}{llrllll}
+            \toprule
+            Stage                                & Unit       & Count & Share vs previous (\%) & Median per target (count) & Median wall time (s) \\
+            \midrule
+            Targets configured                   & targets    & 2370  & --                     & --                        & --                   \\
+            Targets attempted (pipeline started) & targets    & 2370  & 100.0\%                & --                        & 6.0                  \\
+            Donor alignments found (SIENA)       & targets    & 2115  & 89.2\%                 & --                        & 0.45                 \\
+            Pipelines completed                  & targets    & 2115  & 100.0\%                & --                        & 6.0                  \\
+            Placements before JAMDA              & placements & 6659  & --                     & 2.0                       & 0.09                 \\
+            Placements after JAMDA               & placements & 6658  & 100.0\%                & 2.0                       & 0.41                 \\
+            \bottomrule
+        \end{tabular}
+    }
+    \caption[Pipeline attrition summary]{Pipeline inclusion funnel showing target attrition, placement counts, and median wall times per stage. Shares are relative to the preceding stage with matching units.}
+    \label{tab:attrition-funnel}
+\end{table}

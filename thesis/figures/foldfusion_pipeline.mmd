@@ -1,0 +1,22 @@
+flowchart TB
+    config["config.toml"] --> init["FoldFusion.init"]
+    init --> logging["Load Config & setup logging"]
+    init --> evaluator["Initialize Evaluator"]
+    logging --> run["FoldFusion.run()"]
+    evaluator --> run
+    run --> sienaDB["Prepare SIENA database"]
+    sienaDB --> forEach{"Each UniProt ID"}
+
+    subgraph PerUniProt ["Per-UniProt pipeline"]
+        direction TB
+        forEach --> fetch["Fetch AlphaFold model"]
+        fetch --> dogsite["Predict binding sites (DoGSite3)"]
+        dogsite --> siena["Align structures (SIENA)"]
+        siena --> extract["Extract ligands"]
+        extract --> evalPre["Evaluate results (pre-JAMDA)"]
+        evalPre --> jamda["Optimize ligands (JAMDA)"]
+        jamda --> evalPost["Evaluate results (post-JAMDA)"]
+        evalPost --> markers["Write _SUCCESS / _FAILED markers"]
+    end
+
+    markers --> summary["Pipeline summary & total runtime"]

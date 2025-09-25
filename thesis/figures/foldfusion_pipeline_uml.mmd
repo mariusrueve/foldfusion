@@ -1,0 +1,75 @@
+classDiagram
+    direction LR
+
+    class FoldFusion {
+        - config_path: Path
+        - config: Config
+        - evaluator: Evaluator
+        - siena_db_database_path: Path?
+        + run(): None
+        + _pipeline(uniprot_id, output_dir): None
+        + _fetch_alphafold_model(uniprot_id, output_dir): Path
+        + _run_dogsite3(af_model_path, output_dir): Path
+        + _run_siena(best_edf, output_dir): Siena, list
+        + _run_ligand_extraction(siena, alignments, output_dir): dict
+        + _run_jamda_scorer(af_model_path, ligands, output_dir): dict
+        
+        + _evaluate_and_log(uniprot_id, stage, af_model_path, alignments,ligands): None
+    }
+
+    class Config {
+        + uniprot_ids: list[str]
+        + output_dir: Path
+        + log_level: str
+        + log_file: Path
+        + dogsite3_executable: Path
+        + siena_executable: Path
+        + ligand_extractor_executable: Path
+        + jamda_scorer_executable: Path
+        + siena_db_executable: Path
+        + pipeline_concurrency: int
+        + resume: bool
+        + skip_failed_ids: bool
+    }
+
+    class Evaluator {
+        + evaluate(uniprot_id, stage, af_model, alignments, ligands): None
+    }
+
+    class SienaDB {
+        + run(): Path
+    }
+
+    class AlphaFoldFetcher {
+        + get_alphafold_model(): Path
+    }
+
+    class Dogsite3 {
+        + run(): Path
+        + get_best_edf(): Path
+    }
+
+    class Siena {
+        + run(): Path
+        + get_best_alignments(limit): list
+    }
+
+    class LigandExtractor {
+        + run(): dict
+        + ligand_structure: dict
+    }
+
+    class JamdaScorer {
+        + run(): Path
+        + optimized_ligand_structure: dict
+    }
+
+    FoldFusion *-- Config : "loads"
+    FoldFusion *-- Evaluator : "creates"
+    FoldFusion *-- SienaDB : "initializes"
+    FoldFusion --> AlphaFoldFetcher : "uses"
+    FoldFusion --> Dogsite3 : "uses"
+    FoldFusion --> Siena : "uses"
+    FoldFusion --> LigandExtractor : "uses"
+    FoldFusion --> JamdaScorer : "uses"
+    Evaluator --> Config : "uses settings"

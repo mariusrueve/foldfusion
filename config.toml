@@ -1,0 +1,59 @@
+# logging
+log_level = "DEBUG"  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+log_file = "foldfusion_pipeline.log" # Name of the log file
+
+
+uniprot_ids_file = "/home/marius/Code/foldfusion/analysis/data/dataset_uniprots.txt"
+# Path to the output directory
+output_dir = "/home/marius/Code/foldfusion/analysis/data/foldfusion_output" 
+
+# Pipelines
+# Number of UniProt IDs to process in parallel (1 = sequential)
+pipeline_concurrency = 1
+
+# dogsite3
+dogsite3_executable = "/home/marius/Data/zbh/dogsite3_1.1.0/dogsite3"
+
+# siena db
+siena_db_executable = "/home/marius/Data/zbh/siena_1.3.0/generate_siena_database"
+
+# Either path to a siena database or path to pdb_files has to be valid
+siena_db_database_path = "/home/marius/Data/pdb/siena_db.db" 
+pdb_directory = "/home/marius/Data/pdb/"
+pdb_format = 0 # file format (0=.ent.gz, 1=pdb)
+
+# siena
+siena_executable = "/home/marius/Data/zbh/siena_1.3.0/siena"
+siena_max_alignments = 1
+siena_identity = 0.85 # minimum active-site identity (0.0 - 1.0)
+
+# ligand extractor
+ligand_extractor_executable = "/home/marius/Data/zbh/LigandExtractor_2025-04/ligand_extractor"
+
+# jamda scorer
+jamda_scorer_executable = "/home/marius/Data/zbh/JamdaScorer_1.0.0/JamdaScorer"
+
+# -----------------------------------------------------------------------------
+# Robustness & Resource Limits (optional)
+# -----------------------------------------------------------------------------
+# Enable resume/skip behavior across reruns. The pipeline writes marker files:
+#   Results/<UniProt>/_SUCCESS on success, Results/<UniProt>/_FAILED on error.
+# If resume=true, completed IDs are skipped. If skip_failed_ids=true, failed
+# IDs are skipped.
+resume = true
+skip_failed_ids = true
+
+# Timeouts for external tools in seconds. If unset, no timeout is applied.
+# dogsite3_timeout_seconds = 3600
+# siena_timeout_seconds = 7200
+# siena_db_timeout_seconds = 14400
+# ligand_extractor_timeout_seconds = 3600
+# jamda_timeout_seconds = 3600
+
+# Per-process memory ceilings for external tools in MB. Enforced via
+# RLIMIT_AS on POSIX systems. If unset, no memory limit is applied.
+# dogsite3_memory_mb = 4000
+siena_memory_mb = 25000
+# siena_db_memory_mb = 8000
+# ligand_extractor_memory_mb = 2000
+# jamda_memory_mb = 4000
