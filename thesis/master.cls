@@ -214,7 +214,7 @@
     \rule{5cm}{0.4pt}\\
     \@author
 
-    \vspace{2.5\baselineskip}
+    \newpage
     Ich bin mit einer Einstellung der
     \ifmaster@bsc
         Bachelorarbeit
